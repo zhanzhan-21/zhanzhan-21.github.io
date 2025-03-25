@@ -1,26 +1,30 @@
-/* 全局样式 */
 :root {
-    --primary-color: #4CAF50;
-    --secondary-color: #45a049;
-    --background-color: #f9f9f9;
+    --primary-color: #4a90e2;
+    --secondary-color: #2c3e50;
     --text-color: #333;
-    --header-bg: #2c3e50;
+    --bg-color: #f8f9fa;
+    --card-bg: #ffffff;
+    --border-color: #eaeaea;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
 body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
     line-height: 1.6;
-    margin: 0;
-    padding: 0;
-    background-color: var(--background-color);
     color: var(--text-color);
+    background-color: var(--bg-color);
 }
 
 /* 导航栏样式 */
 header {
-    background-color: var(--header-bg);
+    background-color: var(--secondary-color);
     padding: 1rem 0;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
     position: sticky;
     top: 0;
     z-index: 1000;
@@ -29,7 +33,7 @@ header {
 nav {
     max-width: 1200px;
     margin: 0 auto;
-    padding: 0 20px;
+    padding: 0 1rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -37,255 +41,95 @@ nav {
 
 .logo {
     color: white;
+    text-decoration: none;
     font-size: 1.5rem;
     font-weight: bold;
-    text-decoration: none;
-    transition: color 0.3s ease;
-}
-
-.logo:hover {
-    color: var(--primary-color);
 }
 
 nav ul {
-    list-style: none;
     display: flex;
-    margin: 0;
-    padding: 0;
+    list-style: none;
+    gap: 2rem;
 }
 
-nav ul li {
-    margin-left: 2rem;
-}
-
-nav ul li a {
+nav a {
     color: white;
     text-decoration: none;
     padding: 0.5rem 1rem;
     border-radius: 4px;
-    transition: all 0.3s ease;
+    transition: background-color 0.3s ease;
 }
 
-nav ul li a:hover {
-    background-color: var(--primary-color);
+nav a:hover,
+nav a.active {
+    background-color: rgba(255,255,255,0.1);
 }
 
-/* 主要内容区域 */
+/* 容器样式 */
 .container {
     max-width: 1200px;
     margin: 2rem auto;
-    padding: 0 20px;
+    padding: 0 1rem;
 }
 
 /* 卡片样式 */
 .card {
-    background: white;
+    background: var(--card-bg);
     border-radius: 8px;
     padding: 2rem;
     margin-bottom: 2rem;
-    box-shadow: 0 2px 15px rgba(0,0,0,0.05);
-    transition: transform 0.3s ease;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
 }
 
-.card:hover {
-    transform: translateY(-5px);
-}
-
-/* 技能栏样式 */
-.skills {
-    margin: 2rem 0;
-}
-
-.skill-item {
-    margin-bottom: 1.5rem;
-}
-
-.skill-name {
-    font-weight: 600;
-    margin-bottom: 0.5rem;
-}
-
-.progress-bar {
-    height: 10px;
-    background: #e9ecef;
-    border-radius: 5px;
-    overflow: hidden;
-}
-
-.progress {
-    height: 100%;
-    background: var(--primary-color);
-    border-radius: 5px;
-    transition: width 1s ease-in-out;
-    position: relative;
-}
-
-/* 博客文章列表 */
-.blog-post {
-    padding: 1rem;
-    border-bottom: 1px solid #eee;
-    transition: background-color 0.3s ease;
-}
-
-.blog-post:hover {
-    background-color: #f5f5f5;
-}
-
-.blog-post h3 {
-    color: var(--text-color);
-    margin: 0 0 0.5rem 0;
-}
-
-.blog-meta {
-    color: #666;
-    font-size: 0.9rem;
-}
-
-/* 按钮样式 */
-.button {
-    display: inline-block;
-    padding: 0.8rem 1.5rem;
-    background-color: var(--primary-color);
-    color: white;
-    text-decoration: none;
-    border-radius: 4px;
-    transition: background-color 0.3s ease;
-}
-
-.button:hover {
-    background-color: var(--secondary-color);
-}
-
-/* 页脚样式 */
-footer {
-    background-color: var(--header-bg);
-    color: white;
+/* 个人简介样式 */
+.profile-section {
     text-align: center;
-    padding: 1rem 0;
-    margin-top: 3rem;
+    margin-bottom: 3rem;
 }
 
-footer a {
-    color: var(--primary-color);
-    text-decoration: none;
-}
-
-/* 个人信息样式 */
-.profile-info {
-    padding: 1rem 0;
-}
-
-.profile-info .intro {
-    font-size: 1.1rem;
-    line-height: 1.6;
-    margin-bottom: 1.5rem;
-    color: var(--text-color);
-}
-
-.personal-details {
-    background: #f8f9fa;
-    padding: 1.5rem;
-    border-radius: 8px;
-    margin-top: 1rem;
-}
-
-.personal-details p {
-    margin: 0.8rem 0;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-}
-
-.personal-details i {
-    color: var(--primary-color);
-    width: 20px;
-}
-
-.personal-details a {
-    color: var(--primary-color);
-    text-decoration: none;
-    transition: color 0.3s ease;
-}
-
-.personal-details a:hover {
-    color: var(--secondary-color);
-    text-decoration: underline;
-}
-
-/* About页面特定样式 */
-.profile-header {
-    text-align: center;
-    margin-bottom: 2rem;
-    padding: 2rem 0;
-    border-bottom: 2px solid #eee;
-}
-
-.profile-main h1 {
-    color: var(--text-color);
+.profile-section h1 {
     font-size: 2.5rem;
-    margin-bottom: 1rem;
-}
-
-.tagline {
     color: var(--secondary-color);
-    font-style: italic;
-    font-size: 1.2rem;
-}
-
-.education-item {
-    padding: 1.5rem;
-    background: #f8f9fa;
-    border-radius: 8px;
     margin-bottom: 1rem;
 }
 
-.education-item h3 {
-    color: var(--primary-color);
-    margin-bottom: 0.5rem;
-}
-
-.degree {
-    color: var(--text-color);
-    font-weight: 500;
-    margin-bottom: 1rem;
-}
-
-.education-description {
-    line-height: 1.6;
+.profile-section .tagline {
     color: #666;
+    font-size: 1.2rem;
+    margin-bottom: 2rem;
 }
 
-.skills-detailed {
+/* 教育背景样式 */
+.education-section h2,
+.skills-section h2 {
+    color: var(--secondary-color);
+    margin-bottom: 1.5rem;
+    border-bottom: 2px solid var(--border-color);
+    padding-bottom: 0.5rem;
+}
+
+/* 技能列表样式 */
+.skills-list {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
     gap: 2rem;
 }
 
 .skill-category {
-    background: #f8f9fa;
-    padding: 1.5rem;
-    border-radius: 8px;
-    transition: transform 0.3s ease;
-}
-
-.skill-category:hover {
-    transform: translateY(-5px);
+    margin-bottom: 2rem;
 }
 
 .skill-category h3 {
     color: var(--primary-color);
     margin-bottom: 1rem;
-    padding-bottom: 0.5rem;
-    border-bottom: 2px solid var(--primary-color);
 }
 
 .skill-category ul {
     list-style: none;
-    padding: 0;
 }
 
 .skill-category li {
-    margin: 0.8rem 0;
+    margin: 0.5rem 0;
     padding-left: 1.5rem;
     position: relative;
 }
@@ -297,44 +141,40 @@ footer a {
     color: var(--primary-color);
 }
 
-.contact-info {
+/* 博客文章列表样式 */
+.blog-list {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 1.5rem;
-    margin-top: 1rem;
+    gap: 2rem;
 }
 
-.contact-item {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    padding: 1rem;
-    background: #f8f9fa;
+.blog-post {
+    background: var(--card-bg);
     border-radius: 8px;
+    padding: 2rem;
     transition: transform 0.3s ease;
 }
 
-.contact-item:hover {
-    transform: translateY(-3px);
+.blog-post:hover {
+    transform: translateY(-5px);
 }
 
-.contact-item i {
-    color: var(--primary-color);
-    font-size: 1.2rem;
+.blog-meta {
+    display: flex;
+    gap: 1.5rem;
+    color: #666;
+    margin: 1rem 0;
+    font-size: 0.9rem;
 }
 
-.contact-item a {
-    color: var(--text-color);
-    text-decoration: none;
-    transition: color 0.3s ease;
-}
-
-.contact-item a:hover {
+.blog-meta i {
     color: var(--primary-color);
 }
 
-/* 项目卡片样式 */
+/* 项目展示样式 */
 .project-card {
+    background: var(--card-bg);
+    border-radius: 8px;
+    padding: 2rem;
     margin-bottom: 2rem;
     transition: transform 0.3s ease;
 }
@@ -343,100 +183,27 @@ footer a {
     transform: translateY(-5px);
 }
 
-.project-header {
-    margin-bottom: 1.5rem;
+.project-header h3 {
+    color: var(--secondary-color);
+    margin-bottom: 1rem;
 }
 
 .project-tags {
-    margin-top: 0.5rem;
-}
-
-.project-content {
-    margin-bottom: 1.5rem;
-}
-
-.project-content h4 {
-    color: var(--primary-color);
-    margin: 1rem 0 0.5rem;
-}
-
-.project-content ul {
-    list-style: none;
-    padding-left: 1.5rem;
-}
-
-.project-content li {
-    position: relative;
-    margin: 0.5rem 0;
-}
-
-.project-content li::before {
-    content: "▹";
-    position: absolute;
-    left: -1.5rem;
-    color: var(--primary-color);
-}
-
-.project-links {
-    display: flex;
-    gap: 1rem;
-}
-
-/* 博客文章样式 */
-.blog-list {
-    display: flex;
-    flex-direction: column;
-    gap: 2rem;
-}
-
-.blog-post {
-    padding: 1.5rem;
-    background: #f8f9fa;
-    border-radius: 8px;
-    transition: transform 0.3s ease;
-}
-
-.blog-post:hover {
-    transform: translateY(-5px);
-}
-
-.blog-post h3 {
-    color: var(--text-color);
-    margin-bottom: 1rem;
-}
-
-.blog-meta {
-    display: flex;
-    gap: 1.5rem;
-    color: #666;
-    margin-bottom: 1rem;
-    font-size: 0.9rem;
-}
-
-.blog-meta i {
-    color: var(--primary-color);
-}
-
-.blog-excerpt {
-    margin: 1rem 0;
-    line-height: 1.6;
-}
-
-.blog-tags {
     display: flex;
     gap: 0.5rem;
     margin: 1rem 0;
+    flex-wrap: wrap;
 }
 
 .tag {
-    padding: 0.3rem 0.8rem;
     background: var(--primary-color);
     color: white;
+    padding: 0.3rem 0.8rem;
     border-radius: 20px;
     font-size: 0.9rem;
 }
 
-/* 通用按钮样式 */
+/* 按钮样式 */
 .button {
     display: inline-flex;
     align-items: center;
@@ -451,67 +218,45 @@ footer a {
 
 .button:hover {
     background: var(--secondary-color);
+    color: white;
 }
 
-.button i {
-    font-size: 1rem;
+/* 页脚样式 */
+footer {
+    background: var(--secondary-color);
+    color: white;
+    padding: 2rem 0;
+    text-align: center;
+    margin-top: 4rem;
 }
 
-/* 页面标题和介绍 */
-.section-intro {
-    color: #666;
-    font-size: 1.1rem;
-    line-height: 1.6;
-    margin-top: 1rem;
+footer a {
+    color: white;
+    text-decoration: none;
+}
+
+footer a:hover {
+    text-decoration: underline;
 }
 
 /* 响应式设计 */
 @media (max-width: 768px) {
     nav {
         flex-direction: column;
-        text-align: center;
+        gap: 1rem;
     }
 
     nav ul {
-        margin-top: 1rem;
         flex-direction: column;
+        gap: 0.5rem;
+        text-align: center;
     }
 
-    nav ul li {
-        margin: 0.5rem 0;
-    }
-
-    .card {
-        padding: 1rem;
-    }
-}
-
-@media (max-width: 768px) {
-    .profile-main h1 {
-        font-size: 2rem;
-    }
-    
-    .skills-detailed {
+    .skills-list {
         grid-template-columns: 1fr;
     }
-    
-    .contact-info {
-        grid-template-columns: 1fr;
-    }
-}
 
-/* 动画效果 */
-@keyframes slideIn {
-    from {
-        transform: translateY(20px);
-        opacity: 0;
+    .project-tags {
+        flex-wrap: wrap;
     }
-    to {
-        transform: translateY(0);
-        opacity: 1;
-    }
-}
-
-.card {
-    animation: slideIn 0.5s ease-out;
 }
