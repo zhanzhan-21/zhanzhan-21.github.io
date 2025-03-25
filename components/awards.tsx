@@ -1,46 +1,60 @@
 "use client"
 
 import { motion } from "framer-motion"
-import { Award, Calendar } from "lucide-react"
+import { Award, Calendar, ExternalLink } from "lucide-react"
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 
 export default function Awards() {
   const awards = [
     {
+      title: "第十五届山东大学学生五四青年科学奖（集体）",
+      url: "https://control.sdu.edu.cn/info/1033/6944.htm",
+      date: "2024",
+      level: "校级",
+      hasLink: true,
+    },
+    {
       title: '"华为杯"中国研究生数学建模竞赛 二等奖',
       date: "2023",
       level: "国家级",
+      hasLink: false,
     },
     {
       title: '"华为杯"中国研究生数学建模竞赛 三等奖',
       date: "2022",
       level: "国家级",
+      hasLink: false,
     },
     {
       title: "山东大学创新创业活动先进个人",
       date: "2023",
       level: "校级",
+      hasLink: false,
     },
     {
       title: "山东大学2023年度优秀研究生",
       date: "2023",
       level: "校级",
+      hasLink: false,
     },
     {
       title: "山东大学2022年度硕士新生二等学业奖学金",
       date: "2022",
       level: "校级",
+      hasLink: false,
     },
     {
       title: "优秀毕业生",
       date: "2023",
       level: "校级",
+      hasLink: false,
     },
     {
       title: "全国大学生数学建模竞赛西北赛区二等奖",
       date: "2021",
       level: "省级",
+      hasLink: false,
     },
   ]
 
@@ -73,7 +87,23 @@ export default function Awards() {
                   <div className="flex items-start gap-4">
                     <Award className="h-8 w-8 text-primary flex-shrink-0 mt-1" />
                     <div>
-                      <h3 className="font-semibold mb-2">{award.title}</h3>
+                      <div className="flex items-center gap-1 mb-2">
+                        {award.url ? (
+                          <a
+                            href={award.url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="font-semibold hover:text-primary transition-colors"
+                          >
+                            {award.title}
+                          </a>
+                        ) : (
+                          <h3 className="font-semibold">{award.title}</h3>
+                        )}
+                        {award.hasLink && (
+                          <ExternalLink className="h-4 w-4 text-muted-foreground" />
+                        )}
+                      </div>
                       <div className="flex items-center text-sm text-gray-500 dark:text-gray-400 mb-2">
                         <Calendar className="h-4 w-4 mr-1" />
                         <span>{award.date}</span>
@@ -90,4 +120,3 @@ export default function Awards() {
     </section>
   )
 }
-

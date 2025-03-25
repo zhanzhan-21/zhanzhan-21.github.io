@@ -34,7 +34,7 @@ export default function Navbar() {
             <a href="#about" className="text-lg font-medium text-gray-700 hover:text-primary dark:text-gray-200 dark:hover:text-primary">关于</a>
             <a href="#skills" className="text-lg font-medium text-gray-700 hover:text-primary dark:text-gray-200 dark:hover:text-primary">技能</a>
             <a href="#projects" className="text-lg font-medium text-gray-700 hover:text-primary dark:text-gray-200 dark:hover:text-primary">项目展示</a>
-            <a href="#awards" className="text-lg font-medium text-gray-700 hover:text-primary dark:text-gray-200 dark:hover:text-primary">关于我</a>
+            <a href="#awards" className="text-lg font-medium text-gray-700 hover:text-primary dark:text-gray-200 dark:hover:text-primary">荣誉奖项</a>
           </nav>
           <Button
             variant="ghost"
