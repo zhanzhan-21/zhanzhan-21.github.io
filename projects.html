@@ -1,109 +1,105 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="zh">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>项目展示 - Chunyan的个人博客</title>
+    <meta name="description" content="Projects - Java Engineer">
+    <title>项目展示 - Java工程师</title>
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 </head>
 <body>
-    <!-- 导航栏 -->
-    <nav class="navbar">
-        <div class="nav-container">
-            <div class="logo">
-                <h1>Chunyan</h1>
-            </div>
-            <div class="nav-links">
-                <a href="index.html">首页</a>
-                <a href="blog.html">博客文章</a>
-                <a href="projects.html">项目展示</a>
-                <a href="about.html">关于我</a>
-            </div>
-        </div>
-    </nav>
+    <header>
+        <nav>
+            <a href="index.html" class="logo">Zhanzhan</a>
+            <ul>
+                <li><a href="index.html">首页</a></li>
+                <li><a href="blog.html">博客文章</a></li>
+                <li><a href="projects.html" class="active">项目展示</a></li>
+                <li><a href="about.html">关于我</a></li>
+            </ul>
+        </nav>
+    </header>
 
-    <!-- 主要内容 -->
     <div class="container">
-        <h1 class="page-title">项目展示</h1>
-        
-        <div class="project-grid">
-            <!-- 项目1 -->
-            <div class="project-card animate-fade-in">
-                <div class="project-info">
-                    <h3><i class="fas fa-shopping-cart"></i> 电商平台后端系统</h3>
-                    <div class="project-meta">
-                        <span><i class="fas fa-code"></i> Java, Spring Boot, MySQL</span>
-                        <span><i class="fas fa-calendar"></i> 2025</span>
-                    </div>
-                    <p>基于Spring Boot的微服务架构设计，实现了用户管理、商品管理、订单处理等核心功能。使用Redis实现缓存，RabbitMQ处理异步消息，实现高并发和高可用。</p>
-                    <div class="project-features">
-                        <h4>主要特点：</h4>
-                        <ul>
-                            <li>微服务架构设计</li>
-                            <li>分布式事务处理</li>
-                            <li>高并发订单处理</li>
-                            <li>分布式缓存设计</li>
-                        </ul>
-                    </div>
-                    <a href="https://github.com/chunyan-21" class="btn" target="_blank">查看源码</a>
-                </div>
-            </div>
+        <!-- 项目展示标题 -->
+        <section class="card">
+            <h2><i class="fas fa-project-diagram"></i> 项目展示</h2>
+            <p class="section-intro">这里展示了我参与开发的一些重要项目，涵盖了后端开发、系统设计等多个方面。</p>
+        </section>
 
-            <!-- 项目2 -->
-            <div class="project-card animate-fade-in">
-                <div class="project-info">
-                    <h3><i class="fas fa-tasks"></i> 任务管理系统</h3>
-                    <div class="project-meta">
-                        <span><i class="fas fa-code"></i> Spring Cloud, Vue.js</span>
-                        <span><i class="fas fa-calendar"></i> 2024</span>
-                    </div>
-                    <p>企业级任务管理系统，支持任务分配、进度跟踪、数据统计等功能。采用前后端分离架构，后端使用Spring Cloud微服务框架，前端使用Vue.js开发。</p>
-                    <div class="project-features">
-                        <h4>主要特点：</h4>
-                        <ul>
-                            <li>实时任务状态更新</li>
-                            <li>多维度数据分析</li>
-                            <li>自定义工作流</li>
-                            <li>团队协作功能</li>
-                        </ul>
-                    </div>
-                    <a href="https://github.com/chunyan-21" class="btn" target="_blank">查看源码</a>
+        <!-- 项目1 -->
+        <section class="card project-card">
+            <div class="project-header">
+                <h3><i class="fas fa-shopping-cart"></i> 电商平台后端系统</h3>
+                <div class="project-tags">
+                    <span class="tag">Spring Boot</span>
+                    <span class="tag">MySQL</span>
+                    <span class="tag">Redis</span>
                 </div>
             </div>
+            <div class="project-content">
+                <h4>项目描述</h4>
+                <p>基于Spring Boot的电商平台后端系统，实现了商品管理、订单处理、用户认证等核心功能。</p>
+                
+                <h4>技术特点</h4>
+                <ul>
+                    <li>使用Spring Boot构建RESTful API</li>
+                    <li>MySQL实现数据持久化</li>
+                    <li>Redis缓存提升系统性能</li>
+                    <li>JWT实现用户认证</li>
+                </ul>
 
-            <!-- 项目3 -->
-            <div class="project-card animate-fade-in">
-                <div class="project-info">
-                    <h3><i class="fas fa-chart-line"></i> 数据分析平台</h3>
-                    <div class="project-meta">
-                        <span><i class="fas fa-code"></i> Java, Spring Boot, Apache Spark</span>
-                        <span><i class="fas fa-calendar"></i> 2024</span>
-                    </div>
-                    <p>大数据分析平台，整合多数据源，提供数据清洗、分析和可视化功能。使用Apache Spark进行大规模数据处理，Elasticsearch实现高效检索。</p>
-                    <div class="project-features">
-                        <h4>主要特点：</h4>
-                        <ul>
-                            <li>实时数据处理</li>
-                            <li>自定义分析模型</li>
-                            <li>可视化报表</li>
-                            <li>数据导出功能</li>
-                        </ul>
-                    </div>
-                    <a href="https://github.com/chunyan-21" class="btn" target="_blank">查看源码</a>
+                <h4>个人职责</h4>
+                <ul>
+                    <li>负责系统架构设计</li>
+                    <li>实现核心业务逻辑</li>
+                    <li>优化系统性能</li>
+                </ul>
+            </div>
+            <div class="project-links">
+                <a href="#" class="button"><i class="fab fa-github"></i> 查看源码</a>
+                <a href="#" class="button"><i class="fas fa-external-link-alt"></i> 在线演示</a>
+            </div>
+        </section>
+
+        <!-- 项目2 -->
+        <section class="card project-card">
+            <div class="project-header">
+                <h3><i class="fas fa-tasks"></i> 任务管理系统</h3>
+                <div class="project-tags">
+                    <span class="tag">Spring MVC</span>
+                    <span class="tag">MyBatis</span>
+                    <span class="tag">MySQL</span>
                 </div>
             </div>
-        </div>
+            <div class="project-content">
+                <h4>项目描述</h4>
+                <p>一个面向团队的任务管理系统，支持任务分配、进度跟踪、数据统计等功能。</p>
+                
+                <h4>技术特点</h4>
+                <ul>
+                    <li>基于Spring MVC的Web应用</li>
+                    <li>MyBatis进行数据库操作</li>
+                    <li>RESTful API设计</li>
+                </ul>
+
+                <h4>个人职责</h4>
+                <ul>
+                    <li>数据库设计</li>
+                    <li>后端API开发</li>
+                    <li>性能优化</li>
+                </ul>
+            </div>
+            <div class="project-links">
+                <a href="#" class="button"><i class="fab fa-github"></i> 查看源码</a>
+                <a href="#" class="button"><i class="fas fa-external-link-alt"></i> 在线演示</a>
+            </div>
+        </section>
     </div>
 
-    <!-- 页脚 -->
-    <footer class="footer">
-        <div class="footer-content">
-            <p>© 2025 Chunyan的个人博客</p>
-            <div class="social-links">
-                <a href="https://github.com/chunyan-21" target="_blank"><i class="fab fa-github"></i></a>
-            </div>
-        </div>
+    <footer>
+        <p> 2025 Zhanzhan的个人博客 | <a href="https://github.com/zhanzhan-21" target="_blank"><i class="fab fa-github"></i> GitHub</a></p>
     </footer>
 </body>
 </html>

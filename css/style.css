@@ -333,6 +333,138 @@ footer a {
     color: var(--primary-color);
 }
 
+/* 项目卡片样式 */
+.project-card {
+    margin-bottom: 2rem;
+    transition: transform 0.3s ease;
+}
+
+.project-card:hover {
+    transform: translateY(-5px);
+}
+
+.project-header {
+    margin-bottom: 1.5rem;
+}
+
+.project-tags {
+    margin-top: 0.5rem;
+}
+
+.project-content {
+    margin-bottom: 1.5rem;
+}
+
+.project-content h4 {
+    color: var(--primary-color);
+    margin: 1rem 0 0.5rem;
+}
+
+.project-content ul {
+    list-style: none;
+    padding-left: 1.5rem;
+}
+
+.project-content li {
+    position: relative;
+    margin: 0.5rem 0;
+}
+
+.project-content li::before {
+    content: "▹";
+    position: absolute;
+    left: -1.5rem;
+    color: var(--primary-color);
+}
+
+.project-links {
+    display: flex;
+    gap: 1rem;
+}
+
+/* 博客文章样式 */
+.blog-list {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.blog-post {
+    padding: 1.5rem;
+    background: #f8f9fa;
+    border-radius: 8px;
+    transition: transform 0.3s ease;
+}
+
+.blog-post:hover {
+    transform: translateY(-5px);
+}
+
+.blog-post h3 {
+    color: var(--text-color);
+    margin-bottom: 1rem;
+}
+
+.blog-meta {
+    display: flex;
+    gap: 1.5rem;
+    color: #666;
+    margin-bottom: 1rem;
+    font-size: 0.9rem;
+}
+
+.blog-meta i {
+    color: var(--primary-color);
+}
+
+.blog-excerpt {
+    margin: 1rem 0;
+    line-height: 1.6;
+}
+
+.blog-tags {
+    display: flex;
+    gap: 0.5rem;
+    margin: 1rem 0;
+}
+
+.tag {
+    padding: 0.3rem 0.8rem;
+    background: var(--primary-color);
+    color: white;
+    border-radius: 20px;
+    font-size: 0.9rem;
+}
+
+/* 通用按钮样式 */
+.button {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    background: var(--primary-color);
+    color: white;
+    text-decoration: none;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+}
+
+.button:hover {
+    background: var(--secondary-color);
+}
+
+.button i {
+    font-size: 1rem;
+}
+
+/* 页面标题和介绍 */
+.section-intro {
+    color: #666;
+    font-size: 1.1rem;
+    line-height: 1.6;
+    margin-top: 1rem;
+}
+
 /* 响应式设计 */
 @media (max-width: 768px) {
     nav {
