@@ -30,18 +30,12 @@ export default function Navbar() {
       <div className="container mx-auto px-4 py-3 flex justify-between items-center">
         <div className="text-xl font-bold text-primary">展春燕</div>
         <div className="flex items-center space-x-4">
-          <a href="#about" className="hover:text-primary transition-colors">
-            关于
-          </a>
-          <a href="#skills" className="hover:text-primary transition-colors">
-            技能
-          </a>
-          <a href="#projects" className="hover:text-primary transition-colors">
-            项目
-          </a>
-          <a href="#awards" className="hover:text-primary transition-colors">
-            荣誉
-          </a>
+          <nav className="hidden md:flex space-x-8">
+            <a href="#about" className="text-lg font-medium text-gray-700 hover:text-primary dark:text-gray-200 dark:hover:text-primary">关于</a>
+            <a href="#skills" className="text-lg font-medium text-gray-700 hover:text-primary dark:text-gray-200 dark:hover:text-primary">技能</a>
+            <a href="#projects" className="text-lg font-medium text-gray-700 hover:text-primary dark:text-gray-200 dark:hover:text-primary">项目展示</a>
+            <a href="#awards" className="text-lg font-medium text-gray-700 hover:text-primary dark:text-gray-200 dark:hover:text-primary">关于我</a>
+          </nav>
           <Button
             variant="ghost"
             size="icon"
@@ -55,4 +49,3 @@ export default function Navbar() {
     </nav>
   )
 }
-
