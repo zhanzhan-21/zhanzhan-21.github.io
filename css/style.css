@@ -1,13 +1,14 @@
 /* 全局样式 */
 :root {
-    --primary-color: #6c5ce7;
-    --secondary-color: #a8a8a8;
-    --background-color: #f8f9fa;
-    --text-color: #2d3436;
+    --primary-color: #4CAF50;
+    --secondary-color: #45a049;
+    --background-color: #f9f9f9;
+    --text-color: #333;
+    --header-bg: #2c3e50;
 }
 
 body {
-    font-family: 'Microsoft YaHei', sans-serif;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     line-height: 1.6;
     margin: 0;
     padding: 0;
@@ -16,16 +17,16 @@ body {
 }
 
 /* 导航栏样式 */
-.navbar {
-    background-color: white;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+header {
+    background-color: var(--header-bg);
     padding: 1rem 0;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
     position: sticky;
     top: 0;
     z-index: 1000;
 }
 
-.nav-container {
+nav {
     max-width: 1200px;
     margin: 0 auto;
     padding: 0 20px;
@@ -34,20 +35,39 @@ body {
     align-items: center;
 }
 
-.nav-links {
-    display: flex;
-    gap: 2rem;
-}
-
-.nav-links a {
+.logo {
+    color: white;
+    font-size: 1.5rem;
+    font-weight: bold;
     text-decoration: none;
-    color: var(--text-color);
-    font-weight: 500;
-    transition: color 0.3s;
+    transition: color 0.3s ease;
 }
 
-.nav-links a:hover {
+.logo:hover {
     color: var(--primary-color);
+}
+
+nav ul {
+    list-style: none;
+    display: flex;
+    margin: 0;
+    padding: 0;
+}
+
+nav ul li {
+    margin-left: 2rem;
+}
+
+nav ul li a {
+    color: white;
+    text-decoration: none;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+}
+
+nav ul li a:hover {
+    background-color: var(--primary-color);
 }
 
 /* 主要内容区域 */
@@ -57,148 +77,132 @@ body {
     padding: 0 20px;
 }
 
-.content-section {
-    background-color: white;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    padding: 2rem;
-    margin-bottom: 2rem;
-}
-
 /* 卡片样式 */
 .card {
-    background-color: white;
+    background: white;
     border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    padding: 1.5rem;
-    margin-bottom: 1.5rem;
-    transition: transform 0.3s;
+    padding: 2rem;
+    margin-bottom: 2rem;
+    box-shadow: 0 2px 15px rgba(0,0,0,0.05);
+    transition: transform 0.3s ease;
 }
 
 .card:hover {
     transform: translateY(-5px);
 }
 
-/* 博客文章列表样式 */
-.blog-post {
-    border-bottom: 1px solid #eee;
-    padding-bottom: 1.5rem;
+/* 技能栏样式 */
+.skills {
+    margin: 2rem 0;
+}
+
+.skill-item {
     margin-bottom: 1.5rem;
 }
 
-.blog-post:last-child {
-    border-bottom: none;
-}
-
-.blog-post h3 {
-    color: var(--primary-color);
+.skill-name {
+    font-weight: 600;
     margin-bottom: 0.5rem;
 }
 
-.post-meta {
-    color: var(--secondary-color);
-    font-size: 0.9rem;
-    margin-bottom: 1rem;
-}
-
-/* 技能进度条 */
-.skill-bar {
-    background-color: #eee;
-    height: 20px;
-    border-radius: 10px;
-    margin-bottom: 1rem;
+.progress-bar {
+    height: 10px;
+    background: #e9ecef;
+    border-radius: 5px;
     overflow: hidden;
 }
 
-.skill-progress {
-    background-color: var(--primary-color);
+.progress {
     height: 100%;
-    border-radius: 10px;
-    transition: width 1s;
+    background: var(--primary-color);
+    border-radius: 5px;
+    transition: width 1s ease-in-out;
+    position: relative;
 }
 
-/* 响应式设计 */
-@media (max-width: 768px) {
-    .nav-links {
-        display: none;
-    }
-    
-    .container {
-        padding: 0 10px;
-    }
-    
-    .content-section {
-        padding: 1rem;
-    }
+/* 博客文章列表 */
+.blog-post {
+    padding: 1rem;
+    border-bottom: 1px solid #eee;
+    transition: background-color 0.3s ease;
+}
+
+.blog-post:hover {
+    background-color: #f5f5f5;
+}
+
+.blog-post h3 {
+    color: var(--text-color);
+    margin: 0 0 0.5rem 0;
+}
+
+.blog-meta {
+    color: #666;
+    font-size: 0.9rem;
 }
 
 /* 按钮样式 */
-.btn {
+.button {
     display: inline-block;
-    padding: 0.5rem 1rem;
+    padding: 0.8rem 1.5rem;
     background-color: var(--primary-color);
     color: white;
     text-decoration: none;
     border-radius: 4px;
-    transition: background-color 0.3s;
+    transition: background-color 0.3s ease;
 }
 
-.btn:hover {
-    background-color: #5f52d9;
+.button:hover {
+    background-color: var(--secondary-color);
 }
 
 /* 页脚样式 */
-.footer {
-    background-color: white;
-    padding: 2rem 0;
-    margin-top: 4rem;
-    border-top: 1px solid #eee;
-}
-
-.footer-content {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 20px;
+footer {
+    background-color: var(--header-bg);
+    color: white;
     text-align: center;
+    padding: 1rem 0;
+    margin-top: 3rem;
 }
 
-/* 项目展示样式 */
-.project-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 1.5rem;
-    margin-top: 2rem;
+footer a {
+    color: var(--primary-color);
+    text-decoration: none;
 }
 
-.project-card {
-    background-color: white;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    overflow: hidden;
-}
+/* 响应式设计 */
+@media (max-width: 768px) {
+    nav {
+        flex-direction: column;
+        text-align: center;
+    }
 
-.project-card img {
-    width: 100%;
-    height: 200px;
-    object-fit: cover;
-}
+    nav ul {
+        margin-top: 1rem;
+        flex-direction: column;
+    }
 
-.project-info {
-    padding: 1.5rem;
+    nav ul li {
+        margin: 0.5rem 0;
+    }
+
+    .card {
+        padding: 1rem;
+    }
 }
 
 /* 动画效果 */
-@keyframes fadeIn {
+@keyframes slideIn {
     from {
-        opacity: 0;
         transform: translateY(20px);
+        opacity: 0;
     }
     to {
-        opacity: 1;
         transform: translateY(0);
+        opacity: 1;
     }
 }
 
-.animate-fade-in {
-    animation: fadeIn 1s ease-out;
+.card {
+    animation: slideIn 0.5s ease-out;
 }

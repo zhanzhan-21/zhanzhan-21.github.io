@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Personal blog of a Java Engineer">
-    <title>Chunyan的个人博客 - Java工程师</title>
+    <title>Zhanzhan的个人博客 - Java工程师</title>
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <style>
@@ -15,56 +15,41 @@
             padding: 0;
             background-color: #f5f5f5;
         }
-        .navbar {
+        header {
             background-color: #333;
             color: #fff;
             padding: 1em;
             text-align: center;
         }
-        .nav-container {
-            max-width: 800px;
-            margin: 0 auto;
+        header nav {
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
-        .logo {
-            font-size: 1.5em;
-            margin-right: 1em;
-        }
-        .nav-links {
+        header nav ul {
             list-style: none;
             margin: 0;
             padding: 0;
             display: flex;
         }
-        .nav-links a {
+        header nav ul li {
+            margin-left: 1em;
+        }
+        header nav a {
             color: #fff;
             text-decoration: none;
-            margin-left: 1em;
         }
         .container {
             max-width: 800px;
             margin: 0 auto;
             padding: 2em;
         }
-        .content-section {
+        .card {
             background-color: #fff;
             padding: 2em;
             margin-bottom: 1em;
             border-radius: 8px;
             box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
-        .animate-fade-in {
-            animation: fade-in 1s;
-        }
-        @keyframes fade-in {
-            from {
-                opacity: 0;
-            }
-            to {
-                opacity: 1;
-            }
         }
         .skills {
             display: flex;
@@ -75,12 +60,12 @@
             width: 45%;
             margin: 1em;
         }
-        .skill-bar {
+        .progress-bar {
             background-color: #ddd;
             height: 10px;
             border-radius: 5px;
         }
-        .skill-progress {
+        .progress {
             background-color: #4CAF50;
             height: 10px;
             border-radius: 5px;
@@ -90,12 +75,12 @@
             padding: 1em;
             border-radius: 8px;
         }
-        .post-meta {
+        .blog-meta {
             color: #666;
             font-size: 0.8em;
             margin-bottom: 0.5em;
         }
-        .btn {
+        .button {
             background-color: #4CAF50;
             color: #fff;
             border: none;
@@ -103,131 +88,108 @@
             font-size: 1em;
             cursor: pointer;
         }
-        .project-grid {
-            display: grid;
-            grid-template-columns: repeat(1, 1fr);
-            grid-gap: 1em;
-        }
-        .project-card {
-            background-color: #fff;
-            padding: 1em;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
-        .project-info {
-            padding: 1em;
-        }
-        .footer {
+        footer {
             background-color: #333;
             color: #fff;
             padding: 1em;
             text-align: center;
             clear: both;
         }
-        .social-links {
-            list-style: none;
-            margin: 0;
-            padding: 0;
-        }
-        .social-links a {
-            color: #fff;
-            text-decoration: none;
-            margin-left: 1em;
-        }
     </style>
 </head>
 <body>
-    <!-- 导航栏 -->
-    <nav class="navbar">
-        <div class="nav-container">
-            <div class="logo">
-                <h1>Chunyan</h1>
-            </div>
-            <div class="nav-links">
-                <a href="index.html">首页</a>
-                <a href="blog.html">博客文章</a>
-                <a href="projects.html">项目展示</a>
-                <a href="about.html">关于我</a>
-            </div>
-        </div>
-    </nav>
+    <header>
+        <nav>
+            <a href="index.html" class="logo">Zhanzhan</a>
+            <ul>
+                <li><a href="index.html">首页</a></li>
+                <li><a href="blog.html">博客文章</a></li>
+                <li><a href="projects.html">项目展示</a></li>
+                <li><a href="about.html">关于我</a></li>
+            </ul>
+        </nav>
+    </header>
 
-    <!-- 主要内容 -->
     <div class="container">
-        <!-- 个人简介部分 -->
-        <section class="content-section animate-fade-in">
+        <!-- 关于我 -->
+        <section class="card">
             <h2><i class="fas fa-user"></i> 关于我</h2>
-            <p>你好！我是一名充满热情的Java工程师，专注于后端开发和系统架构设计。我热衷于学习新技术，解决复杂问题，并不断提升自己的技术能力。</p>
+            <p>你好！我是一名充满热情的Java工程师，专注于后端开发和系统架构设计。我热衷于学习新技术，
+               不断提升自己的技术水平。</p>
         </section>
 
-        <!-- 技术栈展示 -->
-        <section class="content-section animate-fade-in">
+        <!-- 技能栈 -->
+        <section class="card">
             <h2><i class="fas fa-code"></i> 技术栈</h2>
             <div class="skills">
                 <div class="skill-item">
-                    <h4>Java核心技术</h4>
-                    <div class="skill-bar">
-                        <div class="skill-progress" style="width: 90%"></div>
+                    <div class="skill-name">Java核心技术</div>
+                    <div class="progress-bar">
+                        <div class="progress" style="width: 90%"></div>
                     </div>
                 </div>
                 <div class="skill-item">
-                    <h4>Spring Framework</h4>
-                    <div class="skill-bar">
-                        <div class="skill-progress" style="width: 85%"></div>
+                    <div class="skill-name">Spring Framework</div>
+                    <div class="progress-bar">
+                        <div class="progress" style="width: 85%"></div>
                     </div>
                 </div>
                 <div class="skill-item">
-                    <h4>Spring Boot</h4>
-                    <div class="skill-bar">
-                        <div class="skill-progress" style="width: 80%"></div>
+                    <div class="skill-name">Spring Boot</div>
+                    <div class="progress-bar">
+                        <div class="progress" style="width: 80%"></div>
                     </div>
                 </div>
                 <div class="skill-item">
-                    <h4>MySQL</h4>
-                    <div class="skill-bar">
-                        <div class="skill-progress" style="width: 75%"></div>
+                    <div class="skill-name">MySQL</div>
+                    <div class="progress-bar">
+                        <div class="progress" style="width: 75%"></div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- 最新博客文章 -->
-        <section class="content-section animate-fade-in">
+        <!-- 最新博客 -->
+        <section class="card">
             <h2><i class="fas fa-blog"></i> 最新博客</h2>
             <div class="blog-post">
-                <h3>Java并发编程实践</h3>
-                <div class="post-meta">
-                    <i class="far fa-calendar"></i> 2025-03-24
-                    <i class="far fa-folder ml-2"></i> Java开发
+                <h3>Java开发编程实践</h3>
+                <div class="blog-meta">
+                    <i class="far fa-calendar-alt"></i> 2025-03-24
+                    <i class="fas fa-tag"></i> Java开发
                 </div>
-                <p>探讨Java并发编程中的常见问题和最佳实践...</p>
-                <a href="blog.html" class="btn">阅读更多</a>
+                <p>探讨Java开发编程中的实用技巧和最佳实践...</p>
+                <a href="blog.html" class="button">阅读更多</a>
             </div>
         </section>
 
-        <!-- 项目展示预览 -->
-        <section class="content-section animate-fade-in">
+        <!-- 精选项目 -->
+        <section class="card">
             <h2><i class="fas fa-project-diagram"></i> 精选项目</h2>
-            <div class="project-grid">
-                <div class="project-card">
-                    <div class="project-info">
-                        <h3>电商平台后端系统</h3>
-                        <p>基于Spring Boot的微服务架构设计...</p>
-                        <a href="projects.html" class="btn">查看详情</a>
-                    </div>
-                </div>
+            <div class="project-item">
+                <h3>电商平台后端系统</h3>
+                <p>基于Spring Boot的完整服务器端设计...</p>
+                <a href="projects.html" class="button">查看详情</a>
             </div>
         </section>
     </div>
 
-    <!-- 页脚 -->
-    <footer class="footer">
-        <div class="footer-content">
-            <p> 2025 Chunyan的个人博客</p>
-            <div class="social-links">
-                <a href="https://github.com/chunyan-21" target="_blank"><i class="fab fa-github"></i></a>
-            </div>
-        </div>
+    <footer>
+        <p> 2025 Zhanzhan的个人博客 | <a href="https://github.com/zhanzhan-21" target="_blank"><i class="fab fa-github"></i> GitHub</a></p>
     </footer>
+
+    <script>
+        // 添加进度条动画
+        document.addEventListener('DOMContentLoaded', function() {
+            const progressBars = document.querySelectorAll('.progress');
+            progressBars.forEach(bar => {
+                const width = bar.style.width;
+                bar.style.width = '0';
+                setTimeout(() => {
+                    bar.style.width = width;
+                }, 300);
+            });
+        });
+    </script>
 </body>
 </html>
