@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react"
 import { motion } from "framer-motion"
-import { Mail, Phone, Globe, Github, Calendar } from "lucide-react"
+import { MapPin,Mail, Phone, Globe, Github, Calendar } from "lucide-react"
 import { Button } from "@/components/ui/button"
 
 export default function Hero() {
@@ -39,14 +39,14 @@ export default function Hero() {
             {typedText}
             <span className="animate-pulse">|</span>
           </h2>
-          <p className="text-gray-600 dark:text-gray-300 max-w-md whitespace-nowrap overflow-hidden text-ellipsis">
-            专注于构建高性能、可扩展的企业级应用，热衷于技术创新与解决复杂问题
+          <p className="text-gray-600 dark:text-gray-300 max-w-2xl mb-8">
+            专注于构建高性能、可扩展的企业级应用，热衷于技术创新与解决复杂问题。
           </p>
 
           <div className="flex flex-wrap gap-4 text-sm text-gray-600 dark:text-gray-300">
             <div className="flex items-center gap-2">
-              <Calendar className="h-4 w-4 text-primary" />
-              <span>籍贯：山东德州</span>
+              <MapPin className="h-4 w-4 text-primary" />
+              <span>山东德州</span>
             </div>
             <div className="flex items-center gap-2">
               <Calendar className="h-4 w-4 text-primary" />
@@ -102,4 +102,3 @@ export default function Hero() {
     </section>
   )
 }
-
