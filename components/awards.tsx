@@ -68,33 +68,41 @@ export default function Awards() {
   ]
 
   return (
-    <section id="awards" className="pt-32 pb-20 px-4 bg-gray-50 dark:bg-gray-800">
+    <section id="awards" className="pt-10 pb-20 px-4 bg-gray-50 dark:bg-gray-800">
       <div className="container mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
           viewport={{ once: true }}
-          className="text-center mb-16"
+          className="text-center mb-12"
         >
           <h2 className="text-3xl font-bold mb-4">荣誉奖励</h2>
           <div className="w-20 h-1 bg-primary mx-auto mb-6"></div>
-          <p className="max-w-2xl mx-auto text-gray-600 dark:text-gray-300 mb-12">我在学术和专业领域获得的一些荣誉和奖项</p>
+          <p className="max-w-2xl mx-auto text-gray-600 dark:text-gray-300 mb-10">我在学术和专业领域获得的一些荣誉和奖项</p>
+        </motion.div>
         
-          {/* 添加奖项轮播展示 */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
-            className="mb-16"
-          >
-            <AwardsCarousel awards={awards} />
-          </motion.div>
+        {/* 添加奖项轮播展示 */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          transition={{ duration: 0.8 }}
+          viewport={{ once: true }}
+          className="mb-16"
+        >
+          <AwardsCarousel awards={awards} />
         </motion.div>
 
         {/* 保留原来的卡片网格展示 */}
-        <h3 className="text-xl font-semibold text-center mb-8">所有奖项</h3>
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          viewport={{ once: true }}
+          className="text-center mb-8"
+        >
+          <h3 className="text-xl font-semibold inline-block border-b-2 border-primary pb-1">所有奖项列表</h3>
+        </motion.div>
         <div className="grid md:grid-cols-3 gap-6">
           {awards.map((award, index) => (
             <motion.div

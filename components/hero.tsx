@@ -1,10 +1,11 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, useRef } from "react"
 import { motion } from "framer-motion"
 import { MapPin, Mail, Phone, Globe, Github, Calendar } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import HeroBackground from "@/components/3d/HeroBackground"
+import { ConfettiEffect, useConfettiEffect } from "@/components/ui/confetti-effects"
 
 export default function Hero() {
   const [typedText, setTypedText] = useState("")
@@ -23,6 +24,17 @@ export default function Hero() {
     "/images/profile2.jpeg", // 确保有这些图片或替换为实际路径
     "/images/profile3.jpeg"
   ]
+
+  // 按钮引用
+  const contactBtnRef = useRef<HTMLButtonElement>(null);
+  const projectsBtnRef = useRef<HTMLButtonElement>(null);
+  const nameRef = useRef<HTMLSpanElement>(null);
+  
+  // 闪亮按钮状态
+  const [isShining, setIsShining] = useState(false);
+  
+  // 使用自定义纸屑效果
+  const { isActive, triggerConfetti, config, onComplete } = useConfettiEffect();
 
   useEffect(() => {
     // 标记为客户端渲染
@@ -77,9 +89,38 @@ export default function Hero() {
     setRotateY(0)
     setRotateX(0)
   }
+  
+  // 处理"展春燕"点击事件
+  const handleNameClick = (e: React.MouseEvent<HTMLSpanElement>) => {
+    // 触发闪亮效果
+    setIsShining(true);
+    
+    // 1.5秒后重置闪亮状态（与动画持续时间相同）
+    setTimeout(() => setIsShining(false), 1500);
+    
+    // 触发纸屑效果，从点击位置爆发
+    triggerConfetti({
+      pieces: 21,          // 设置纸屑数量为21个
+      duration: 7700,      // 缩短持续时间为7.7秒
+      originX: e.clientX,
+      originY: e.clientY,
+      radius: 100           // 进一步缩小爆发半径，让效果更集中
+    });
+  };
 
   return (
     <section className="min-h-screen flex items-center justify-center pt-16 px-4 relative">
+      {/* 纸屑效果组件 */}
+      <ConfettiEffect 
+        active={isActive}
+        duration={config.duration}
+        pieces={config.pieces}
+        colors={config.colors}
+        originX={config.originX}
+        originY={config.originY}
+        onComplete={onComplete}
+      />
+      
       {/* 星星背景 - 设置高z-index确保可见 */}
       <div className="absolute inset-0 overflow-hidden z-[5]">
         <HeroBackground />
@@ -96,8 +137,15 @@ export default function Hero() {
           transition={{ duration: 0.8 }}
           className="flex flex-col space-y-6"
         >
-          <h1 className="text-4xl md:text-6xl font-bold text-gray-900 dark:text-white">
-            你好，我是<span className="text-primary">展春燕</span>
+          <h1 className="text-4xl md:text-6xl font-bold text-gray-900 dark:text-white flex items-baseline">
+            <span>你好，我是</span>
+            <span 
+              ref={nameRef}
+              className={`text-primary cursor-pointer hover:scale-110 transition-transform inline-block shiny-button ${isShining ? 'animate' : ''} ml-2`}
+              onClick={handleNameClick}
+              onMouseEnter={() => setIsShining(true)}
+              onMouseLeave={() => setIsShining(false)}
+            >展春燕</span>
           </h1>
           
           {/* 客户端渲染打字效果 */}
@@ -148,11 +196,70 @@ export default function Hero() {
           </div>
 
           <div className="flex gap-4 pt-4">
-            <Button asChild>
-              <a href="#contact">联系我</a>
+            <Button 
+              ref={contactBtnRef}
+              asChild
+            >
+              <a href="#contact" onClick={(e) => {
+                e.preventDefault();
+                
+                // 提取目标ID
+                const targetId = 'contact';
+                const targetElement = document.getElementById(targetId);
+                
+                if (targetElement) {
+                  // 获取当前滚动位置
+                  const currentScrollPosition = window.scrollY;
+                  
+                  // 计算目标元素的绝对位置
+                  const targetPosition = targetElement.getBoundingClientRect().top + currentScrollPosition;
+                  
+                  // 计算偏移量 - 与导航栏保持一致
+                  const offset = 80;
+                  
+                  // 滚动到目标位置
+                  window.scrollTo({
+                    top: targetPosition - offset,
+                    behavior: 'smooth'
+                  });
+                  
+                  // 更新URL哈希，但不触发默认的滚动行为
+                  window.history.pushState(null, '', '#contact');
+                }
+              }}>联系我</a>
             </Button>
-            <Button variant="outline" asChild>
-              <a href="#projects">查看项目</a>
+            <Button 
+              ref={projectsBtnRef}
+              variant="outline" 
+              asChild
+            >
+              <a href="#projects" onClick={(e) => {
+                e.preventDefault();
+                
+                // 提取目标ID
+                const targetId = 'projects';
+                const targetElement = document.getElementById(targetId);
+                
+                if (targetElement) {
+                  // 获取当前滚动位置
+                  const currentScrollPosition = window.scrollY;
+                  
+                  // 计算目标元素的绝对位置
+                  const targetPosition = targetElement.getBoundingClientRect().top + currentScrollPosition;
+                  
+                  // 计算偏移量 - 与导航栏保持一致
+                  const offset = 80;
+                  
+                  // 滚动到目标位置
+                  window.scrollTo({
+                    top: targetPosition - offset,
+                    behavior: 'smooth'
+                  });
+                  
+                  // 更新URL哈希，但不触发默认的滚动行为
+                  window.history.pushState(null, '', '#projects');
+                }
+              }}>查看项目</a>
             </Button>
           </div>
         </motion.div>

@@ -50,7 +50,7 @@
 
   /* 导航滚动偏移设置 */
   html {
-    scroll-padding-top: 120px; /* 修正滚动偏移量，确保为正值 */
+    scroll-padding-top: 80px; /* 保持与JavaScript中的offset一致 */
     scroll-behavior: smooth; /* 添加平滑滚动效果 */
   }
   
@@ -58,8 +58,24 @@
   #about,
   #skills,
   #projects,
-  #awards {
-    scroll-margin-top: 120px; /* 增加滚动边距，与上面保持一致 */
+  #awards,
+  #contact {
+    scroll-margin-top: 80px; /* 保持与JavaScript中的offset一致 */
+    position: relative; /* 确保相对定位 */
+  }
+  
+  /* 锚点目标辅助类 - 使用伪元素创建锚点 */
+  #about::before,
+  #skills::before,
+  #projects::before,
+  #awards::before,
+  #contact::before {
+    content: "";
+    display: block;
+    height: 80px; /* 与偏移量相同 */
+    margin-top: -80px; /* 负值，使锚点位置向上移动 */
+    visibility: hidden;
+    pointer-events: none;
   }
 }
 
@@ -92,5 +108,76 @@
 /* 修复动画延迟 */
 .animation-delay-1000 {
   animation-delay: 1s;
+}
+
+/* 闪亮按钮效果 */
+.shiny-button {
+  position: relative;
+  overflow: hidden;
+}
+
+.shiny-button::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -100%; /* 默认隐藏在左侧之外 */
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(
+    to bottom right,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.2) 40%,
+    rgba(255, 255, 255, 0.5) 50%,
+    rgba(255, 255, 255, 0.2) 60%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  transform: rotate(45deg);
+  z-index: 10;
+  opacity: 0; /* 默认不可见 */
+  pointer-events: none;
+}
+
+/* 只有在animate类激活时才显示动画 */
+.shiny-button.animate::before {
+  animation: shine 1.5s forwards;
+}
+
+.shiny-button.auto-shine::before {
+  animation: auto-shine 5s infinite;
+}
+
+@keyframes shine {
+  0% {
+    left: -100%;
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    left: 100%;
+    opacity: 0;
+  }
+}
+
+@keyframes auto-shine {
+  0% {
+    left: -100%;
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  50% {
+    left: 100%;
+    opacity: 0;
+  }
+  100% {
+    left: -100%;
+    opacity: 0;
+  }
 }
 

@@ -30,7 +30,7 @@ export default function Projects() {
   ]
 
   return (
-    <section id="projects" className="pt-32 pb-20 px-4 bg-white dark:bg-gray-900">
+    <section id="projects" className="pt-10 pb-20 px-4 bg-white dark:bg-gray-900">
       <div className="container mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 20 }}

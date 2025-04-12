@@ -44,14 +44,14 @@ export default function Skills() {
   ]
 
   return (
-    <section id="skills" className="pt-32 pb-10 px-4 bg-gray-50 dark:bg-gray-800">
+    <section id="skills" className="pt-10 pb-10 px-4 bg-gray-50 dark:bg-gray-800">
       <div className="container mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
           viewport={{ once: true }}
-          className="text-center mb-8"
+          className="text-center mb-4 relative z-50"
         >
           <h2 className="text-3xl font-bold mb-2.5">专业技能</h2>
           <div className="w-20 h-1 bg-primary mx-auto mb-3.5"></div>
@@ -66,7 +66,7 @@ export default function Skills() {
           whileInView={{ opacity: 1 }}
           transition={{ duration: 0.8 }}
           viewport={{ once: true }}
-          className="h-[450px] mb-12 w-full"
+          className="h-[450px] mb-10 w-full mt-11"
         >
           <SkillOrbit skills={allSkills} />
         </motion.div>
