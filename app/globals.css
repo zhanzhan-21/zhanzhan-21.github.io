@@ -47,6 +47,20 @@
     --input: 217.2 32.6% 17.5%;
     --ring: 224.3 76.3% 48%;
   }
+
+  /* 导航滚动偏移设置 */
+  html {
+    scroll-padding-top: 120px; /* 修正滚动偏移量，确保为正值 */
+    scroll-behavior: smooth; /* 添加平滑滚动效果 */
+  }
+  
+  /* 为各部分ID设置滚动边距 */
+  #about,
+  #skills,
+  #projects,
+  #awards {
+    scroll-margin-top: 120px; /* 增加滚动边距，与上面保持一致 */
+  }
 }
 
 @layer base {
@@ -58,6 +72,24 @@
   }
 }
 
+/* 3D翻转卡片效果所需的CSS */
+.perspective-1000 {
+  perspective: 1000px;
+}
+
+.preserve-3d {
+  transform-style: preserve-3d;
+}
+
+.backface-hidden {
+  backface-visibility: hidden;
+}
+
+.rotate-y-180 {
+  transform: rotateY(180deg);
+}
+
+/* 修复动画延迟 */
 .animation-delay-1000 {
   animation-delay: 1s;
 }

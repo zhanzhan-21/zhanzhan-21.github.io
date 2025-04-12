@@ -4,6 +4,7 @@ import { motion } from "framer-motion"
 import { Award, Calendar, ExternalLink } from "lucide-react"
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
+import AwardsCarousel from "@/components/3d/AwardsCarousel"
 
 export default function Awards() {
   const awards = [
@@ -13,53 +14,61 @@ export default function Awards() {
       date: "2024",
       level: "校级",
       hasLink: true,
+      image: "/images/award-placeholder1.svg", // 奖项图片（示例路径）
     },
     {
       title: '"华为杯"中国研究生数学建模竞赛 二等奖',
       date: "2023",
       level: "国家级",
       hasLink: false,
+      image: "/images/award-placeholder2.svg", 
     },
     {
       title: '"华为杯"中国研究生数学建模竞赛 三等奖',
       date: "2022",
       level: "国家级",
       hasLink: false,
+      image: "/images/award-placeholder3.svg",
     },
     {
       title: "山东大学创新创业活动先进个人",
       date: "2023",
       level: "校级",
       hasLink: false,
+      image: "/images/award-placeholder4.svg",
     },
     {
       title: "山东大学2023年度优秀研究生",
       date: "2023",
       level: "校级",
       hasLink: false,
+      image: "/images/award-placeholder5.svg",
     },
     {
       title: "山东大学2022年度硕士新生二等学业奖学金",
       date: "2022",
       level: "校级",
       hasLink: false,
+      image: "/images/award-placeholder6.svg",
     },
     {
       title: "优秀毕业生",
       date: "2023",
       level: "校级",
       hasLink: false,
+      image: "/images/award-placeholder7.svg",
     },
     {
       title: "全国大学生数学建模竞赛西北赛区二等奖",
       date: "2021",
       level: "省级",
       hasLink: false,
+      image: "/images/award-placeholder8.svg",
     },
   ]
 
   return (
-    <section id="awards" className="py-20 px-4 bg-gray-50 dark:bg-gray-800">
+    <section id="awards" className="pt-32 pb-20 px-4 bg-gray-50 dark:bg-gray-800">
       <div className="container mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -70,9 +79,22 @@ export default function Awards() {
         >
           <h2 className="text-3xl font-bold mb-4">荣誉奖励</h2>
           <div className="w-20 h-1 bg-primary mx-auto mb-6"></div>
-          <p className="max-w-2xl mx-auto text-gray-600 dark:text-gray-300">我在学术和专业领域获得的一些荣誉和奖项</p>
+          <p className="max-w-2xl mx-auto text-gray-600 dark:text-gray-300 mb-12">我在学术和专业领域获得的一些荣誉和奖项</p>
+        
+          {/* 添加奖项轮播展示 */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            transition={{ duration: 0.8 }}
+            viewport={{ once: true }}
+            className="mb-16"
+          >
+            <AwardsCarousel awards={awards} />
+          </motion.div>
         </motion.div>
 
+        {/* 保留原来的卡片网格展示 */}
+        <h3 className="text-xl font-semibold text-center mb-8">所有奖项</h3>
         <div className="grid md:grid-cols-3 gap-6">
           {awards.map((award, index) => (
             <motion.div

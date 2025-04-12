@@ -5,6 +5,7 @@ import { ExternalLink, Github } from "lucide-react"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
+import FlipCard from "@/components/3d/FlipCard"
 
 export default function Projects() {
   const projects = [
@@ -29,7 +30,7 @@ export default function Projects() {
   ]
 
   return (
-    <section id="projects" className="py-20 px-4 bg-white dark:bg-gray-900">
+    <section id="projects" className="pt-32 pb-20 px-4 bg-white dark:bg-gray-900">
       <div className="container mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -54,42 +55,7 @@ export default function Projects() {
               transition={{ duration: 0.5, delay: index * 0.1 }}
               viewport={{ once: true }}
             >
-              <Card className="h-full flex flex-col overflow-hidden hover:shadow-lg transition-shadow">
-                <div className="relative overflow-hidden h-48">
-                  <img
-                    src={project.image || "/placeholder.svg"}
-                    alt={project.title}
-                    className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
-                  />
-                </div>
-                <CardHeader>
-                  <CardTitle>{project.title}</CardTitle>
-                  <CardDescription className="flex flex-wrap gap-2 mt-2">
-                    {project.technologies.map((tech, i) => (
-                      <Badge key={i} variant="secondary">
-                        {tech}
-                      </Badge>
-                    ))}
-                  </CardDescription>
-                </CardHeader>
-                <CardContent className="flex-grow">
-                  <p className="text-gray-600 dark:text-gray-300">{project.description}</p>
-                </CardContent>
-                <CardFooter className="flex justify-between">
-                  <Button variant="outline" size="sm" asChild>
-                    <a href={project.github} target="_blank" rel="noopener noreferrer">
-                      <Github className="h-4 w-4 mr-2" />
-                      代码
-                    </a>
-                  </Button>
-                  <Button size="sm" asChild>
-                    <a href={project.demo} target="_blank" rel="noopener noreferrer">
-                      <ExternalLink className="h-4 w-4 mr-2" />
-                      演示
-                    </a>
-                  </Button>
-                </CardFooter>
-              </Card>
+              <FlipCard project={project} />
             </motion.div>
           ))}
         </div>
