@@ -31,17 +31,19 @@ const NavLink = ({
       // 计算目标元素的绝对位置
       const targetPosition = targetElement.getBoundingClientRect().top + currentScrollPosition
       
-      // 计算偏移量 - 大幅增加以确保完全消除边距
+      // 使用80px的固定偏移量，与其他地方保持一致
       const offset = 80
       
-      // 滚动到目标位置
-      window.scrollTo({
-        top: targetPosition - offset,
-        behavior: 'smooth'
-      })
-      
-      // 更新URL哈希，但不触发默认的滚动行为
+      // 先更新URL，然后再滚动 - 避免默认的自动滚动行为
       window.history.pushState(null, '', href)
+      
+      // 使用setTimeout确保DOM更新和浏览器默认滚动行为不会干扰我们的自定义滚动
+      setTimeout(() => {
+        window.scrollTo({
+          top: targetPosition - offset,
+          behavior: 'smooth'
+        })
+      }, 10)
     }
   }
   
@@ -95,6 +97,37 @@ export default function Navbar() {
     }
   };
 
+  // 处理URL哈希改变，确保从外部访问锚点也能正确滚动
+  const handleHashChange = () => {
+    // 获取当前URL哈希（去掉#符号）
+    const hash = window.location.hash.replace('#', '');
+    
+    // 如果哈希存在并且对应的元素存在
+    if (hash && document.getElementById(hash)) {
+      // 获取目标元素
+      const targetElement = document.getElementById(hash);
+      
+      if (targetElement) {
+        // 获取当前滚动位置
+        const currentScrollPosition = window.scrollY;
+        
+        // 计算目标元素的绝对位置
+        const targetPosition = targetElement.getBoundingClientRect().top + currentScrollPosition;
+        
+        // 使用统一的偏移量
+        const offset = 80;
+        
+        // 使用平滑滚动到目标位置
+        setTimeout(() => {
+          window.scrollTo({
+            top: targetPosition - offset,
+            behavior: 'smooth'
+          });
+        }, 100); // 短暂延迟以确保DOM完全加载
+      }
+    }
+  };
+
   useEffect(() => {
     setMounted(true)
     const handleScroll = () => {
@@ -103,10 +136,22 @@ export default function Navbar() {
     }
     window.addEventListener("scroll", handleScroll)
     
+    // 添加哈希变更事件监听
+    window.addEventListener('hashchange', handleHashChange);
+    
+    // 页面加载时检查当前URL是否包含哈希
+    if (window.location.hash) {
+      // 在页面加载后短暂延迟执行，确保所有元素都已渲染
+      setTimeout(handleHashChange, 300);
+    }
+    
     // 初始检查
     checkActiveSection();
     
-    return () => window.removeEventListener("scroll", handleScroll)
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener('hashchange', handleHashChange);
+    }
   }, [])
 
   // Logo点击事件处理

@@ -56,9 +56,16 @@ export default function Hero() {
         setActivePhotoIndex(prev => (prev + 1) % photos.length)
       }, 3000)
       
+      // 添加自动闪光效果，每6秒触发一次
+      const shiningInterval = setInterval(() => {
+        setIsShining(true);
+        setTimeout(() => setIsShining(false), 1500);
+      }, 3000);
+      
       return () => {
         clearInterval(typingInterval)
         clearInterval(photoInterval)
+        clearInterval(shiningInterval)
       }
     }
 
@@ -214,17 +221,19 @@ export default function Hero() {
                   // 计算目标元素的绝对位置
                   const targetPosition = targetElement.getBoundingClientRect().top + currentScrollPosition;
                   
-                  // 计算偏移量 - 与导航栏保持一致
+                  // 使用一致的偏移量
                   const offset = 80;
                   
-                  // 滚动到目标位置
-                  window.scrollTo({
-                    top: targetPosition - offset,
-                    behavior: 'smooth'
-                  });
-                  
-                  // 更新URL哈希，但不触发默认的滚动行为
+                  // 先更新URL，然后再滚动
                   window.history.pushState(null, '', '#contact');
+                  
+                  // 使用setTimeout确保DOM更新后再滚动
+                  setTimeout(() => {
+                    window.scrollTo({
+                      top: targetPosition - offset,
+                      behavior: 'smooth'
+                    });
+                  }, 10);
                 }
               }}>联系我</a>
             </Button>
@@ -247,17 +256,19 @@ export default function Hero() {
                   // 计算目标元素的绝对位置
                   const targetPosition = targetElement.getBoundingClientRect().top + currentScrollPosition;
                   
-                  // 计算偏移量 - 与导航栏保持一致
+                  // 使用一致的偏移量
                   const offset = 80;
                   
-                  // 滚动到目标位置
-                  window.scrollTo({
-                    top: targetPosition - offset,
-                    behavior: 'smooth'
-                  });
-                  
-                  // 更新URL哈希，但不触发默认的滚动行为
+                  // 先更新URL，然后再滚动
                   window.history.pushState(null, '', '#projects');
+                  
+                  // 使用setTimeout确保DOM更新后再滚动
+                  setTimeout(() => {
+                    window.scrollTo({
+                      top: targetPosition - offset,
+                      behavior: 'smooth'
+                    });
+                  }, 10);
                 }
               }}>查看项目</a>
             </Button>
