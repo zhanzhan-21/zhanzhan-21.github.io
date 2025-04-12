@@ -4,7 +4,7 @@ import type React from "react"
 import { cn } from "@/lib/utils"
 import { AnimatePresence, motion } from "framer-motion"
 import Link from "next/link"
-import { useState } from "react"
+import { useState, useId, useMemo } from "react"
 
 // 定义一个颜色数组，包含不同的颜色
 const backgroundColors = [
@@ -42,6 +42,84 @@ const shadowColors = [
   "rgba(139, 92, 246, 0.08)", // 淡紫色
 ]
 
+// 单个卡片组件，用于统一结构
+const HoverCard = ({
+  item,
+  idx,
+  hoveredIndex,
+  setHoveredIndex,
+  layoutId,
+}: {
+  item: {
+    title: string
+    description?: string
+    content: React.ReactNode
+    link?: string
+  }
+  idx: number
+  hoveredIndex: number | null
+  setHoveredIndex: (index: number | null) => void
+  layoutId: string
+}) => {
+  // 为每个卡片选择颜色，如果索引超出数组长度则循环使用
+  const colorIndex = idx % backgroundColors.length;
+  const bgColor = backgroundColors[colorIndex];
+  const borderColor = borderColors[colorIndex];
+  const shadowColor = shadowColors[colorIndex];
+  
+  // 只为非首个卡片添加背景效果，首个卡片由CardPinEffect处理
+  const shouldShowEffect = hoveredIndex === idx && idx !== 0;
+  
+  const cardContent = (
+    <div className="relative z-20 h-full">
+      {item.content}
+    </div>
+  );
+  
+  return (
+    <div
+      className="relative group block h-full w-full"
+      onMouseEnter={() => setHoveredIndex(idx)}
+      onMouseLeave={() => setHoveredIndex(null)}
+    >
+      <AnimatePresence>
+        {shouldShowEffect && (
+          <motion.span
+            className="absolute inset-0 h-full w-full block rounded-xl"
+            style={{
+              background: bgColor,
+              backdropFilter: "blur(4px)",
+              border: `1px solid ${borderColor}`,
+              boxShadow: `0 4px 20px ${shadowColor}`
+            }}
+            layoutId={`hover-card-${layoutId}-${idx}`}
+            initial={{ opacity: 0 }}
+            animate={{
+              opacity: 1,
+              transition: { duration: 0.25 },
+            }}
+            exit={{
+              opacity: 0,
+              transition: { duration: 0.25, delay: 0.1 },
+            }}
+          />
+        )}
+      </AnimatePresence>
+      
+      {item.link ? (
+        <Link 
+          href={item.link} 
+          className="block h-full w-full"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          {cardContent}
+        </Link>
+      ) : cardContent}
+    </div>
+  );
+};
+
 export const HoverCardEffect = ({
   items,
   className,
@@ -58,73 +136,26 @@ export const HoverCardEffect = ({
   hoveredIndex?: number | null
   setHoveredIndex?: (index: number | null) => void
 }) => {
-  const [internalHoveredIndex, setInternalHoveredIndex] = useState<number | null>(null)
+  // 使用useId生成稳定的ID，用于动画的layoutId
+  const layoutId = useId();
+  const [internalHoveredIndex, setInternalHoveredIndex] = useState<number | null>(null);
   
   // 使用外部提供的状态或内部状态
-  const hoveredIndex = externalHoveredIndex !== undefined ? externalHoveredIndex : internalHoveredIndex
-  const setHoveredIndex = externalSetHoveredIndex || setInternalHoveredIndex
+  const hoveredIndex = externalHoveredIndex !== undefined ? externalHoveredIndex : internalHoveredIndex;
+  const setHoveredIndex = externalSetHoveredIndex || setInternalHoveredIndex;
 
   return (
     <div className={cn("grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6", className)}>
-      {items.map((item, idx) => {
-        // 为每个卡片选择颜色，如果索引超出数组长度则循环使用
-        const colorIndex = idx % backgroundColors.length;
-        const bgColor = backgroundColors[colorIndex];
-        const borderColor = borderColors[colorIndex];
-        const shadowColor = shadowColors[colorIndex];
-        
-        // 只为非首个卡片添加背景效果，首个卡片由CardPinEffect处理
-        const shouldShowEffect = hoveredIndex === idx && idx !== 0;
-        
-        return (
-          <div
-            key={idx}
-            className="relative group block h-full w-full"
-            onMouseEnter={() => setHoveredIndex(idx)}
-            onMouseLeave={() => setHoveredIndex(null)}
-          >
-            <AnimatePresence>
-              {shouldShowEffect && (
-                <motion.span
-                  className="absolute inset-0 h-full w-full block rounded-xl"
-                  style={{
-                    background: bgColor,
-                    backdropFilter: "blur(4px)",
-                    border: `1px solid ${borderColor}`,
-                    boxShadow: `0 4px 20px ${shadowColor}`
-                  }}
-                  layoutId="hoverBackground"
-                  initial={{ opacity: 0 }}
-                  animate={{
-                    opacity: 1,
-                    transition: { duration: 0.25 },
-                  }}
-                  exit={{
-                    opacity: 0,
-                    transition: { duration: 0.25, delay: 0.1 },
-                  }}
-                />
-              )}
-            </AnimatePresence>
-            {item.link ? (
-              <Link 
-                href={item.link} 
-                className="block h-full w-full"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <div className="relative z-20 h-full">
-                  {item.content}
-                </div>
-              </Link>
-            ) : (
-              <div className="relative z-20 h-full">
-                {item.content}
-              </div>
-            )}
-          </div>
-        );
-      })}
+      {items.map((item, idx) => (
+        <HoverCard
+          key={idx}
+          item={item}
+          idx={idx}
+          hoveredIndex={hoveredIndex}
+          setHoveredIndex={setHoveredIndex}
+          layoutId={layoutId}
+        />
+      ))}
     </div>
-  )
-} 
+  );
+}; 
