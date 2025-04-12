@@ -5,8 +5,32 @@ import { Award, Calendar, ExternalLink } from "lucide-react"
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import AwardsCarousel from "@/components/3d/AwardsCarousel"
+import { CardPinEffect } from "@/components/3d/PinEffect"
+import { useState } from "react"
+import { HoverCardEffect } from "@/components/ui/hover-card-effect"
 
 export default function Awards() {
+  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+  
+  // 定义可用于奖项的颜色列表
+  const colors = [
+    "emerald", "blue", "yellow", "red", "purple", "teal", "orange", "violet"
+  ] as const;
+  
+  type AwardColor = typeof colors[number];
+  
+  // 为边框颜色创建映射
+  const borderColorMap: Record<AwardColor, string> = {
+    emerald: 'border-emerald-400/30 dark:border-emerald-600/30',
+    blue: 'border-blue-400/30 dark:border-blue-600/30',
+    yellow: 'border-yellow-400/30 dark:border-yellow-600/30',
+    red: 'border-red-400/30 dark:border-red-600/30',
+    purple: 'border-purple-400/30 dark:border-purple-600/30',
+    teal: 'border-teal-400/30 dark:border-teal-600/30',
+    orange: 'border-orange-400/30 dark:border-orange-600/30',
+    violet: 'border-violet-400/30 dark:border-violet-600/30',
+  };
+  
   const awards = [
     {
       title: "第十五届山东大学学生五四青年科学奖（集体）",
@@ -67,9 +91,108 @@ export default function Awards() {
     },
   ]
 
+  const renderAwardContent = (award: typeof awards[0], index: number, isHovered: boolean) => (
+    <div className="flex items-start gap-4 p-6 bg-white dark:bg-zinc-900 rounded-xl border border-gray-200 dark:border-gray-800 h-full transition-all duration-300 overflow-hidden">
+      <Award className="h-8 w-8 text-primary flex-shrink-0 mt-1" />
+      <div>
+        <div className="flex items-center gap-1 mb-2">
+          <h3 className={`font-semibold ${isHovered ? "text-primary" : ""} transition-colors`}>{award.title}</h3>
+          {award.hasLink && (
+            <ExternalLink className={`h-4 w-4 ${isHovered ? "text-primary" : "text-muted-foreground"} transition-colors`} />
+          )}
+        </div>
+        <div className="flex items-center text-sm text-gray-500 dark:text-gray-400 mb-2">
+          <Calendar className="h-4 w-4 mr-1" />
+          <span>{award.date}</span>
+        </div>
+        <Badge variant="outline">{award.level}</Badge>
+      </div>
+    </div>
+  );
+
+  // 创建HoverCardEffect所需的items数组
+  const hoverCardItems = awards.map((award, index) => {
+    // 为每个奖项选择一个颜色，使用取模运算保证索引在范围内
+    const color = colors[index % colors.length] as AwardColor;
+    const borderColor = borderColorMap[color];
+    
+    // 为每种颜色定义对应的阴影颜色
+    const shadowColorMap: Record<AwardColor, string> = {
+      emerald: 'hover:shadow-emerald-100 dark:hover:shadow-emerald-900/20',
+      blue: 'hover:shadow-blue-100 dark:hover:shadow-blue-900/20',
+      yellow: 'hover:shadow-yellow-100 dark:hover:shadow-yellow-900/20',
+      red: 'hover:shadow-red-100 dark:hover:shadow-red-900/20',
+      purple: 'hover:shadow-purple-100 dark:hover:shadow-purple-900/20',
+      teal: 'hover:shadow-teal-100 dark:hover:shadow-teal-900/20',
+      orange: 'hover:shadow-orange-100 dark:hover:shadow-orange-900/20',
+      violet: 'hover:shadow-violet-100 dark:hover:shadow-violet-900/20',
+    };
+    
+    const shadowColor = shadowColorMap[color];
+    
+    return {
+      title: award.title,
+      description: `${award.date} | ${award.level}`,
+      link: award.url || undefined,
+      content: (
+        index === 0 ? (
+          <div className="h-full">
+            <CardPinEffect 
+              isActive={hoveredIndex === 0}
+              title="查看详情"
+              href={award.url}
+              color={color}
+            >
+              <div className={`p-6 bg-white dark:bg-zinc-900 rounded-xl border h-full transition-all duration-300 ${hoveredIndex === 0 ? borderColor : 'border-gray-200 dark:border-gray-800'}`}>
+                <div className="flex items-start gap-4">
+                  <Award className="h-8 w-8 text-primary flex-shrink-0 mt-1" />
+                  <div>
+                    <div className="flex items-center gap-1 mb-2">
+                      <h3 className="font-semibold text-primary transition-colors">{award.title}</h3>
+                      {award.hasLink && (
+                        <ExternalLink className="h-4 w-4 text-primary transition-colors" />
+                      )}
+                    </div>
+                    <div className="flex items-center text-sm text-gray-500 dark:text-gray-400 mb-2">
+                      <Calendar className="h-4 w-4 mr-1" />
+                      <span>{award.date}</span>
+                    </div>
+                    <Badge variant="outline">{award.level}</Badge>
+                  </div>
+                </div>
+              </div>
+            </CardPinEffect>
+          </div>
+        ) : (
+          <Card className={`h-full shadow-md transition-all duration-300 ${shadowColor}`}>
+            <CardContent className="p-6">
+              <div className="flex items-start gap-4">
+                <Award className="h-8 w-8 text-primary flex-shrink-0 mt-1" />
+                <div>
+                  <div className="flex items-center gap-1 mb-2">
+                    <h3 className="font-semibold text-primary transition-colors">{award.title}</h3>
+                  </div>
+                  <div className="flex items-center text-sm text-gray-500 dark:text-gray-400 mb-2">
+                    <Calendar className="h-4 w-4 mr-1" />
+                    <span>{award.date}</span>
+                  </div>
+                  <Badge variant="outline">{award.level}</Badge>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        )
+      )
+    };
+  });
+
   return (
-    <section id="awards" className="pt-10 pb-20 px-4 bg-gray-50 dark:bg-gray-800">
-      <div className="container mx-auto">
+    <section id="awards" className="pt-10 pb-20 px-4 bg-gray-50 dark:bg-gray-800 relative overflow-hidden">
+      {/* 添加装饰性背景元素 */}
+      <div className="absolute top-20 left-0 w-64 h-64 rounded-full bg-emerald-100/30 dark:bg-emerald-900/10 blur-3xl -z-10"></div>
+      <div className="absolute bottom-20 right-0 w-96 h-96 rounded-full bg-emerald-50/40 dark:bg-emerald-800/10 blur-3xl -z-10"></div>
+      
+      <div className="container mx-auto relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -78,7 +201,7 @@ export default function Awards() {
           className="text-center mb-12"
         >
           <h2 className="text-3xl font-bold mb-4">荣誉奖励</h2>
-          <div className="w-20 h-1 bg-primary mx-auto mb-6"></div>
+          <div className="w-20 h-1 bg-emerald-500 mx-auto mb-6"></div>
           <p className="max-w-2xl mx-auto text-gray-600 dark:text-gray-300 mb-10">我在学术和专业领域获得的一些荣誉和奖项</p>
         </motion.div>
         
@@ -93,7 +216,7 @@ export default function Awards() {
           <AwardsCarousel awards={awards} />
         </motion.div>
 
-        {/* 保留原来的卡片网格展示 */}
+        {/* 使用新的悬停效果卡片网格展示 */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -103,49 +226,19 @@ export default function Awards() {
         >
           <h3 className="text-xl font-semibold inline-block border-b-2 border-primary pb-1">所有奖项列表</h3>
         </motion.div>
-        <div className="grid md:grid-cols-3 gap-6">
-          {awards.map((award, index) => (
-            <motion.div
-              key={index}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
-              viewport={{ once: true }}
-            >
-              <Card className="h-full hover:shadow-md transition-shadow">
-                <CardContent className="p-6">
-                  <div className="flex items-start gap-4">
-                    <Award className="h-8 w-8 text-primary flex-shrink-0 mt-1" />
-                    <div>
-                      <div className="flex items-center gap-1 mb-2">
-                        {award.url ? (
-                          <a
-                            href={award.url}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="font-semibold hover:text-primary transition-colors"
-                          >
-                            {award.title}
-                          </a>
-                        ) : (
-                          <h3 className="font-semibold">{award.title}</h3>
-                        )}
-                        {award.hasLink && (
-                          <ExternalLink className="h-4 w-4 text-muted-foreground" />
-                        )}
-                      </div>
-                      <div className="flex items-center text-sm text-gray-500 dark:text-gray-400 mb-2">
-                        <Calendar className="h-4 w-4 mr-1" />
-                        <span>{award.date}</span>
-                      </div>
-                      <Badge variant="outline">{award.level}</Badge>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-            </motion.div>
-          ))}
-        </div>
+        
+        <motion.div
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          transition={{ duration: 0.5 }}
+          viewport={{ once: true }}
+        >
+          <HoverCardEffect 
+            items={hoverCardItems} 
+            hoveredIndex={hoveredIndex}
+            setHoveredIndex={setHoveredIndex}
+          />
+        </motion.div>
       </div>
     </section>
   )

@@ -69,7 +69,7 @@ export default function About() {
                     </div>
                     <p className="text-gray-600 dark:text-gray-300 text-sm">硕士 控制工程</p>
                     <p className="text-gray-600 dark:text-gray-300 text-sm">平均绩点：3.9</p>
-                    <p className="text-gray-600 dark:text-gray-300 text-sm"><strong>一作</strong>发表SCI二区文章一篇：<a href="https://www.sciencedirect.com/science/article/pii/S0263224125005731" className="text-primary hover:text-primary/80">文章链接</a></p>
+                    <p className="text-gray-600 dark:text-gray-300 text-sm"><strong>一作</strong>发表SCI二区文章一篇：<a href="https://www.sciencedirect.com/science/article/pii/S0263224125005731" className="text-primary hover:text-primary/80" target="_blank" rel="noopener noreferrer">文章链接</a></p>
                   </div>
                   <div className="border-l-2 border-primary pl-4 py-1">
                     <div className="flex justify-between items-center">
