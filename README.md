@@ -121,3 +121,7 @@ pnpm start
 - `components/3d/SkillOrbit.tsx` - 修改技能展示的轨道环绕效果
 - `components/3d/FlipCard.tsx` - 修改项目卡片的3D翻转效果
 - `components/3d/MouseFollower.tsx` - 修改鼠标跟随效果 
+
+## 访问网站
+
+制作了一个个人求职网站页面 https://zhanzhan-21.github.io/
