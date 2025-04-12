@@ -1,6 +1,4 @@
-# 展春燕个人博客
-
-这是一个使用 Next.js 和 Tailwind CSS 构建的现代个人博客网站，用于展示展春燕的个人信息、技能和项目经历。
+这是一个使用 Next.js 和 Tailwind CSS 构建的现代个人博客网站，用于展示我的个人信息、技能和项目经历。
 
 ## 项目概述
 
@@ -142,4 +140,4 @@ pnpm start
 
 ## 访问网站
 
-制作了一个个人求职网站页面 https://zhanzhan-21.github.io/
+https://zhanzhan-21.github.io/
