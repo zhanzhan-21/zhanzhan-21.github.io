@@ -1,0 +1,2 @@
+[33m4d032b3[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m)[m 修复HoverCardEffect组件的水合(hydration)错误
+[33mbd5747c[m 添加奖项卡片的多彩色背景效果：使每个奖项悬停时显示不同的颜色
