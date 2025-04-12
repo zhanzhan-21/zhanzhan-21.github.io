@@ -2,6 +2,7 @@ import type React from "react"
 import "./globals.css"
 import { ThemeProvider } from "@/components/theme-provider"
 import MouseFollower from "@/components/3d/MouseFollower"
+import SmoothScrollFix from "@/components/smooth-scroll-fix"
 
 
 export const metadata = {
@@ -19,6 +20,7 @@ export default function RootLayout({
     <html lang="zh" suppressHydrationWarning>
       <body>
         <ThemeProvider attribute="class" defaultTheme="light" enableSystem disableTransitionOnChange>
+          <SmoothScrollFix />
           <MouseFollower />
           {children}
         </ThemeProvider>

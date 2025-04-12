@@ -52,6 +52,7 @@
   html {
     scroll-padding-top: 80px; /* 保持与JavaScript中的offset一致 */
     scroll-behavior: smooth; /* 添加平滑滚动效果 */
+    overflow-x: hidden;
   }
   
   /* 为各部分ID设置滚动边距 */
@@ -85,6 +86,8 @@
   }
   body {
     @apply bg-background text-foreground;
+    position: relative;
+    min-height: 100%;
   }
 }
 

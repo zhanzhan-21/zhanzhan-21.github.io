@@ -108,6 +108,11 @@ export default function Navbar() {
       const targetElement = document.getElementById(hash);
       
       if (targetElement) {
+        // 防止浏览器的默认滚动行为
+        if (history.scrollRestoration) {
+          history.scrollRestoration = 'manual';
+        }
+        
         // 获取当前滚动位置
         const currentScrollPosition = window.scrollY;
         
@@ -118,12 +123,10 @@ export default function Navbar() {
         const offset = 80;
         
         // 使用平滑滚动到目标位置
-        setTimeout(() => {
-          window.scrollTo({
-            top: targetPosition - offset,
-            behavior: 'smooth'
-          });
-        }, 100); // 短暂延迟以确保DOM完全加载
+        window.scrollTo({
+          top: targetPosition - offset,
+          behavior: 'smooth'
+        });
       }
     }
   };
@@ -139,10 +142,29 @@ export default function Navbar() {
     // 添加哈希变更事件监听
     window.addEventListener('hashchange', handleHashChange);
     
-    // 页面加载时检查当前URL是否包含哈希
+    // 页面加载时处理URL中的锚点
     if (window.location.hash) {
-      // 在页面加载后短暂延迟执行，确保所有元素都已渲染
-      setTimeout(handleHashChange, 300);
+      // 防止浏览器的默认滚动行为
+      if (history.scrollRestoration) {
+        history.scrollRestoration = 'manual';
+      }
+      
+      // 先滚动到顶部，防止初始的跳跃行为
+      window.scrollTo(0, 0);
+      
+      // 阻止默认的滚动行为
+      document.body.style.overflow = 'hidden';
+      
+      // 使用RAF确保在浏览器渲染之前执行
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          // 在下一帧恢复滚动
+          document.body.style.overflow = '';
+          
+          // 在DOM完全加载后执行我们的自定义滚动
+          setTimeout(handleHashChange, 100);
+        });
+      });
     }
     
     // 初始检查
