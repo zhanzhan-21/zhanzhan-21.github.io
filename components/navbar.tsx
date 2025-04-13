@@ -4,18 +4,24 @@ import { useState, useEffect, useRef } from "react"
 import { Moon, Sun } from "lucide-react"
 import { useTheme } from "next-themes"
 import { Button } from "@/components/ui/button"
+import { AboutIcon, SkillsIcon, ProjectsIcon, AwardsIcon, HomeIcon } from "@/components/ui/NavIcons"
 
 // 自定义导航链接组件
 const NavLink = ({ 
   href, 
   children,
-  isActive
+  icon,
+  isActive,
+  isMobile = false
 }: { 
   href: string; 
   children: React.ReactNode;
+  icon: React.ReactNode;
   isActive: boolean;
+  isMobile?: boolean;
 }) => {
   const linkRef = useRef<HTMLAnchorElement>(null);
+  const [hovered, setHovered] = useState(false);
   
   const handleClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault()
@@ -47,18 +53,62 @@ const NavLink = ({
     }
   }
   
+  // 移动端菜单样式
+  if (isMobile) {
+    return (
+      <a 
+        ref={linkRef}
+        href={href} 
+        onClick={handleClick}
+        className={`flex items-center gap-3 py-3 px-5 rounded-lg transition-all duration-300 ${
+          isActive 
+            ? "bg-blue-50 dark:bg-blue-900/20 text-primary font-semibold" 
+            : "text-gray-700 hover:bg-gray-50 dark:text-gray-200 dark:hover:bg-gray-800/50"
+        }`}
+      >
+        {/* 图标容器 */}
+        <div className={`w-6 h-6 ${
+          isActive ? 'text-primary' : 'text-gray-500 dark:text-gray-400'
+        }`}>
+          {icon}
+        </div>
+        
+        {/* 文字 */}
+        <span className="text-lg">{children}</span>
+      </a>
+    )
+  }
+  
+  // 桌面端菜单样式
   return (
     <a 
       ref={linkRef}
       href={href} 
       onClick={handleClick}
-      className={`text-lg font-medium transition-colors ${
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+      className={`relative flex items-center gap-2 transition-all duration-300 ${
+        hovered ? 'scale-110' : 'scale-100'
+      } ${
         isActive 
           ? "text-primary font-semibold" 
           : "text-gray-700 hover:text-primary dark:text-gray-200 dark:hover:text-primary"
       }`}
     >
-      {children}
+      {/* 图标容器 */}
+      <div className={`w-6 h-6 transition-all duration-300 ${
+        hovered ? 'text-blue-500 dark:text-blue-400' : isActive ? 'text-primary' : 'text-gray-500 dark:text-gray-400'
+      }`}>
+        {icon}
+      </div>
+      
+      {/* 文字 */}
+      <span className="text-lg font-medium">{children}</span>
+      
+      {/* 悬浮效果 - 下划线 */}
+      <div className={`absolute -bottom-1 left-0 h-0.5 bg-blue-500 dark:bg-blue-400 transition-all duration-300 ${
+        hovered ? 'w-full opacity-100' : 'w-0 opacity-0'
+      }`}></div>
     </a>
   )
 }
@@ -67,6 +117,8 @@ export default function Navbar() {
   const [mounted, setMounted] = useState(false)
   const { theme, setTheme } = useTheme()
   const [isScrolled, setIsScrolled] = useState(false)
+  // 添加移动菜单状态
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   // 添加Logo引用
   const logoRef = useRef<HTMLDivElement>(null);
   
@@ -120,7 +172,7 @@ export default function Navbar() {
         const targetPosition = targetElement.getBoundingClientRect().top + currentScrollPosition;
         
         // 使用统一的偏移量
-        const offset = 80;
+        const offset = 90; // 调整偏移量以匹配导航栏的高度
         
         // 使用平滑滚动到目标位置
         window.scrollTo({
@@ -194,45 +246,102 @@ export default function Navbar() {
     setTheme(newTheme);
   };
 
+  // 关闭移动菜单并执行导航
+  const handleMobileNavClick = () => {
+    setMobileMenuOpen(false);
+  };
+
   if (!mounted) return null
 
   return (
     <nav
       className={`fixed top-0 w-full z-50 transition-all duration-300 ${
-        isScrolled ? "bg-white/80 dark:bg-gray-900/80 backdrop-blur-md shadow-sm" : "bg-transparent"
+        isScrolled ? "bg-white/90 dark:bg-gray-900/90 backdrop-blur-md shadow-sm" : "bg-transparent"
       }`}
     >
       <div className="container mx-auto px-4 py-5 flex justify-between items-center">
         <div 
           ref={logoRef}
           onClick={handleLogoClick}
-          className="text-xl font-bold text-primary cursor-pointer hover:scale-110 transition-transform"
+          className="text-xl font-bold text-primary cursor-pointer hover:scale-110 transition-transform flex items-center gap-2"
         >
-          展春燕
+          <div className="w-7 h-7 text-primary">
+            <HomeIcon />
+          </div>
+          <span>展春燕</span>
         </div>
-        <div className="flex items-center space-x-4">
-          <div className="hidden md:flex space-x-8">
-            <NavLink href="#about" isActive={activeSection === 'about'}>
+        
+        <div className="flex items-center space-x-6">
+          {/* 桌面导航链接 - 添加图标和浮动效果 */}
+          <div className="hidden md:flex space-x-7">
+            <NavLink href="#about" isActive={activeSection === 'about'} icon={<AboutIcon />}>
               关于我
             </NavLink>
-            <NavLink href="#skills" isActive={activeSection === 'skills'}>
+            <NavLink href="#skills" isActive={activeSection === 'skills'} icon={<SkillsIcon />}>
               专业技能
             </NavLink>
-            <NavLink href="#projects" isActive={activeSection === 'projects'}>
+            <NavLink href="#projects" isActive={activeSection === 'projects'} icon={<ProjectsIcon />}>
               项目经历
             </NavLink>
-            <NavLink href="#awards" isActive={activeSection === 'awards'}>
+            <NavLink href="#awards" isActive={activeSection === 'awards'} icon={<AwardsIcon />}>
               荣誉奖励
             </NavLink>
           </div>
+          
+          {/* 移动端菜单按钮 */}
+          <button 
+            className="md:hidden w-10 h-10 flex items-center justify-center rounded-full bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-200 transition-transform hover:scale-110 active:scale-95"
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            aria-label="Toggle mobile menu"
+          >
+            <span className="sr-only">Menu</span>
+            {/* 汉堡菜单图标 */}
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className={`h-5 w-5 transition-all duration-300 ${mobileMenuOpen ? 'rotate-90 scale-110' : ''}`}
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              {mobileMenuOpen ? (
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              ) : (
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+              )}
+            </svg>
+          </button>
+          
           <Button
             variant="ghost"
             size="icon"
             onClick={handleThemeToggle}
             aria-label="Toggle theme"
+            className="transition-transform hover:scale-110 active:scale-95"
           >
             {theme === "dark" ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
           </Button>
+        </div>
+      </div>
+      
+      {/* 移动端下拉菜单 */}
+      <div 
+        className={`md:hidden bg-white/95 dark:bg-gray-900/95 backdrop-blur-md shadow-lg border-t border-gray-200 dark:border-gray-800 transition-all duration-300 overflow-hidden ${
+          mobileMenuOpen ? 'max-h-64 opacity-100 py-3' : 'max-h-0 opacity-0 py-0'
+        }`}
+      >
+        <div className="container mx-auto px-4 flex flex-col space-y-1">
+          <NavLink href="#about" isActive={activeSection === 'about'} icon={<AboutIcon />} isMobile={true}>
+            关于我
+          </NavLink>
+          <NavLink href="#skills" isActive={activeSection === 'skills'} icon={<SkillsIcon />} isMobile={true}>
+            专业技能
+          </NavLink>
+          <NavLink href="#projects" isActive={activeSection === 'projects'} icon={<ProjectsIcon />} isMobile={true}>
+            项目经历
+          </NavLink>
+          <NavLink href="#awards" isActive={activeSection === 'awards'} icon={<AwardsIcon />} isMobile={true}>
+            荣誉奖励
+          </NavLink>
         </div>
       </div>
     </nav>
