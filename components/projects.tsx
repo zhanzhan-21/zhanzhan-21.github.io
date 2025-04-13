@@ -55,7 +55,7 @@ export default function Projects() {
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
           viewport={{ once: true }}
-          className="text-center mb-16"
+          className="text-center mb-8 md:mb-12"
         >
           <h2 className="text-3xl font-bold mb-4">项目经历</h2>
           <div className="w-20 h-1 bg-gradient-to-r from-blue-500 to-indigo-600 mx-auto mb-6"></div>
@@ -64,11 +64,11 @@ export default function Projects() {
           </p>
         </motion.div>
 
-        {/* 项目卡片区域 - 使用flex和固定宽度确保居中 */}
-        <div className="flex justify-center items-center">
-          <div className="max-w-3xl mx-auto w-full">
-            {/* 项目卡片网格 - 使用固定2列布局 */}
-            <div className="grid grid-cols-2 gap-x-10 gap-y-24 place-items-center">
+        {/* 项目卡片区域 - 使用flex和自适应布局 */}
+        <div className="flex justify-center items-center px-1 sm:px-2">
+          <div className="w-full max-w-4xl">
+            {/* 项目卡片网格 - 使用响应式布局，在移动端为单列，桌面端为双列 */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-x-2 md:gap-x-1 gap-y-4 md:gap-y-6 place-items-center">
               {projects.map((project, index) => (
                 <motion.div
                   key={index}
@@ -76,7 +76,7 @@ export default function Projects() {
                   whileInView={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.5, delay: index * 0.1 }}
                   viewport={{ once: true, margin: "-100px" }}
-                  className="flex justify-center mb-4"
+                  className="flex justify-center w-full px-1 mb-2"
                 >
                   <ExpandableProjectCard project={project} index={index} />
                 </motion.div>
