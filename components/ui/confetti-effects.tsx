@@ -15,6 +15,7 @@ interface ConfettiPiece {
   opacity: number
   gravity: number
   distance: number // 控制纸屑的最大飞行距离
+  delay: number // 星星延迟爆发时间
 }
 
 interface ConfettiEffectProps {
@@ -31,7 +32,7 @@ interface ConfettiEffectProps {
 export function ConfettiEffect({
   active,
   duration = 2700,
-  pieces = 27, // 设置默认数量为20
+  pieces = 666, // 设置默认数量为20
   colors = [
     "#f44336", "#e91e63", "#9c27b0", "#673ab7", 
     "#3f51b5", "#2196f3", "#03a9f4", "#00bcd4", 
@@ -57,31 +58,48 @@ export function ConfettiEffect({
     const startX = originX ?? dimensions.width / 2
     const startY = originY ?? dimensions.height / 2
     
+    // 星星颜色 - 包含亮色系
+    const starColors = [
+      ...colors,
+      "#ffffff", // 纯白色
+      "#f0f0f0", // 亮银色
+      "#ccccff", // 银蓝色
+      "#ffffcc"  // 银黄色
+    ]
+    
     for (let i = 0; i < pieces; i++) {
-      const size = Math.random() * 8 + 3 // 3-11px，减小颗粒的尺寸
+      // 随机尺寸，调整为更适中的大小
+      const size = Math.random() * 8 + 4 // 4-12px，基础尺寸更适中
       
-      // 改变角度计算方式，使所有纸屑方向都向上，但有左右偏移
-      // 角度范围在 -60 到 +60 度之间（垂直向上为0度）
-      const angle = (Math.random() * 120 - 60) * (Math.PI / 180)
-      const speed = Math.random() * 7 + 3 // 速度
+      // 改变角度计算方式，减小角度范围使星星不会飞得太高或太远
+      // 角度范围在 -50 到 +50 度之间（垂直向上为0度）
+      const angle = (Math.random() * 100 - 50) * (Math.PI / 180)
+      const speed = Math.random() * 6 + 3 // 降低速度
       
-      // 计算初始速度分量，所有纸屑都会向上发射，但有左右偏移
-      const speedX = Math.sin(angle) * speed // 使用sin让纸屑有左右偏移
-      const speedY = -Math.abs(Math.cos(angle) * speed) * 1.2 // 使用负号和绝对值确保所有纸屑初始都向上运动
+      // 计算初始速度分量
+      const speedX = Math.sin(angle) * speed // 使用sin让星星有左右偏移
+      const speedY = -Math.abs(Math.cos(angle) * speed) * 1.1 // 略微降低垂直速度
+      
+      // 随机选择颜色
+      const particleColor = starColors[Math.floor(Math.random() * starColors.length)]
+      
+      // 生成不同大小的星星，但整体尺寸更小
+      const sizeMultiplier = Math.random() < 0.3 ? 2.0 : (Math.random() < 0.6 ? 1.5 : 1.0)
       
       newConfetti.push({
         id: i,
         x: startX,
         y: startY,
-        size,
-        color: colors[Math.floor(Math.random() * colors.length)],
+        size: size * sizeMultiplier, // 更适中的星星大小
+        color: particleColor,
         speedX,
         speedY,
         angle: Math.random() * 360,
         tilt: Math.random() * 20 - 10,
-        opacity: 1,
-        gravity: 0.15 + Math.random() * 0.1, // 减小重力加速度
-        distance: Math.random() * radius // 随机最大飞行距离，不超过指定半径
+        opacity: 0.9 + Math.random() * 0.1, // 高初始透明度
+        gravity: 0.12 + Math.random() * 0.1, // 增加重力效果使星星更快落下
+        distance: Math.random() * radius * 1.5, // 减小飞行距离
+        delay: Math.random() * 500 // 0-500ms的延迟，让星星不会同时爆发
       })
     }
     
@@ -185,22 +203,36 @@ export function ConfettiEffect({
       }}
     >
       {confetti.map(piece => (
+        // 星星粒子 - 烟花效果
         <div
           key={piece.id}
           style={{
             position: 'absolute',
             left: `${piece.x}px`,
             top: `${piece.y}px`,
-            width: `${piece.size}px`,
-            height: `${piece.size}px`,
-            backgroundColor: piece.color,
-            borderRadius: '2px',
+            width: `${piece.size}px`, 
+            height: `${piece.size}px`, 
+            background: `radial-gradient(circle at center, ${piece.color} 0%, rgba(255, 255, 255, 0.8) 40%, transparent 70%)`, // 添加径向渐变
+            clipPath: 'polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%)', 
             transform: `rotate(${piece.angle}deg) skew(${piece.tilt}deg)`,
             opacity: piece.opacity,
-            pointerEvents: 'none'
+            pointerEvents: 'none',
+            animation: `starTwinkle ${Math.random() * 1.5 + 0.8}s infinite alternate ease-in-out ${piece.delay}ms`, // 更快的动画
+            boxShadow: `0 0 ${piece.size/2}px ${piece.color}, 0 0 ${piece.size*0.8}px ${piece.color}`, // 稍微减小光晕
+            filter: `blur(${piece.size/25}px) brightness(1.2)` // 轻微模糊，略微降低亮度
           }}
         />
       ))}
+      
+      {/* 添加星星动画 */}
+      <style jsx>{`
+        @keyframes starTwinkle {
+          0% { opacity: 0.4; transform: scale(0.7) rotate(0deg) skew(${Math.random() * 10 - 5}deg); filter: blur(2px) brightness(0.8); }
+          40% { opacity: 1; transform: scale(1.2) rotate(${Math.random() * 20}deg) skew(${Math.random() * 10 - 5}deg); filter: blur(0px) brightness(1.5); }
+          60% { opacity: 0.8; transform: scale(0.9) rotate(${Math.random() * 20 + 20}deg) skew(${Math.random() * 10 - 5}deg); filter: blur(1px) brightness(1.2); }
+          100% { opacity: 1; transform: scale(1.1) rotate(${Math.random() * 20 + 40}deg) skew(${Math.random() * 10 - 5}deg); filter: blur(0px) brightness(1.3); }
+        }
+      `}</style>
     </div>
   )
 }
@@ -210,7 +242,7 @@ export function useConfettiEffect() {
   const [isActive, setIsActive] = useState(false)
   const [config, setConfig] = useState({
     duration: 1500,    // 缩短默认持续时间
-    pieces: 20,        // 设置默认粒子数量
+    pieces: 270,        // 设置默认粒子数量
     colors: [
       "#f44336", "#e91e63", "#9c27b0", "#673ab7", 
       "#3f51b5", "#2196f3", "#03a9f4", "#00bcd4", 

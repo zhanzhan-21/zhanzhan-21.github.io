@@ -163,7 +163,7 @@
 }
 
 .shiny-button.auto-shine::before {
-  animation: auto-shine 5s infinite;
+  animation: auto-shine 8s infinite;
 }
 
 @keyframes shine {

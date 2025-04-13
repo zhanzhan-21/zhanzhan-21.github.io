@@ -54,18 +54,11 @@ export default function Hero() {
     if (isClient) {
       const photoInterval = setInterval(() => {
         setActivePhotoIndex(prev => (prev + 1) % photos.length)
-      }, 3000)
-      
-      // 添加自动闪光效果，每6秒触发一次
-      const shiningInterval = setInterval(() => {
-        setIsShining(true);
-        setTimeout(() => setIsShining(false), 1500);
-      }, 3000);
+      }, 5000)
       
       return () => {
         clearInterval(typingInterval)
         clearInterval(photoInterval)
-        clearInterval(shiningInterval)
       }
     }
 
@@ -97,22 +90,25 @@ export default function Hero() {
     setRotateX(0)
   }
   
-  // 处理"展春燕"点击事件
-  const handleNameClick = (e: React.MouseEvent<HTMLSpanElement>) => {
+  // 处理"展春燕"鼠标悬停事件
+  const handleNameHover = (e: React.MouseEvent<HTMLSpanElement>) => {
     // 触发闪亮效果
     setIsShining(true);
     
-    // 1.5秒后重置闪亮状态（与动画持续时间相同）
-    setTimeout(() => setIsShining(false), 1500);
-    
-    // 触发纸屑效果，从点击位置爆发
+    // 触发纸屑效果，从鼠标悬停位置爆发
     triggerConfetti({
-      pieces: 21,          // 设置纸屑数量为21个
-      duration: 7700,      // 缩短持续时间为7.7秒
+      pieces: 77,          // 增加星星数量，提供更丰富的视觉效果
+      duration: 2100,      // 缩短持续时间为7.7秒
       originX: e.clientX,
       originY: e.clientY,
-      radius: 100           // 进一步缩小爆发半径，让效果更集中
+      radius: 130           // 增加爆发半径，让效果更广泛
     });
+  };
+  
+  // 处理"展春燕"鼠标离开事件
+  const handleNameLeave = () => {
+    // 重置闪亮状态
+    setIsShining(false);
   };
 
   return (
@@ -149,9 +145,8 @@ export default function Hero() {
             <span 
               ref={nameRef}
               className={`text-primary cursor-pointer hover:scale-110 transition-transform inline-block shiny-button ${isShining ? 'animate' : ''} ml-2`}
-              onClick={handleNameClick}
-              onMouseEnter={() => setIsShining(true)}
-              onMouseLeave={() => setIsShining(false)}
+              onMouseEnter={handleNameHover}
+              onMouseLeave={handleNameLeave}
             >展春燕</span>
           </h1>
           
