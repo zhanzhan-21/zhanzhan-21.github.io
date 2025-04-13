@@ -191,7 +191,7 @@ export const CardPinEffect = ({
   href?: string
   isActive: boolean
   className?: string
-  color?: "emerald" | "blue" | "yellow" | "red" | "purple" | "teal" | "orange" | "violet"
+  color?: "emerald" | "blue" | "yellow" | "red" | "purple" | "teal" | "orange" | "pink"
 }) => {
   // 根据color参数确定实际使用的颜色
   const colorMap = {
@@ -258,14 +258,14 @@ export const CardPinEffect = ({
       shadow: "rgba(251, 146, 60, 0.15)",
       radialGradient: "radial-gradient(ellipse, rgba(251, 146, 60, 0.15) 0%, transparent 70%)",
     },
-    violet: {
-      border: "border-violet-300 dark:border-violet-700",
-      text: "text-violet-600 dark:text-violet-400",
-      lineGradient: "bg-gradient-to-b from-violet-400 to-transparent",
-      dot: "bg-violet-400",
-      cardBorder: "rgba(139, 92, 246, 0.3)",
-      shadow: "rgba(139, 92, 246, 0.15)",
-      radialGradient: "radial-gradient(ellipse, rgba(139, 92, 246, 0.15) 0%, transparent 70%)",
+    pink: {
+      border: "border-pink-300 dark:border-pink-700",
+      text: "text-pink-600 dark:text-pink-400",
+      lineGradient: "bg-gradient-to-b from-pink-400 to-transparent",
+      dot: "bg-pink-400",
+      cardBorder: "rgba(244, 114, 182, 0.3)",
+      shadow: "rgba(244, 114, 182, 0.15)",
+      radialGradient: "radial-gradient(ellipse, rgba(244, 114, 182, 0.15) 0%, transparent 70%)",
     },
   };
 
@@ -300,7 +300,7 @@ export const CardPinEffect = ({
         <div 
           className="w-full h-full transition-all duration-300 rounded-xl overflow-hidden"
           style={{
-            transform: isActive ? "perspective(800px) rotateX(30deg)" : "none",
+            transform: isActive ? "perspective(800px) rotateX(50deg)" : "none",
             transformOrigin: "bottom center",
             boxShadow: isActive ? `0 25px 40px -15px ${currentColor.shadow}` : "none",
             border: isActive ? `1px solid ${currentColor.cardBorder}` : "none"

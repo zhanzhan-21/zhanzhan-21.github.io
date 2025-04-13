@@ -14,7 +14,7 @@ export default function Awards() {
   
   // 定义可用于奖项的颜色列表
   const colors = [
-    "emerald", "blue", "yellow", "red", "purple", "teal", "orange", "violet"
+    "emerald", "blue", "yellow", "red", "purple", "teal", "orange", "pink"
   ] as const;
   
   type AwardColor = typeof colors[number];
@@ -28,12 +28,25 @@ export default function Awards() {
     purple: 'border-purple-400/30 dark:border-purple-600/30',
     teal: 'border-teal-400/30 dark:border-teal-600/30',
     orange: 'border-orange-400/30 dark:border-orange-600/30',
-    violet: 'border-violet-400/30 dark:border-violet-600/30',
+    pink: 'border-pink-400/30 dark:border-pink-600/30',
+  };
+  
+  // 为不同级别的奖项定义不同的徽章样式
+  const getLevelBadgeStyle = (level: string) => {
+    switch(level) {
+      case '国家级':
+        return 'bg-red-50 text-red-600 border-red-200 dark:bg-red-900/20 dark:text-red-400 dark:border-red-800/30';
+      case '省级':
+        return 'bg-blue-50 text-blue-600 border-blue-200 dark:bg-blue-900/20 dark:text-blue-400 dark:border-blue-800/30';
+      case '校级':
+      default:
+        return 'bg-green-50 text-green-600 border-green-200 dark:bg-green-900/20 dark:text-green-400 dark:border-green-800/30';
+    }
   };
   
   const awards = [
     {
-      title: "第十五届山东大学学生五四青年科学奖（集体）",
+      title: "第十五届山东大学学生五四青年科学奖",
       url: "https://control.sdu.edu.cn/info/1033/6944.htm",
       date: "2024",
       level: "校级",
@@ -105,7 +118,7 @@ export default function Awards() {
           <Calendar className="h-4 w-4 mr-1" />
           <span>{award.date}</span>
         </div>
-        <Badge variant="outline">{award.level}</Badge>
+        <Badge variant="outline" className={getLevelBadgeStyle(award.level)}>{award.level}</Badge>
       </div>
     </div>
   );
@@ -125,7 +138,7 @@ export default function Awards() {
       purple: 'hover:shadow-purple-100 dark:hover:shadow-purple-900/20',
       teal: 'hover:shadow-teal-100 dark:hover:shadow-teal-900/20',
       orange: 'hover:shadow-orange-100 dark:hover:shadow-orange-900/20',
-      violet: 'hover:shadow-violet-100 dark:hover:shadow-violet-900/20',
+      pink: 'hover:shadow-pink-100 dark:hover:shadow-pink-900/20',
     };
     
     const shadowColor = shadowColorMap[color];
@@ -146,18 +159,20 @@ export default function Awards() {
               <div className={`p-6 bg-white dark:bg-zinc-900 rounded-xl border h-full transition-all duration-300 ${hoveredIndex === 0 ? borderColor : 'border-gray-200 dark:border-gray-800'}`}>
                 <div className="flex items-start gap-4">
                   <Award className="h-8 w-8 text-primary flex-shrink-0 mt-1" />
-                  <div>
+                  <div className="flex-1">
                     <div className="flex items-center gap-1 mb-2">
                       <h3 className="font-semibold text-primary transition-colors">{award.title}</h3>
                       {award.hasLink && (
-                        <ExternalLink className="h-4 w-4 text-primary transition-colors" />
+                        <ExternalLink className="h-4 w-4 text-primary transition-colors ml-1" />
                       )}
                     </div>
-                    <div className="flex items-center text-sm text-gray-500 dark:text-gray-400 mb-2">
-                      <Calendar className="h-4 w-4 mr-1" />
-                      <span>{award.date}</span>
+                    <div className="flex items-center justify-between text-sm text-gray-500 dark:text-gray-400">
+                      <div className="flex items-center">
+                        <Calendar className="h-4 w-4 mr-1" />
+                        <span>{award.date}</span>
+                      </div>
+                      <Badge className={`ml-2 ${getLevelBadgeStyle(award.level)}`}>{award.level}</Badge>
                     </div>
-                    <Badge variant="outline">{award.level}</Badge>
                   </div>
                 </div>
               </div>
@@ -168,15 +183,17 @@ export default function Awards() {
             <CardContent className="p-6">
               <div className="flex items-start gap-4">
                 <Award className="h-8 w-8 text-primary flex-shrink-0 mt-1" />
-                <div>
+                <div className="flex-1">
                   <div className="flex items-center gap-1 mb-2">
                     <h3 className="font-semibold text-primary transition-colors">{award.title}</h3>
                   </div>
-                  <div className="flex items-center text-sm text-gray-500 dark:text-gray-400 mb-2">
-                    <Calendar className="h-4 w-4 mr-1" />
-                    <span>{award.date}</span>
+                  <div className="flex items-center justify-between text-sm text-gray-500 dark:text-gray-400">
+                    <div className="flex items-center">
+                      <Calendar className="h-4 w-4 mr-1" />
+                      <span>{award.date}</span>
+                    </div>
+                    <Badge className={`ml-2 ${getLevelBadgeStyle(award.level)}`}>{award.level}</Badge>
                   </div>
-                  <Badge variant="outline">{award.level}</Badge>
                 </div>
               </div>
             </CardContent>
