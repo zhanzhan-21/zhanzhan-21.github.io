@@ -27,33 +27,41 @@ const NavLink = ({
   const [hovered, setHovered] = useState(false);
   
   const handleClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
-    e.preventDefault()
+    e.preventDefault();
     
     // 提取目标ID
-    const targetId = href.replace('#', '')
-    const targetElement = document.getElementById(targetId)
+    const targetId = href.replace('#', '');
+    const targetElement = document.getElementById(targetId);
     
     if (targetElement) {
       // 获取当前滚动位置
-      const currentScrollPosition = window.scrollY
+      const currentScrollPosition = window.scrollY;
       
       // 计算目标元素的绝对位置
-      const targetPosition = targetElement.getBoundingClientRect().top + currentScrollPosition
+      const targetPosition = targetElement.getBoundingClientRect().top + currentScrollPosition;
       
       // 使用统一的SCROLL_OFFSET常量
       
       // 先更新URL，然后再滚动 - 避免默认的自动滚动行为
-      window.history.pushState(null, '', href)
+      window.history.pushState(null, '', href);
       
       // 使用requestAnimationFrame确保DOM更新和浏览器默认滚动行为不会干扰我们的自定义滚动
       requestAnimationFrame(() => {
         window.scrollTo({
           top: targetPosition - SCROLL_OFFSET,
           behavior: 'smooth'
-        })
-      })
+        });
+      });
     }
-  }
+    
+    // 如果是移动端，点击后关闭菜单
+    if (isMobile && window.innerWidth < 768) {
+      if (typeof window !== 'undefined') {
+        const event = new CustomEvent('closeMobileMenu');
+        window.dispatchEvent(event);
+      }
+    }
+  };
   
   // 移动端菜单样式
   if (isMobile) {
@@ -198,6 +206,12 @@ export default function Navbar() {
     // 添加哈希变更事件监听
     window.addEventListener('hashchange', handleHashChange);
     
+    // 添加关闭移动菜单的事件监听
+    const closeMobileMenu = () => {
+      setMobileMenuOpen(false);
+    };
+    window.addEventListener('closeMobileMenu', closeMobileMenu);
+    
     // 页面加载时处理URL中的锚点
     if (window.location.hash) {
       // 防止浏览器的默认滚动行为
@@ -223,6 +237,7 @@ export default function Navbar() {
     return () => {
       window.removeEventListener("scroll", handleScroll);
       window.removeEventListener('hashchange', handleHashChange);
+      window.removeEventListener('closeMobileMenu', closeMobileMenu);
     }
   }, [])
 

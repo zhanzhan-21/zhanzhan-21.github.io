@@ -4,6 +4,7 @@ import Image from "next/image"
 import { useEffect, useId, useRef, useState } from "react"
 import { AnimatePresence, motion } from "framer-motion"
 import { useOutsideClick } from "@/hooks/use-outside-click"
+import { X } from "lucide-react"
 
 // 关闭图标组件
 const CloseIcon = () => {
@@ -87,7 +88,7 @@ export function ExpandableEducationCard({ schools }: ExpandableEducationCardProp
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 bg-black/20 h-full w-full z-10"
+            className="fixed inset-0 bg-black/20 h-full w-full z-[90]"
             onWheel={(e) => e.stopPropagation()}
           />
         )}
@@ -95,46 +96,53 @@ export function ExpandableEducationCard({ schools }: ExpandableEducationCardProp
       <AnimatePresence>
         {active ? (
           <div 
-            className="fixed inset-0 grid place-items-center z-[100] mt-12"
+            className="fixed inset-0 grid place-items-center z-[95] pt-10 md:pt-4 md:mt-12 px-2"
             onWheel={(e) => e.stopPropagation()}
           >
-            <motion.button
-              key={`button-close-${active.school}-${id}`}
-              layout
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0, transition: { duration: 0.05 } }}
-              className="flex absolute top-2 right-2 lg:hidden items-center justify-center bg-white rounded-full h-6 w-6"
-              onClick={() => setActive(null)}
-            >
-              <CloseIcon />
-            </motion.button>
             <motion.div
               layoutId={`card-${active.school}-${id}`}
               ref={ref}
-              className="w-full max-w-[500px] max-h-[80vh] h-full md:h-fit md:max-h-[80vh] flex flex-col bg-white dark:bg-neutral-900 sm:rounded-3xl overflow-hidden will-change-transform"
+              className="w-full max-w-[500px] max-h-[85vh] md:max-h-[85vh] flex flex-col bg-white dark:bg-neutral-900 rounded-xl md:rounded-3xl overflow-hidden will-change-transform shadow-xl relative"
               onWheel={(e) => {
                 e.stopPropagation();
               }}
             >
-              <motion.div layoutId={`image-${active.school}-${id}`} className="relative h-64">
+              <div className="absolute top-3 right-3 z-[50]">
+                <button
+                  className="flex items-center justify-center bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-full h-8 w-8 shadow-md"
+                  onClick={() => {
+                    setActive(null);
+                  }}
+                  aria-label="关闭"
+                >
+                  <X className="h-5 w-5 text-gray-700 dark:text-gray-300" />
+                </button>
+              </div>
+              <motion.div layoutId={`image-${active.school}-${id}`} className="relative h-48 md:h-64">
                 <Image
                   priority
                   width={200}
                   height={200}
                   src={active.logo}
                   alt={active.school}
-                  className="w-full h-64 lg:h-64 sm:rounded-tr-lg sm:rounded-tl-lg object-contain p-8 bg-gray-50 dark:bg-gray-800"
+                  className="w-full h-48 md:h-64 object-contain p-6 md:p-8 bg-gray-50 dark:bg-gray-800"
                 />
               </motion.div>
 
               <div 
-                className="flex flex-col overflow-y-auto overscroll-contain" 
+                className="flex flex-col overflow-y-auto overscroll-contain scrollbar-hide" 
                 style={{ 
-                  maxHeight: "calc(80vh - 64px)",
+                  maxHeight: "calc(75vh - 48px)",
                   WebkitOverflowScrolling: "touch",
+                  scrollbarWidth: 'none', // Firefox
+                  msOverflowStyle: 'none', // IE/Edge
                 }}
               >
+                <style jsx global>{`
+                  .scrollbar-hide::-webkit-scrollbar {
+                    display: none;
+                  }
+                `}</style>
                 <div className="flex justify-between items-start p-4">
                   <div>
                     <motion.h3
@@ -188,8 +196,8 @@ export function ExpandableEducationCard({ schools }: ExpandableEducationCardProp
                     {active.content}
                   </motion.div>
                   
-                  <div className="sticky bottom-0 left-0 right-0 h-8 bg-gradient-to-t from-white dark:from-neutral-900 to-transparent pointer-events-none transform translate-z-0"></div>
-                  <div className="absolute right-4 bottom-2 text-xs text-primary animate-bounce">
+                  <div className="sticky bottom-0 left-0 right-0 h-12 bg-gradient-to-t from-white dark:from-neutral-900 to-transparent pointer-events-none transform translate-z-0"></div>
+                  <div className="absolute right-4 bottom-4 text-xs text-primary animate-bounce">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-4 w-4">
                       <path d="M12 5v14" />
                       <path d="m19 12-7 7-7-7" />

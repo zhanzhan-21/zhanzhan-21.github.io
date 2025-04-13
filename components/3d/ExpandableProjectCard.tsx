@@ -285,17 +285,17 @@ export default function ExpandableProjectCard({ project, index = 0 }: Expandable
     
     return createPortal(
       <div className="fixed inset-0 flex items-start justify-center" style={{ 
-        zIndex: 999999999,
+        zIndex: 95,
         // 移动端时从顶部留出更多空间，避免遮挡导航栏
         paddingTop: isMobile ? '100px' : '40px' 
       }}>
         {/* 背景遮罩 */}
         <div 
-          className="fixed bg-white/60 backdrop-blur-sm"
+          className="fixed bg-black/20 backdrop-blur-sm"
           onClick={() => setIsExpanded(false)}
           style={{ 
-            zIndex: 999999998,
-            top: isMobile ? '60px' : '80px', // 移动端时从更上方开始，避免遮挡导航栏
+            zIndex: 90,
+            top: 0, // 修改为0，使遮罩从顶部开始，但z-index小于导航栏
             left: 0,
             right: 0,
             bottom: 0
@@ -318,7 +318,7 @@ export default function ExpandableProjectCard({ project, index = 0 }: Expandable
             backfaceVisibility: 'hidden',
             // 移动端时减小最大高度，确保内容不会超出屏幕
             maxHeight: isMobile ? '75vh' : '85vh',
-            zIndex: 999999999,
+            zIndex: 96,
             position: 'relative',
             scrollbarWidth: 'none', // Firefox
             msOverflowStyle: 'none', // IE/Edge
