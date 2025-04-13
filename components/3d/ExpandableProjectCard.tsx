@@ -26,6 +26,7 @@ export default function ExpandableProjectCard({ project, index = 0 }: Expandable
   const [isExpanded, setIsExpanded] = useState(false)
   const [isHovered, setIsHovered] = useState(false)
   const [mounted, setMounted] = useState(false)
+  const [isMobile, setIsMobile] = useState(false)
   
   useEffect(() => {
     setMounted(true)
@@ -43,6 +44,23 @@ export default function ExpandableProjectCard({ project, index = 0 }: Expandable
       };
     }
   }, [isExpanded]);
+  
+  // 检测是否为移动设备
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    
+    // 初始检查
+    checkMobile();
+    
+    // 监听窗口大小变化
+    window.addEventListener('resize', checkMobile);
+    
+    return () => {
+      window.removeEventListener('resize', checkMobile);
+    };
+  }, []);
   
   // 从描述中提取一些假数据用于详情显示
   const duration = "6个月"
@@ -266,14 +284,18 @@ export default function ExpandableProjectCard({ project, index = 0 }: Expandable
     if (!mounted) return null;
     
     return createPortal(
-      <div className="fixed inset-0 flex items-center justify-center" style={{ zIndex: 999999999 }}>
+      <div className="fixed inset-0 flex items-start justify-center" style={{ 
+        zIndex: 999999999,
+        // 移动端时从顶部留出更多空间，避免遮挡导航栏
+        paddingTop: isMobile ? '100px' : '40px' 
+      }}>
         {/* 背景遮罩 */}
         <div 
           className="fixed bg-white/60 backdrop-blur-sm"
           onClick={() => setIsExpanded(false)}
           style={{ 
             zIndex: 999999998,
-            top: '80px', // 从导航栏下方开始
+            top: isMobile ? '60px' : '80px', // 移动端时从更上方开始，避免遮挡导航栏
             left: 0,
             right: 0,
             bottom: 0
@@ -294,12 +316,16 @@ export default function ExpandableProjectCard({ project, index = 0 }: Expandable
             boxShadow: '0 35px 60px -15px rgba(0, 0, 0, 0.8)',
             willChange: 'transform, width, border-radius',
             backfaceVisibility: 'hidden',
-            maxHeight: '85vh',
+            // 移动端时减小最大高度，确保内容不会超出屏幕
+            maxHeight: isMobile ? '75vh' : '85vh',
             zIndex: 999999999,
             position: 'relative',
             scrollbarWidth: 'none', // Firefox
             msOverflowStyle: 'none', // IE/Edge
-            overflowY: 'scroll'
+            overflowY: 'scroll',
+            // 移动端时调整宽度和边距
+            width: isMobile ? '95%' : '92%',
+            margin: isMobile ? '0 auto' : 'auto'
           }}
         >
           {/* 自定义样式，隐藏滚动条 */}
