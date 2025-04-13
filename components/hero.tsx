@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect, useRef } from "react"
+import { useState, useEffect, useRef, useCallback } from "react"
 import { motion } from "framer-motion"
 import { MapPin, Mail, Phone, Globe, Github, Calendar } from "lucide-react"
 import { Button } from "@/components/ui/button"
@@ -30,12 +30,10 @@ export default function Hero() {
   const projectsBtnRef = useRef<HTMLButtonElement>(null);
   const nameRef = useRef<HTMLSpanElement>(null);
   
-  // 闪亮按钮状态
-  const [isShining, setIsShining] = useState(false);
-  
   // 使用自定义纸屑效果
   const { isActive, triggerConfetti, config, onComplete } = useConfettiEffect();
 
+  // 打字效果和照片切换的 useEffect
   useEffect(() => {
     // 标记为客户端渲染
     setIsClient(true)
@@ -51,19 +49,26 @@ export default function Hero() {
     }, 100)
     
     // 自动切换照片
-    if (isClient) {
-      const photoInterval = setInterval(() => {
-        setActivePhotoIndex(prev => (prev + 1) % photos.length)
-      }, 5000)
-      
-      return () => {
-        clearInterval(typingInterval)
-        clearInterval(photoInterval)
-      }
+    const photoInterval = setInterval(() => {
+      setActivePhotoIndex(prev => (prev + 1) % photos.length)
+    }, 5000)
+    
+    // 获取名字元素，重置并重新应用动画以同步开始
+    if (nameRef.current) {
+      const nameElement = nameRef.current;
+      // 移除再添加auto-shine类来重置动画
+      nameElement.classList.remove('auto-shine');
+      // 使用setTimeout确保DOM有时间处理类移除
+      setTimeout(() => {
+        nameElement.classList.add('auto-shine');
+      }, 10);
     }
-
-    return () => clearInterval(typingInterval)
-  }, [isClient])
+    
+    return () => {
+      clearInterval(typingInterval)
+      clearInterval(photoInterval)
+    }
+  }, []) // 移除 isClient 依赖，只在组件挂载时执行一次
   
   // 处理鼠标移动的3D效果
   const handleMouseMove = (e: React.MouseEvent) => {
@@ -90,12 +95,9 @@ export default function Hero() {
     setRotateX(0)
   }
   
-  // 处理"展春燕"鼠标悬停事件
-  const handleNameHover = (e: React.MouseEvent<HTMLSpanElement>) => {
-    // 触发闪亮效果
-    setIsShining(true);
-    
-    // 触发纸屑效果，从鼠标悬停位置爆发
+  // 用 useCallback 包装处理事件函数，确保它们的引用稳定
+  const handleNameHover = useCallback((e: React.MouseEvent<HTMLSpanElement>) => {
+    // 只触发纸屑效果，不再设置闪亮状态（由auto-shine类自动处理）
     triggerConfetti({
       pieces: 77,          // 增加星星数量，提供更丰富的视觉效果
       duration: 2100,      // 缩短持续时间为7.7秒
@@ -103,13 +105,12 @@ export default function Hero() {
       originY: e.clientY,
       radius: 130           // 增加爆发半径，让效果更广泛
     });
-  };
+  }, [triggerConfetti]);
   
-  // 处理"展春燕"鼠标离开事件
-  const handleNameLeave = () => {
-    // 重置闪亮状态
-    setIsShining(false);
-  };
+  // 用 useCallback 包装处理事件函数
+  const handleNameLeave = useCallback(() => {
+    // 自动闪光效果由CSS控制，这里不再需要重置状态
+  }, []);
 
   return (
     <section className="min-h-screen flex items-center justify-center pt-16 px-4 relative">
@@ -144,7 +145,7 @@ export default function Hero() {
             <span>你好，我是</span>
             <span 
               ref={nameRef}
-              className={`text-primary cursor-pointer hover:scale-110 transition-transform inline-block shiny-button ${isShining ? 'animate' : ''} ml-2`}
+              className={`text-primary cursor-pointer hover:scale-110 transition-transform inline-block shiny-button auto-shine ml-2`}
               onMouseEnter={handleNameHover}
               onMouseLeave={handleNameLeave}
             >展春燕</span>

@@ -163,7 +163,7 @@
 }
 
 .shiny-button.auto-shine::before {
-  animation: auto-shine 8s infinite;
+  animation: auto-shine 5s infinite;
 }
 
 @keyframes shine {
@@ -191,7 +191,7 @@
   10% {
     opacity: 1;
   }
-  50% {
+  30% {
     left: 100%;
     opacity: 0;
   }
