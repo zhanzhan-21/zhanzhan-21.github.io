@@ -310,7 +310,7 @@ export default function ExpandableProjectCard({ project, index = 0 }: Expandable
           transition={instantAnimationConfig}  // 使用优雅动画配置
           className={cn(
             "overflow-auto relative w-full scrollbar-hide",
-            `bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 shadow-2xl ${getGlowColor()} max-w-3xl`
+            `bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 shadow-2xl ${getGlowColor()} max-w-3xl rounded-2xl`
           )}
           style={{
             boxShadow: '0 35px 60px -15px rgba(0, 0, 0, 0.8)',
@@ -378,7 +378,7 @@ export default function ExpandableProjectCard({ project, index = 0 }: Expandable
               <div className="grid grid-cols-1 gap-5">
                 {/* 项目描述和关键特性 */}
                 <div className="space-y-5">
-                  <div className="bg-white dark:bg-gray-800 rounded-lg p-4 shadow-md border border-gray-200 dark:border-gray-700 hover:shadow-lg transition-shadow duration-200">
+                  <div className="bg-white dark:bg-gray-800 rounded-xl p-4 shadow-md border border-gray-200 dark:border-gray-700 hover:shadow-lg transition-shadow duration-200">
                     <h4 className="text-sm font-medium text-gray-500 dark:text-gray-400 mb-3 flex items-center">
                       <Code className={cn("h-4 w-4 mr-2", getTextColor())} />
                       项目描述
@@ -386,7 +386,7 @@ export default function ExpandableProjectCard({ project, index = 0 }: Expandable
                     <p className="text-gray-700 dark:text-gray-300">{project.description}</p>
                   </div>
                   
-                  <div className="bg-white dark:bg-gray-800 rounded-lg p-4 shadow-md border border-gray-200 dark:border-gray-700 hover:shadow-lg transition-shadow duration-200">
+                  <div className="bg-white dark:bg-gray-800 rounded-xl p-4 shadow-md border border-gray-200 dark:border-gray-700 hover:shadow-lg transition-shadow duration-200">
                     <h4 className="text-sm font-medium text-gray-500 dark:text-gray-400 mb-3 flex items-center">
                       <Star className={cn("h-4 w-4 mr-2", getTextColor())} />
                       关键特性
@@ -433,7 +433,7 @@ export default function ExpandableProjectCard({ project, index = 0 }: Expandable
                   </div>
                   
                   {/* 项目信息和链接 */}
-                  <div className="bg-white dark:bg-gray-800 rounded-lg p-4 shadow-md border border-gray-200 dark:border-gray-700 hover:shadow-lg transition-shadow duration-200">
+                  <div className="bg-white dark:bg-gray-800 rounded-xl p-4 shadow-md border border-gray-200 dark:border-gray-700 hover:shadow-lg transition-shadow duration-200">
                     <div className="grid grid-cols-2 gap-3 mb-4">
                       <div className="flex items-center text-sm text-gray-600 dark:text-gray-400">
                         <Calendar className={cn("h-4 w-4 mr-2", getTextColor())} />
