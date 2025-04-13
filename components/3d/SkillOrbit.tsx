@@ -186,7 +186,7 @@ export default function SkillOrbit({ skills }: SkillOrbitProps) {
             left: `calc(50% + ${x}px)`,
             top: `calc(50% + ${y}px)`,
             // 提高所有图标的基础z-index，确保它们在轨道上方
-            zIndex: isHovered ? 100 : 60,
+            zIndex: isHovered ? 40 : 30,
             pointerEvents: 'auto', // 确保所有图标都可以接收鼠标事件
             transition: 'transform 0.3s ease-out',
             // 添加模糊过滤器，使悬停效果更明显
@@ -265,7 +265,7 @@ export default function SkillOrbit({ skills }: SkillOrbitProps) {
               width: innerOrbitRadius * 2,
               height: innerOrbitRadius * 2,
               boxShadow: '0 0 15px rgba(99, 102, 241, 0.2)',
-              zIndex: 10
+              zIndex: 5
             }}
           />
           
@@ -275,7 +275,7 @@ export default function SkillOrbit({ skills }: SkillOrbitProps) {
               width: middleOrbitRadius * 2,
               height: middleOrbitRadius * 2,
               boxShadow: '0 0 10px rgba(99, 102, 241, 0.15)',
-              zIndex: 10
+              zIndex: 5
             }}
           />
           
@@ -285,12 +285,12 @@ export default function SkillOrbit({ skills }: SkillOrbitProps) {
               width: outerOrbitRadius * 2,
               height: outerOrbitRadius * 2,
               boxShadow: '0 0 5px rgba(99, 102, 241, 0.1)',
-              zIndex: 10
+              zIndex: 5
             }}
           />
           
           {/* 中心区域 */}
-          <div className="bg-white dark:bg-gray-800 rounded-full z-50 shadow-lg p-4 w-40 h-40 flex flex-col items-center justify-center border-2 border-primary/20">
+          <div className="bg-white dark:bg-gray-800 rounded-full z-30 shadow-lg p-4 w-40 h-40 flex flex-col items-center justify-center border-2 border-primary/20">
             {hoveredSkill ? (
               <>
                 <h3 className="font-bold text-md text-primary text-center">{hoveredSkill.name}</h3>
@@ -318,7 +318,7 @@ export default function SkillOrbit({ skills }: SkillOrbitProps) {
               style={{
                 animationDuration: innerOrbitStyles.animationDuration,
                 transformOrigin: 'center center',
-                zIndex: 20
+                zIndex: 15
               }}
             >
               {createSkillNodes(innerOrbit, innerOrbitRadius, false, 34)}
@@ -330,7 +330,7 @@ export default function SkillOrbit({ skills }: SkillOrbitProps) {
               style={{
                 animationDuration: middleOrbitStyles.animationDuration,
                 transformOrigin: 'center center',
-                zIndex: 30
+                zIndex: 20
               }}
             >
               {createSkillNodes(middleOrbit, middleOrbitRadius, true, 36)}
@@ -342,7 +342,7 @@ export default function SkillOrbit({ skills }: SkillOrbitProps) {
               style={{
                 animationDuration: outerOrbitStyles.animationDuration,
                 transformOrigin: 'center center',
-                zIndex: 40
+                zIndex: 25
               }}
             >
               {createSkillNodes(outerOrbit, outerOrbitRadius, false, 38)}

@@ -10,6 +10,7 @@ import { ConfettiEffect, useConfettiEffect } from "@/components/ui/confetti-effe
 export default function Hero() {
   const [typedText, setTypedText] = useState("")
   const [isClient, setIsClient] = useState(false)
+  const [isMobile, setIsMobile] = useState(false)
   const fullText = "Java工程师 | 后端开发工程师"
   
   // 简单的3D卡片翻转状态
@@ -33,6 +34,26 @@ export default function Hero() {
   // 使用自定义纸屑效果
   const { isActive, triggerConfetti, config, onComplete } = useConfettiEffect();
 
+  // 检测是否为移动设备
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      // 检测设备类型
+      const checkMobile = () => {
+        setIsMobile(window.innerWidth < 768);
+      };
+      
+      // 初始检测
+      checkMobile();
+      
+      // 监听窗口大小变化
+      window.addEventListener('resize', checkMobile);
+      
+      return () => {
+        window.removeEventListener('resize', checkMobile);
+      };
+    }
+  }, []);
+
   // 打字效果和照片切换的 useEffect
   useEffect(() => {
     // 标记为客户端渲染
@@ -53,8 +74,8 @@ export default function Hero() {
       setActivePhotoIndex(prev => (prev + 1) % photos.length)
     }, 5000)
     
-    // 获取名字元素，重置并重新应用动画以同步开始
-    if (nameRef.current) {
+    // 获取名字元素，在非移动设备上重置并重新应用动画以同步开始
+    if (nameRef.current && !isMobile) {
       const nameElement = nameRef.current;
       // 移除再添加auto-shine类来重置动画
       nameElement.classList.remove('auto-shine');
@@ -68,7 +89,7 @@ export default function Hero() {
       clearInterval(typingInterval)
       clearInterval(photoInterval)
     }
-  }, []) // 移除 isClient 依赖，只在组件挂载时执行一次
+  }, [isMobile]) // 添加isMobile作为依赖
   
   // 处理鼠标移动的3D效果
   const handleMouseMove = (e: React.MouseEvent) => {
@@ -95,17 +116,44 @@ export default function Hero() {
     setRotateX(0)
   }
   
+  // 处理名字单击事件（特别针对移动设备）
+  const handleNameClick = useCallback((e: React.MouseEvent<HTMLSpanElement>) => {
+    if (isMobile) {
+      // 移动设备上触发一次闪光和纸屑效果
+      if (nameRef.current) {
+        const nameElement = nameRef.current;
+        nameElement.classList.add('animate'); // 添加手动闪光类
+        
+        // 2秒后移除动画类
+        setTimeout(() => {
+          nameElement.classList.remove('animate');
+        }, 2000);
+      }
+      
+      // 触发纸屑效果
+      triggerConfetti({
+        pieces: 21,
+        duration: 2100,
+        originX: e.clientX,
+        originY: e.clientY,
+        radius: 130
+      });
+    }
+  }, [isMobile, triggerConfetti]);
+  
   // 用 useCallback 包装处理事件函数，确保它们的引用稳定
   const handleNameHover = useCallback((e: React.MouseEvent<HTMLSpanElement>) => {
-    // 只触发纸屑效果，不再设置闪亮状态（由auto-shine类自动处理）
-    triggerConfetti({
-      pieces: 77,          // 增加星星数量，提供更丰富的视觉效果
-      duration: 2100,      // 缩短持续时间为7.7秒
-      originX: e.clientX,
-      originY: e.clientY,
-      radius: 130           // 增加爆发半径，让效果更广泛
-    });
-  }, [triggerConfetti]);
+    // 只在非移动设备上触发纸屑效果
+    if (!isMobile) {
+      triggerConfetti({
+        pieces: 77,
+        duration: 2100,
+        originX: e.clientX,
+        originY: e.clientY,
+        radius: 130
+      });
+    }
+  }, [triggerConfetti, isMobile]);
   
   // 用 useCallback 包装处理事件函数
   const handleNameLeave = useCallback(() => {
@@ -125,8 +173,8 @@ export default function Hero() {
         onComplete={onComplete}
       />
       
-      {/* 星星背景 - 设置高z-index确保可见 */}
-      <div className="absolute inset-0 overflow-hidden z-[5]">
+      {/* 星星背景 - 设置高z-index确保可见，在移动设备上隐藏 */}
+      <div className={`absolute inset-0 overflow-hidden z-[5] ${isMobile ? 'opacity-30' : ''}`}>
         <HeroBackground />
       </div>
       
@@ -145,9 +193,10 @@ export default function Hero() {
             <span>你好，我是</span>
             <span 
               ref={nameRef}
-              className={`text-primary cursor-pointer hover:scale-110 transition-transform inline-block shiny-button auto-shine ml-2`}
+              className={`text-primary cursor-pointer hover:scale-110 transition-transform inline-block shiny-button ${!isMobile ? 'auto-shine' : ''} ml-2`}
               onMouseEnter={handleNameHover}
               onMouseLeave={handleNameLeave}
+              onClick={handleNameClick}
             >展春燕</span>
           </h1>
           
