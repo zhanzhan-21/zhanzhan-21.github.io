@@ -5,6 +5,7 @@ import { GraduationCap, BookOpen, Bike, Gamepad} from "lucide-react"
 import { Card, CardContent } from "@/components/ui/card"
 import { ScratchCard } from "@/components/ui/scratch-card"
 import { useState } from "react"
+import { ExpandableEducationCard, type EducationCardType } from "@/components/ui/expandable-education-card"
 
 export default function About() {
   const [isRevealed, setIsRevealed] = useState(false)
@@ -12,6 +13,62 @@ export default function About() {
   const handleReveal = () => {
     setIsRevealed(true)
   }
+
+  const schools: EducationCardType[] = [
+    {
+      school: "山东大学",
+      logo: "/images/山东.svg",
+      degree: "硕士",
+      major: "控制工程",
+      period: "2023.09 - 2026.06",
+      gpa: "3.9",
+      publication: "<strong>一作</strong>发表SCI二区文章一篇：<a href=\"https://www.sciencedirect.com/science/article/pii/S0263224125005731\" className=\"text-primary hover:text-primary/80\" target=\"_blank\" rel=\"noopener noreferrer\">文章链接</a>",
+      tags: [
+        { label: "211", color: "blue" },
+        { label: "985", color: "green" },
+      ],
+      content: (
+        <div>
+          <p>山东大学，简称"山大"，是中国历史最悠久的高等学府之一，其前身为1901年创办的山东大学堂。</p>
+          <p className="mt-2">作为一所综合性研究型大学，山东大学在多个学科领域处于国内领先水平。</p>
+          <p className="mt-2"><strong>研究方向</strong>：智能控制系统、深度强化学习算法研究</p>
+          <p className="mt-2"><strong>核心课程</strong>：现代控制理论、深度学习、强化学习、机器视觉</p>
+          <p className="mt-4"><strong>科研成果</strong>：</p>
+          <ul className="list-disc list-inside pl-2 mt-1">
+            <li><strong>一作</strong>发表SCI二区文章一篇：<a href="https://www.sciencedirect.com/science/article/pii/S0263224125005731" className="text-primary hover:text-primary/80" target="_blank" rel="noopener noreferrer">文章链接</a></li>
+            <li>参与国家级科研项目2项</li>
+            <li>获得研究生学业奖学金</li>
+          </ul>
+        </div>
+      ),
+    },
+    {
+      school: "青岛大学",
+      logo: "/images/青岛.svg",
+      degree: "本科",
+      major: "自动化",
+      period: "2019.09 - 2023.06",
+      rank: "排名：2/100 保研",
+      tags: [
+        { label: "一本", color: "purple" },
+      ],
+      content: (
+        <div>
+          <p>青岛大学是山东省属重点综合大学，坐落于美丽的海滨城市青岛。</p>
+          <p className="mt-2">学校以工科为主，同时注重多学科交叉培养，提供了良好的学习和科研环境。</p>
+          <p className="mt-2"><strong>研究方向</strong>：自动控制系统、机器人控制与应用</p>
+          <p className="mt-2"><strong>核心课程</strong>：自动控制原理、单片机原理、传感器技术、PLC编程技术</p>
+          <p className="mt-4"><strong>主要成就</strong>：</p>
+          <ul className="list-disc list-inside pl-2 mt-1">
+            <li>连续三年获得校级一等奖学金</li>
+            <li>获得全国大学生电子设计大赛省级一等奖</li>
+            <li>主持校级科研创新项目：《基于深度学习的工业设备预测性维护系统》</li>
+            <li>以优异成绩获保研资格，推免至山东大学</li>
+          </ul>
+        </div>
+      ),
+    },
+  ];
 
   return (
     <section id="about" className="pt-10 pb-20 px-4 bg-white dark:bg-gray-900">
@@ -44,56 +101,7 @@ export default function About() {
                   <GraduationCap className="h-6 w-6 text-primary mr-3" />
                   <h3 className="text-xl font-semibold">教育背景</h3>
                 </div>
-                <div className="space-y-6 flex-grow">
-                  <div className="border-l-2 border-primary pl-4 py-1">
-                    <div className="flex justify-between items-center">
-                      <div className="flex items-center">
-                        <img 
-                          src="/images/山东.svg" 
-                          alt="山东大学logo" 
-                          className="w-16 h-16 mr-4" 
-                        />
-                        <div>
-                          <h4 className="font-medium">山东大学</h4>
-                          <div className="flex space-x-2 mt-1">
-                            <span className="inline-flex items-center rounded-md bg-blue-50 px-2 py-1 text-xs font-medium text-blue-700 ring-1 ring-inset ring-blue-700/10">
-                              211
-                            </span>
-                            <span className="inline-flex items-center rounded-md bg-green-50 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-700/10">
-                              985
-                            </span>
-                          </div>
-                        </div>
-                      </div>
-                      <span className="text-sm text-gray-500 dark:text-gray-400">2023.09 - 2026.06</span>
-                    </div>
-                    <p className="text-gray-600 dark:text-gray-300 text-sm">硕士 控制工程</p>
-                    <p className="text-gray-600 dark:text-gray-300 text-sm">平均绩点：3.9</p>
-                    <p className="text-gray-600 dark:text-gray-300 text-sm"><strong>一作</strong>发表SCI二区文章一篇：<a href="https://www.sciencedirect.com/science/article/pii/S0263224125005731" className="text-primary hover:text-primary/80" target="_blank" rel="noopener noreferrer">文章链接</a></p>
-                  </div>
-                  <div className="border-l-2 border-primary pl-4 py-1">
-                    <div className="flex justify-between items-center">
-                      <div className="flex items-center">
-                        <img 
-                          src="/images/青岛.svg" 
-                          alt="青岛大学logo" 
-                          className="w-16 h-16 mr-4" 
-                        />
-                        <div>
-                          <h4 className="font-medium">青岛大学</h4>
-                          <div className="flex space-x-2 mt-1">
-                            <span className="inline-flex items-center rounded-md bg-purple-50 px-2 py-1 text-xs font-medium text-purple-700 ring-1 ring-inset ring-purple-700/10">
-                              一本
-                            </span>
-                          </div>
-                        </div>
-                      </div>
-                      <span className="text-sm text-gray-500 dark:text-gray-400">2019.09 - 2023.06</span>
-                    </div>
-                    <p className="text-gray-600 dark:text-gray-300 text-sm">本科 自动化</p>
-                    <p className="text-gray-600 dark:text-gray-300 text-sm">排名：2/100 保研</p>
-                  </div>
-                </div>
+                <ExpandableEducationCard schools={schools} />
               </CardContent>
             </Card>
           </motion.div>

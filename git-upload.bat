@@ -1,5 +1,5 @@
 @echo off
-git add .
-git commit -m "更新所有修改：修复水合错误和添加多彩背景效果"
+git add README.md
+git commit -m "更新README.md：添加3D效果详细说明和最近更新内容"
 git push origin main
-echo 完成！所有更改已上传到Git 
+echo 完成！README.md已上传到Git 

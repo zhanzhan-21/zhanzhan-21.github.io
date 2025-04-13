@@ -136,7 +136,7 @@ export default function Awards() {
       link: award.url || undefined,
       content: (
         index === 0 ? (
-          <div className="h-full">
+          <div className="h-full relative" style={{ overflow: 'visible' }}>
             <CardPinEffect 
               isActive={hoveredIndex === 0}
               title="查看详情"
@@ -201,7 +201,7 @@ export default function Awards() {
           className="text-center mb-12"
         >
           <h2 className="text-3xl font-bold mb-4">荣誉奖励</h2>
-          <div className="w-20 h-1 bg-emerald-500 mx-auto mb-6"></div>
+          <div className="w-20 h-1 bg-primary mx-auto mb-6"></div>
           <p className="max-w-2xl mx-auto text-gray-600 dark:text-gray-300 mb-10">我在学术和专业领域获得的一些荣誉和奖项</p>
         </motion.div>
         
