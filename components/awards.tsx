@@ -6,11 +6,17 @@ import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import AwardsCarousel from "@/components/3d/AwardsCarousel"
 import { CardPinEffect } from "@/components/3d/PinEffect"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { HoverCardEffect } from "@/components/ui/hover-card-effect"
 
 export default function Awards() {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+  const [isMounted, setIsMounted] = useState(false);
+  
+  // 客户端挂载检测
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
   
   // 定义可用于奖项的颜色列表
   const colors = [
@@ -147,6 +153,8 @@ export default function Awards() {
       title: award.title,
       description: `${award.date} | ${award.level}`,
       link: award.url || undefined,
+      // 为第一个项目标记已有嵌套链接
+      hasNestedLink: index === 0,
       content: (
         index === 0 ? (
           <div className="h-full relative" style={{ overflow: 'visible' }}>

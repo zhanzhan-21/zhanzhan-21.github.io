@@ -24,6 +24,9 @@
     --input: 214.3 31.8% 91.4%;
     --ring: 221.2 83.2% 53.3%;
     --radius: 0.5rem;
+    
+    /* 定义滚动偏移量为CSS变量，便于全局使用 */
+    --scroll-offset: 80px;
   }
 
   .dark {
@@ -50,7 +53,7 @@
 
   /* 导航滚动偏移设置 */
   html {
-    scroll-padding-top: 80px; /* 保持与JavaScript中的offset一致 */
+    scroll-padding-top: var(--scroll-offset); /* 使用CSS变量 */
     scroll-behavior: smooth; /* 添加平滑滚动效果 */
     overflow-x: hidden;
   }
@@ -61,7 +64,7 @@
   #projects,
   #awards,
   #contact {
-    scroll-margin-top: 80px; /* 保持与JavaScript中的offset一致 */
+    scroll-margin-top: var(--scroll-offset); /* 使用CSS变量 */
     position: relative; /* 确保相对定位 */
   }
   
@@ -73,8 +76,8 @@
   #contact::before {
     content: "";
     display: block;
-    height: 80px; /* 与偏移量相同 */
-    margin-top: -80px; /* 负值，使锚点位置向上移动 */
+    height: var(--scroll-offset); /* 使用CSS变量 */
+    margin-top: calc(-1 * var(--scroll-offset)); /* 使用CSS变量 */
     visibility: hidden;
     pointer-events: none;
   }

@@ -4,7 +4,7 @@ import type React from "react"
 import { cn } from "@/lib/utils"
 import { AnimatePresence, motion } from "framer-motion"
 import Link from "next/link"
-import { useState } from "react"
+import { useState, useEffect, useId } from "react"
 
 // 定义一个颜色数组，包含不同的颜色
 const backgroundColors = [
@@ -42,11 +42,10 @@ const shadowColors = [
   "rgba(244, 114, 182, 0.25)", // 粉色
 ]
 
-export const HoverCardEffect = ({
+// 创建一个服务器端安全的基础卡片组件（无动态效果）
+const StaticCardGrid = ({
   items,
   className,
-  hoveredIndex: externalHoveredIndex, 
-  setHoveredIndex: externalSetHoveredIndex,
 }: {
   items: {
     title: string
@@ -55,15 +54,54 @@ export const HoverCardEffect = ({
     link?: string
   }[]
   className?: string
-  hoveredIndex?: number | null
-  setHoveredIndex?: (index: number | null) => void
 }) => {
-  const [internalHoveredIndex, setInternalHoveredIndex] = useState<number | null>(null)
-  
-  // 使用外部提供的状态或内部状态
-  const hoveredIndex = externalHoveredIndex !== undefined ? externalHoveredIndex : internalHoveredIndex
-  const setHoveredIndex = externalSetHoveredIndex || setInternalHoveredIndex
+  return (
+    <div className={cn("grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6", className)}>
+      {items.map((item, idx) => (
+        <div key={idx} className="relative group block h-full w-full">
+          {item.link ? (
+            <Link 
+              href={item.link} 
+              className="block h-full w-full"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <div className="relative z-20 h-full">
+                {item.content}
+              </div>
+            </Link>
+          ) : (
+            <div className="relative z-20 h-full">
+              {item.content}
+            </div>
+          )}
+        </div>
+      ))}
+    </div>
+  )
+}
 
+// 实际的动态卡片组件（仅在客户端渲染）
+const DynamicCardGrid = ({
+  items,
+  className,
+  hoveredIndex,
+  setHoveredIndex,
+}: {
+  items: {
+    title: string
+    description?: string
+    content: React.ReactNode
+    link?: string
+    hasNestedLink?: boolean
+  }[]
+  className?: string
+  hoveredIndex: number | null
+  setHoveredIndex: (index: number | null) => void
+}) => {
+  // 每个组件实例使用相同的layoutId
+  const layoutId = "hoverBackground";
+  
   return (
     <div className={cn("grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6", className)}>
       {items.map((item, idx) => {
@@ -76,6 +114,9 @@ export const HoverCardEffect = ({
         // 只为非首个卡片添加背景效果，首个卡片由CardPinEffect处理
         const shouldShowEffect = hoveredIndex === idx && idx !== 0;
         
+        // 检查内容是否已经包含链接
+        const hasNestedLink = item.hasNestedLink === true;
+        
         return (
           <div
             key={idx}
@@ -83,30 +124,36 @@ export const HoverCardEffect = ({
             onMouseEnter={() => setHoveredIndex(idx)}
             onMouseLeave={() => setHoveredIndex(null)}
           >
-            <AnimatePresence>
+            {/* 使用单独的AnimatePresence，确保一次只显示一个动画 */}
+            <AnimatePresence mode="wait">
               {shouldShowEffect && (
                 <motion.span
-                  className="absolute inset-0 h-full w-full block rounded-xl"
+                  className="absolute inset-0 h-full w-full block rounded-xl z-10"
                   style={{
                     background: bgColor,
                     backdropFilter: "blur(4px)",
                     border: `1px solid ${borderColor}`,
                     boxShadow: `0 4px 20px ${shadowColor}`
                   }}
-                  layoutId="hoverBackground"
+                  layoutId={layoutId}
                   initial={{ opacity: 0 }}
-                  animate={{
+                  animate={{ 
                     opacity: 1,
-                    transition: { duration: 0.25 },
                   }}
-                  exit={{
+                  exit={{ 
                     opacity: 0,
-                    transition: { duration: 0.25, delay: 0.1 },
+                  }}
+                  transition={{
+                    type: "tween", // 使用线性动画替代弹簧动画，消除抖动
+                    ease: "easeOut",
+                    duration: 0.2
                   }}
                 />
               )}
             </AnimatePresence>
-            {item.link ? (
+            
+            {/* 条件性渲染链接或普通容器 */}
+            {item.link && !hasNestedLink ? (
               <Link 
                 href={item.link} 
                 className="block h-full w-full"
@@ -127,4 +174,52 @@ export const HoverCardEffect = ({
       })}
     </div>
   )
+}
+
+// 类型定义更新
+type HoverCardItem = {
+  title: string
+  description?: string
+  content: React.ReactNode
+  link?: string
+  hasNestedLink?: boolean
+}
+
+// 导出的主组件，结合静态和动态渲染
+export const HoverCardEffect = ({
+  items,
+  className,
+  hoveredIndex: externalHoveredIndex, 
+  setHoveredIndex: externalSetHoveredIndex,
+}: {
+  items: HoverCardItem[]
+  className?: string
+  hoveredIndex?: number | null
+  setHoveredIndex?: (index: number | null) => void
+}) => {
+  const [internalHoveredIndex, setInternalHoveredIndex] = useState<number | null>(null);
+  const [isMounted, setIsMounted] = useState(false);
+  
+  // 确保组件在客户端渲染后才显示动画效果，避免水合错误
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+  
+  // 使用外部提供的状态或内部状态
+  const hoveredIndex = externalHoveredIndex !== undefined ? externalHoveredIndex : internalHoveredIndex;
+  const setHoveredIndex = externalSetHoveredIndex || setInternalHoveredIndex;
+
+  // 关键：仅在客户端渲染动态内容，服务端使用静态渲染
+  if (!isMounted) {
+    return <StaticCardGrid items={items} className={className} />;
+  }
+
+  return (
+    <DynamicCardGrid 
+      items={items} 
+      className={className} 
+      hoveredIndex={hoveredIndex} 
+      setHoveredIndex={setHoveredIndex} 
+    />
+  );
 } 

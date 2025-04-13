@@ -6,6 +6,9 @@ import { useTheme } from "next-themes"
 import { Button } from "@/components/ui/button"
 import { AboutIcon, SkillsIcon, ProjectsIcon, AwardsIcon, HomeIcon } from "@/components/ui/NavIcons"
 
+// 定义统一的滚动偏移量常量，确保与SmoothScrollFix组件一致
+const SCROLL_OFFSET = 80;
+
 // 自定义导航链接组件
 const NavLink = ({ 
   href, 
@@ -37,19 +40,18 @@ const NavLink = ({
       // 计算目标元素的绝对位置
       const targetPosition = targetElement.getBoundingClientRect().top + currentScrollPosition
       
-      // 使用80px的固定偏移量，与其他地方保持一致
-      const offset = 80
+      // 使用统一的SCROLL_OFFSET常量
       
       // 先更新URL，然后再滚动 - 避免默认的自动滚动行为
       window.history.pushState(null, '', href)
       
-      // 使用setTimeout确保DOM更新和浏览器默认滚动行为不会干扰我们的自定义滚动
-      setTimeout(() => {
+      // 使用requestAnimationFrame确保DOM更新和浏览器默认滚动行为不会干扰我们的自定义滚动
+      requestAnimationFrame(() => {
         window.scrollTo({
-          top: targetPosition - offset,
+          top: targetPosition - SCROLL_OFFSET,
           behavior: 'smooth'
         })
-      }, 10)
+      })
     }
   }
   
@@ -171,13 +173,15 @@ export default function Navbar() {
         // 计算目标元素的绝对位置
         const targetPosition = targetElement.getBoundingClientRect().top + currentScrollPosition;
         
-        // 使用统一的偏移量
-        const offset = 90; // 调整偏移量以匹配导航栏的高度
+        // 使用统一的常量偏移量
         
-        // 使用平滑滚动到目标位置
-        window.scrollTo({
-          top: targetPosition - offset,
-          behavior: 'smooth'
+        // 使用requestAnimationFrame确保滚动在下一帧执行
+        requestAnimationFrame(() => {
+          // 使用平滑滚动到目标位置
+          window.scrollTo({
+            top: targetPosition - SCROLL_OFFSET,
+            behavior: 'smooth'
+          });
         });
       }
     }
@@ -204,17 +208,11 @@ export default function Navbar() {
       // 先滚动到顶部，防止初始的跳跃行为
       window.scrollTo(0, 0);
       
-      // 阻止默认的滚动行为
-      document.body.style.overflow = 'hidden';
-      
       // 使用RAF确保在浏览器渲染之前执行
       requestAnimationFrame(() => {
         requestAnimationFrame(() => {
-          // 在下一帧恢复滚动
-          document.body.style.overflow = '';
-          
-          // 在DOM完全加载后执行我们的自定义滚动
-          setTimeout(handleHashChange, 100);
+          // 在这里不执行handleHashChange，让SmoothScrollFix组件处理初始哈希导航
+          // 避免两个组件同时处理导致冲突
         });
       });
     }

@@ -193,6 +193,13 @@ export const CardPinEffect = ({
   className?: string
   color?: "emerald" | "blue" | "yellow" | "red" | "purple" | "teal" | "orange" | "pink"
 }) => {
+  const [isMounted, setIsMounted] = useState(false);
+  
+  // 确保组件在客户端渲染后才显示动画效果
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+  
   // 根据color参数确定实际使用的颜色
   const colorMap = {
     emerald: {
@@ -268,7 +275,17 @@ export const CardPinEffect = ({
       radialGradient: "radial-gradient(ellipse, rgba(244, 114, 182, 0.15) 0%, transparent 70%)",
     },
   };
-
+  
+  // 处理服务端渲染
+  if (!isMounted) {
+    return (
+      <div className={className}>
+        {children}
+      </div>
+    );
+  }
+  
+  // 客户端渲染带有效果的组件
   const currentColor = colorMap[color];
 
   return (

@@ -18,6 +18,14 @@ export default function RootLayout({
 }) {
   return (
     <html lang="zh" suppressHydrationWarning>
+      <head>
+        <style>{`
+          :root {
+            scroll-behavior: smooth;
+            scroll-padding-top: 80px; /* 与SCROLL_OFFSET常量相同的值 */
+          }
+        `}</style>
+      </head>
       <body>
         <ThemeProvider attribute="class" defaultTheme="light" enableSystem disableTransitionOnChange>
           <SmoothScrollFix />
