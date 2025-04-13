@@ -134,7 +134,7 @@ export default function About() {
                   </div>
 
                   <div>
-                  <h4 className="font-medium text-gray-800 dark:text-gray-200 mb-3">兴趣爱好</h4>
+                  <h4 className="text-lg font-bold text-gray-800 dark:text-gray-200 mb-2">兴趣爱好</h4>
                   
                   <ScratchCard
                     width={300}

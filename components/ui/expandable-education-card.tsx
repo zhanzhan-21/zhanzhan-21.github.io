@@ -112,7 +112,7 @@ export function ExpandableEducationCard({ schools }: ExpandableEducationCardProp
             <motion.div
               layoutId={`card-${active.school}-${id}`}
               ref={ref}
-              className="w-full max-w-[500px] max-h-[80vh] h-full md:h-fit md:max-h-[80vh] flex flex-col bg-white dark:bg-neutral-900 sm:rounded-3xl overflow-hidden"
+              className="w-full max-w-[500px] max-h-[80vh] h-full md:h-fit md:max-h-[80vh] flex flex-col bg-white dark:bg-neutral-900 sm:rounded-3xl overflow-hidden will-change-transform"
               onWheel={(e) => {
                 e.stopPropagation();
               }}
@@ -128,18 +128,26 @@ export function ExpandableEducationCard({ schools }: ExpandableEducationCardProp
                 />
               </motion.div>
 
-              <div className="flex flex-col overflow-auto" style={{ maxHeight: "calc(80vh - 64px - 12px)" }}>
+              <div 
+                className="flex flex-col overflow-y-auto overscroll-contain" 
+                style={{ 
+                  maxHeight: "calc(80vh - 64px)",
+                  WebkitOverflowScrolling: "touch",
+                }}
+              >
                 <div className="flex justify-between items-start p-4">
                   <div>
                     <motion.h3
                       layoutId={`title-${active.school}-${id}`}
                       className="font-bold text-neutral-700 dark:text-neutral-200"
+                      style={{ WebkitFontSmoothing: "antialiased", MozOsxFontSmoothing: "grayscale" }}
                     >
                       {active.school}
                     </motion.h3>
                     <motion.p
                       layoutId={`degree-${active.degree}-${id}`}
                       className="text-neutral-600 dark:text-neutral-400"
+                      style={{ WebkitFontSmoothing: "antialiased", MozOsxFontSmoothing: "grayscale" }}
                     >
                       {active.degree} · {active.major}
                     </motion.p>
@@ -148,6 +156,7 @@ export function ExpandableEducationCard({ schools }: ExpandableEducationCardProp
                   <motion.p
                     layoutId={`period-${active.period}-${id}`}
                     className="text-sm text-gray-500 dark:text-gray-400"
+                    style={{ WebkitFontSmoothing: "antialiased", MozOsxFontSmoothing: "grayscale" }}
                   >
                     {active.period}
                   </motion.p>
@@ -159,23 +168,27 @@ export function ExpandableEducationCard({ schools }: ExpandableEducationCardProp
                         key={`tag-${tag.label}`}
                         layoutId={`tag-${tag.label}-${active.school}-${id}`}
                         className={`inline-flex items-center rounded-md bg-${tag.color}-50 px-2 py-1 text-xs font-medium text-${tag.color}-700 ring-1 ring-inset ring-${tag.color}-700/10`}
+                        style={{ WebkitFontSmoothing: "antialiased", MozOsxFontSmoothing: "grayscale" }}
                       >
                         {tag.label}
                       </motion.span>
                     ))}
                   </div>
                 </div>
-                <div className="pt-2 relative px-4 flex-1 overflow-y-auto pb-8" onWheel={(e) => e.stopPropagation()}>
+                
+                <div className="pt-2 relative px-4 flex-1 pb-8">
                   <motion.div
                     layout
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
                     className="text-neutral-600 text-xs md:text-sm lg:text-base flex flex-col items-start gap-4 dark:text-neutral-400"
+                    style={{ WebkitFontSmoothing: "antialiased", MozOsxFontSmoothing: "grayscale" }}
                   >
                     {active.content}
                   </motion.div>
-                  <div className="absolute bottom-0 left-0 right-0 h-6 bg-gradient-to-t from-white dark:from-neutral-900 to-transparent pointer-events-none"></div>
+                  
+                  <div className="sticky bottom-0 left-0 right-0 h-8 bg-gradient-to-t from-white dark:from-neutral-900 to-transparent pointer-events-none transform translate-z-0"></div>
                   <div className="absolute right-4 bottom-2 text-xs text-primary animate-bounce">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-4 w-4">
                       <path d="M12 5v14" />
@@ -209,10 +222,17 @@ export function ExpandableEducationCard({ schools }: ExpandableEducationCardProp
                 </motion.div>
                 <div>
                   <div className="flex items-center">
-                    <motion.h4 layoutId={`title-${school.school}-${id}`} className="font-medium">
+                    <motion.h4 
+                      layoutId={`title-${school.school}-${id}`} 
+                      className="font-medium"
+                      style={{ WebkitFontSmoothing: "antialiased", MozOsxFontSmoothing: "grayscale" }}
+                    >
                       {school.school}
                     </motion.h4>
-                    <span className="ml-2 text-xs text-primary opacity-0 group-hover:opacity-100 transition-opacity">
+                    <span 
+                      className="ml-2 text-xs text-primary opacity-0 group-hover:opacity-100 transition-opacity"
+                      style={{ WebkitFontSmoothing: "antialiased", MozOsxFontSmoothing: "grayscale" }}
+                    >
                       点击查看详情
                     </span>
                   </div>
@@ -222,6 +242,7 @@ export function ExpandableEducationCard({ schools }: ExpandableEducationCardProp
                         key={`tag-${tag.label}`}
                         layoutId={`tag-${tag.label}-${school.school}-${id}`}
                         className={`inline-flex items-center rounded-md bg-${tag.color}-50 px-2 py-1 text-xs font-medium text-${tag.color}-700 ring-1 ring-inset ring-${tag.color}-700/10`}
+                        style={{ WebkitFontSmoothing: "antialiased", MozOsxFontSmoothing: "grayscale" }}
                       >
                         {tag.label}
                       </motion.span>
@@ -232,17 +253,39 @@ export function ExpandableEducationCard({ schools }: ExpandableEducationCardProp
               <motion.span 
                 layoutId={`period-${school.period}-${id}`}
                 className="text-sm text-gray-500 dark:text-gray-400"
+                style={{ WebkitFontSmoothing: "antialiased", MozOsxFontSmoothing: "grayscale" }}
               >
                 {school.period}
               </motion.span>
             </div>
-            <motion.p layoutId={`degree-${school.degree}-${id}`} className="text-gray-600 dark:text-gray-300 text-sm">
+            <motion.p 
+              layoutId={`degree-${school.degree}-${id}`} 
+              className="text-gray-600 dark:text-gray-300 text-sm"
+              style={{ WebkitFontSmoothing: "antialiased", MozOsxFontSmoothing: "grayscale" }}
+            >
               {school.degree} {school.major}
             </motion.p>
-            {school.gpa && <p className="text-gray-600 dark:text-gray-300 text-sm">平均绩点：{school.gpa}</p>}
-            {school.rank && <p className="text-gray-600 dark:text-gray-300 text-sm">{school.rank}</p>}
+            {school.gpa && (
+              <p 
+                className="text-gray-600 dark:text-gray-300 text-sm"
+                style={{ WebkitFontSmoothing: "antialiased", MozOsxFontSmoothing: "grayscale" }}
+              >
+                平均绩点：{school.gpa}
+              </p>
+            )}
+            {school.rank && (
+              <p 
+                className="text-gray-600 dark:text-gray-300 text-sm"
+                style={{ WebkitFontSmoothing: "antialiased", MozOsxFontSmoothing: "grayscale" }}
+              >
+                {school.rank}
+              </p>
+            )}
             {school.publication && (
-              <div className="text-gray-600 dark:text-gray-300 text-sm">
+              <div 
+                className="text-gray-600 dark:text-gray-300 text-sm"
+                style={{ WebkitFontSmoothing: "antialiased", MozOsxFontSmoothing: "grayscale" }}
+              >
                 {typeof school.publication === 'string' ? (
                   <p dangerouslySetInnerHTML={{ __html: school.publication }}></p>
                 ) : (

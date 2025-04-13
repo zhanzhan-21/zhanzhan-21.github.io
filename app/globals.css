@@ -56,6 +56,10 @@
     scroll-padding-top: var(--scroll-offset); /* 使用CSS变量 */
     scroll-behavior: smooth; /* 添加平滑滚动效果 */
     overflow-x: hidden;
+    /* 添加全局文本渲染优化 */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
   }
   
   /* 为各部分ID设置滚动边距 */
@@ -92,6 +96,16 @@
     position: relative;
     min-height: 100%;
   }
+}
+
+/* 添加全局滚动容器优化，防止文本在滚动时模糊 */
+.overflow-auto, 
+.overflow-y-auto, 
+.overflow-x-auto {
+  -webkit-overflow-scrolling: touch;
+  will-change: transform;
+  transform: translateZ(0);
+  backface-visibility: hidden;
 }
 
 /* 3D翻转卡片效果所需的CSS */

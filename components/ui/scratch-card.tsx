@@ -109,13 +109,14 @@ export function ScratchCard({
     ctx.fillStyle = gradient;
     ctx.fillRect(0, 0, width, height);
     
-    // 添加鼠标事件处理
+    // 添加鼠标事件处理 - 修改为仅监听canvas元素上的事件，而不是全局事件
     const handleMouseMove = (e: MouseEvent) => {
       if (!isMouseDown.current) return;
       handleScratch(e);
     };
 
     const handleMouseUp = () => {
+      if (!isMouseDown.current) return; // 如果不是由我们的元素触发的mousedown，则不处理
       isMouseDown.current = false;
       lastPosition.current = null;
       
@@ -123,17 +124,22 @@ export function ScratchCard({
       checkFullyRevealed();
     };
 
-    // 全局事件监听
-    window.addEventListener('mousemove', handleMouseMove);
+    // 使用canvas元素的事件监听而不是全局事件
+    canvas.addEventListener('mousemove', handleMouseMove);
+    canvas.addEventListener('mouseup', handleMouseUp);
+    canvas.addEventListener('touchmove', handleScratch, { passive: false });
+    canvas.addEventListener('touchend', handleMouseUp);
+
+    // 仅添加必要的全局事件监听 - 鼠标可能在canvas外释放
     window.addEventListener('mouseup', handleMouseUp);
-    window.addEventListener('touchmove', handleScratch, { passive: false });
-    window.addEventListener('touchend', handleMouseUp);
 
     return () => {
-      window.removeEventListener('mousemove', handleMouseMove);
+      // 清理事件监听
+      canvas.removeEventListener('mousemove', handleMouseMove);
+      canvas.removeEventListener('mouseup', handleMouseUp);
+      canvas.removeEventListener('touchmove', handleScratch);
+      canvas.removeEventListener('touchend', handleMouseUp);
       window.removeEventListener('mouseup', handleMouseUp);
-      window.removeEventListener('touchmove', handleScratch);
-      window.removeEventListener('touchend', handleMouseUp);
     };
     
   }, [width, height, coverColor, isMounted, revealPercent])
@@ -232,7 +238,7 @@ export function ScratchCard({
     if (isFullyRevealed) return
     
     e.preventDefault()
-    e.stopPropagation()
+    e.stopPropagation() // 阻止事件冒泡，防止触发外部点击事件
     
     isMouseDown.current = true
     
@@ -283,54 +289,46 @@ export function ScratchCard({
       ref={containerRef}
       className="relative select-none"
       style={{ width, height }}
+      onClick={(e) => {
+        // 阻止点击事件冒泡到外部
+        e.stopPropagation();
+      }}
     >
-      {/* 底层内容区域 */}
-      <AnimatePresence>
-        {isAnimating ? (
-          <motion.div
-            key="animating"
-            initial={{ scale: 1, boxShadow: "0px 0px 0px rgba(0,0,0,0)" }}
-            animate={{ 
-              scale: [1, 1.03], 
-              boxShadow: "0px 0px 0px rgba(0,0,0,0)"
-            }}
-            exit={{ scale: 1, boxShadow: "0px 0px 0px rgba(0,0,0,0)" }}
-            transition={{ duration: 0.4, ease: "easeOut" }}
-            onAnimationComplete={() => {
-              setTimeout(() => {
-                handleAnimationComplete();
-              }, 200); // 减少延迟时间，更快地回到自然状态
-            }}
-            className="absolute inset-0 overflow-hidden"
-            style={{ 
-              backgroundColor: 'transparent',
-              backgroundImage: image ? `url(${image})` : 'none',
-              backgroundSize: 'cover',
-              backgroundPosition: 'center',
-              width,
-              height,
-            }}
-          >
-            {children}
-          </motion.div>
-        ) : (
-          <motion.div
-            key="normal"
-            className="absolute inset-0 overflow-hidden"
-            style={{ 
-              backgroundColor: 'transparent',
-              backgroundImage: image ? `url(${image})` : 'none',
-              backgroundSize: 'cover',
-              backgroundPosition: 'center',
-              width,
-              height,
-              borderRadius: 0 // 移除所有圆角边框
-            }}
-          >
-            {children}
-          </motion.div>
-        )}
-      </AnimatePresence>
+      {/* 底层内容区域 - 避免使用AnimatePresence，除非在刚完成刮擦时 */}
+      {isFullyRevealed && isAnimating ? (
+        <motion.div
+          key="animating"
+          initial={{ scale: 1 }}
+          animate={{ scale: [1, 1.03, 1] }}
+          transition={{ duration: 0.4, ease: "easeInOut" }}
+          onAnimationComplete={handleAnimationComplete}
+          className="absolute inset-0 overflow-hidden"
+          style={{ 
+            backgroundColor: 'transparent',
+            backgroundImage: image ? `url(${image})` : 'none',
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            width,
+            height,
+          }}
+        >
+          {children}
+        </motion.div>
+      ) : (
+        <div
+          className="absolute inset-0 overflow-hidden"
+          style={{ 
+            backgroundColor: 'transparent',
+            backgroundImage: image ? `url(${image})` : 'none',
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            width,
+            height,
+          }}
+        >
+          {children}
+        </div>
+      )}
       
       {/* 刮擦层 */}
       {!isFullyRevealed && (
