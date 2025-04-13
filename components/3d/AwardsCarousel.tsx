@@ -22,12 +22,83 @@ interface AwardsCarouselProps {
 export default function AwardsCarousel({ awards }: AwardsCarouselProps) {
   const [isPaused, setIsPaused] = useState(false);
   const [activeIndex, setActiveIndex] = useState(0);
+  const [isMobile, setIsMobile] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
   const carouselRef = useRef<HTMLDivElement>(null);
   const lastTimeRef = useRef<number>(0);
   const currentTranslateXRef = useRef<number>(0);
   const animFrameRef = useRef<number | null>(null);
   const isInitializedRef = useRef<boolean>(false);
+  
+  // 创建适合移动端显示的奖项卡片
+  const AwardCard = ({ award }: { award: AwardItem }) => {
+    return (
+      <motion.div 
+        className={`w-full h-[350px] overflow-hidden bg-white dark:bg-gray-800/30 dark:hover:bg-gray-800/50 rounded-xl ${isMobile ? 'shadow-lg' : ''}`}
+        whileHover={{
+          scale: 1.05,
+          boxShadow: "0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1)"
+        }}
+        transition={{
+          type: "spring",
+          stiffness: 150,
+          damping: 25
+        }}
+      >
+        {/* 奖项图片占位区域 */}
+        <div className={`relative overflow-hidden ${isMobile ? 'h-56' : 'h-48'}`}>
+          <div className="absolute inset-0 flex items-center justify-center">
+            {award.image ? (
+              <motion.img 
+                src={award.image} 
+                alt={award.title}
+                className="w-full h-full object-cover"
+                whileHover={{ scale: 1.05 }}
+                transition={{
+                  type: "spring",
+                  stiffness: 150,
+                  damping: 25
+                }}
+              />
+            ) : (
+              <Award className="h-16 w-16 text-primary opacity-20" />
+            )}
+          </div>
+          <div className="absolute bottom-0 left-0 right-0 p-3">
+            <Badge variant="outline" className="bg-white/50 dark:bg-gray-800/50 text-primary dark:text-primary-foreground font-medium border-0 backdrop-blur-sm">{award.level}</Badge>
+          </div>
+        </div>
+        
+        {/* 奖项信息 - 左对齐 */}
+        <div className="p-4">
+          <div className="flex justify-between items-start">
+            <h3 className={`font-bold ${isMobile ? 'text-lg' : 'text-base'} text-gray-900 dark:text-white line-clamp-2`}>{award.title}</h3>
+          </div>
+          <div className="flex items-center mt-2 text-gray-500 dark:text-gray-400 text-sm">
+            <Calendar className="h-4 w-4 mr-1" />
+            <span>{award.date}</span>
+          </div>
+        </div>
+      </motion.div>
+    );
+  };
+  
+  // 检测是否为移动设备
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    
+    // 初始检查
+    checkMobile();
+    
+    // 监听窗口大小变化
+    window.addEventListener('resize', checkMobile);
+    
+    return () => {
+      window.removeEventListener('resize', checkMobile);
+    };
+  }, []);
   
   // 计算实际需要展示的奖项（原始奖项列表 + 复制的项目用于无缝循环）
   const displayItems = useMemo(() => {
@@ -44,8 +115,13 @@ export default function AwardsCarousel({ awards }: AwardsCarouselProps) {
   // 获取滑块宽度
   const getSlideWidth = useCallback(() => {
     if (!containerRef.current) return 0;
+    // 移动端显示单个奖项
+    if (isMobile) {
+      return containerRef.current.offsetWidth;
+    }
+    // 桌面端显示三个奖项
     return containerRef.current.offsetWidth / 3;
-  }, []);
+  }, [isMobile]);
   
   // 获取单组奖项的总宽度
   const getTotalWidth = useCallback(() => {
@@ -378,72 +454,14 @@ export default function AwardsCarousel({ awards }: AwardsCarouselProps) {
             <div
               key={`award-${award.id || idx}`}
               className="flex-shrink-0 px-4 h-full flex items-center justify-center"
-              style={{ width: '33.333%' }}
+              style={{ 
+                width: isMobile ? '100%' : '33.333%'
+              }}
               onMouseEnter={handleMouseEnter}
               onMouseLeave={handleMouseLeave}
               data-group={award.group}
             >
-              <motion.div
-                className="w-full h-[350px] overflow-hidden bg-white dark:bg-gray-800/30 dark:hover:bg-gray-800/50 rounded-xl"
-                whileHover={{
-                  scale: 1.05,
-                  boxShadow: "0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1)"
-                }}
-                transition={{
-                  type: "spring",
-                  stiffness: 150,
-                  damping: 25
-                }}
-              >
-                {/* 奖项图片占位区域 */}
-                <div className="relative h-48 overflow-hidden">
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    {award.image ? (
-                      <motion.img 
-                        src={award.image} 
-                        alt={award.title}
-                        className="w-full h-full object-cover"
-                        whileHover={{ scale: 1.05 }}
-                        transition={{
-                          type: "spring",
-                          stiffness: 150,
-                          damping: 25
-                        }}
-                      />
-                    ) : (
-                      <Award className="h-16 w-16 text-primary opacity-20" />
-                    )}
-                  </div>
-                  <div className="absolute bottom-0 left-0 right-0 p-3">
-                    <Badge variant="outline" className="bg-white/50 dark:bg-gray-800/50 text-primary dark:text-primary-foreground font-medium border-0 backdrop-blur-sm">{award.level}</Badge>
-                  </div>
-                </div>
-                
-                {/* 奖项信息 - 左对齐 */}
-                <div className="p-5 text-left">
-                  <h4 className="font-bold text-lg line-clamp-2 group-hover:text-primary transition-colors">
-                    {award.url ? (
-                      <a
-                        href={award.url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="hover:underline text-left"
-                      >
-                        {award.title}
-                      </a>
-                    ) : (
-                      award.title
-                    )}
-                  </h4>
-                  <div className="flex items-center text-sm text-gray-500 dark:text-gray-400 mt-2">
-                    <Calendar className="h-4 w-4 mr-1" />
-                    <span>{award.date}</span>
-                    {award.hasLink && (
-                      <ExternalLink className="h-4 w-4 ml-2 text-primary" />
-                    )}
-                  </div>
-                </div>
-              </motion.div>
+              <AwardCard award={award} />
             </div>
           ))}
         </div>
