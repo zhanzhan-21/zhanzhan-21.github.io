@@ -44,10 +44,20 @@ export default function SkillOrbit({ skills }: SkillOrbitProps) {
   const [containerSize, setContainerSize] = useState({ width: 0, height: 0 })
   // 添加暂停动画的状态
   const [pauseAnimation, setPauseAnimation] = useState(false)
+  // 添加移动设备检测
+  const [isMobile, setIsMobile] = useState(false)
   
   // 客户端挂载后设置标记
   useEffect(() => {
     setIsMounted(true)
+    
+    // 检测是否为移动设备
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768)
+    }
+    
+    // 初始检测
+    checkMobile()
     
     // 计算容器尺寸
     if (containerRef.current) {
@@ -59,6 +69,7 @@ export default function SkillOrbit({ skills }: SkillOrbitProps) {
     
     // 响应窗口尺寸变化
     const handleResize = () => {
+      checkMobile()
       if (containerRef.current) {
         setContainerSize({
           width: containerRef.current.offsetWidth,
@@ -90,10 +101,25 @@ export default function SkillOrbit({ skills }: SkillOrbitProps) {
     // 按熟练度对技能进行分组
     const sortedSkills = [...skills].sort((a, b) => b.level - a.level)
     
+    // 根据设备类型确定技能数量
+    let innerCount, middleCount, outerCount;
+    
+    if (isMobile) {
+      // 移动端减少技能数量
+      innerCount = Math.min(4, sortedSkills.length);
+      middleCount = Math.min(5, sortedSkills.length - innerCount);
+      outerCount = Math.min(5, sortedSkills.length - innerCount - middleCount);
+    } else {
+      // 桌面端保持原有数量
+      innerCount = Math.min(6, sortedSkills.length);
+      middleCount = Math.min(6, sortedSkills.length - innerCount);
+      outerCount = Math.min(4, sortedSkills.length - innerCount - middleCount);
+    }
+    
     // 将技能分配到不同轨道
-    const innerOrbit = sortedSkills.slice(0, Math.min(6, sortedSkills.length))
-    const middleOrbit = sortedSkills.slice(Math.min(6, sortedSkills.length), Math.min(12, sortedSkills.length))
-    const outerOrbit = sortedSkills.slice(Math.min(12, sortedSkills.length), Math.min(16, sortedSkills.length))
+    const innerOrbit = sortedSkills.slice(0, innerCount);
+    const middleOrbit = sortedSkills.slice(innerCount, innerCount + middleCount);
+    const outerOrbit = sortedSkills.slice(innerCount + middleCount, innerCount + middleCount + outerCount);
     
     // 为每个轨道分配唯一标识，防止重复
     const usedIcons = new Set<string>()
@@ -236,22 +262,25 @@ export default function SkillOrbit({ skills }: SkillOrbitProps) {
     return <div className="w-full h-full" ref={containerRef}></div>
   }
   
-  // 计算轨道半径 - 调整为更合适的尺寸
+  // 计算轨道半径 - 根据设备类型调整
   const centerX = containerSize.width / 2;
   const centerY = containerSize.height / 2;
-  const maxDimension = Math.min(centerX, centerY) * 0.85; // 缩小整体比例，确保内圈图标完全显示
+  const maxDimension = Math.min(centerX, centerY) * (isMobile ? 0.7 : 0.85); // 移动端整体缩小更多
   
-  // 调整轨道间距，使图标不重叠且完全显示
-  const innerOrbitRadius = maxDimension * 0.7; // 进一步减小内圈半径，确保图标完全可见
-  const middleOrbitRadius = maxDimension * 1.0; // 调整中圈半径，与内圈保持距离
-  const outerOrbitRadius = maxDimension * 1.3; // 调整外圈半径
+  // 调整轨道间距，根据设备类型使用不同的比例
+  const innerOrbitRadius = maxDimension * (isMobile ? 0.5 : 0.7); // 移动端内圈更小
+  const middleOrbitRadius = maxDimension * (isMobile ? 0.85 : 1.0);
+  const outerOrbitRadius = maxDimension * (isMobile ? 1.15 : 1.3);
+  
+  // 根据设备类型确定图标大小
+  const innerIconSize = isMobile ? 28 : 34;
+  const middleIconSize = isMobile ? 30 : 36;
+  const outerIconSize = isMobile ? 32 : 38;
   
   // 生成动画类名，根据悬停状态决定是否暂停
   const getAnimationClass = (baseClass: string) => {
     return pauseAnimation ? `${baseClass} pause-animation` : baseClass;
   };
-  
-  const offset = 120;
   
   return (
     <div className="relative w-full h-full" ref={containerRef}>
@@ -289,12 +318,12 @@ export default function SkillOrbit({ skills }: SkillOrbitProps) {
             }}
           />
           
-          {/* 中心区域 */}
-          <div className="bg-white dark:bg-gray-800 rounded-full z-30 shadow-lg p-4 w-40 h-40 flex flex-col items-center justify-center border-2 border-primary/20">
+          {/* 中心区域 - 根据设备类型调整大小 */}
+          <div className={`bg-white dark:bg-gray-800 rounded-full z-30 shadow-lg p-4 ${isMobile ? 'w-32 h-32' : 'w-40 h-40'} flex flex-col items-center justify-center border-2 border-primary/20`}>
             {hoveredSkill ? (
               <>
                 <h3 className="font-bold text-md text-primary text-center">{hoveredSkill.name}</h3>
-                <div className="mt-3 bg-gray-200 dark:bg-gray-700 rounded-full h-3 w-32">
+                <div className={`mt-3 bg-gray-200 dark:bg-gray-700 rounded-full h-3 ${isMobile ? 'w-24' : 'w-32'}`}>
                   <div 
                     className="bg-primary h-3 rounded-full" 
                     style={{ width: `${hoveredSkill.level}%` }}
@@ -304,8 +333,8 @@ export default function SkillOrbit({ skills }: SkillOrbitProps) {
               </>
             ) : (
               <>
-                <h3 className="font-bold text-xl text-primary">技能概览</h3>
-                <p className="text-sm mt-2 text-gray-500 dark:text-gray-400 text-center">悬停查看详情</p>
+                <h3 className={`font-bold ${isMobile ? 'text-lg' : 'text-xl'} text-primary`}>技能概览</h3>
+                <p className={`${isMobile ? 'text-xs' : 'text-sm'} mt-2 text-gray-500 dark:text-gray-400 text-center`}>悬停查看详情</p>
               </>
             )}
           </div>
@@ -321,7 +350,7 @@ export default function SkillOrbit({ skills }: SkillOrbitProps) {
                 zIndex: 15
               }}
             >
-              {createSkillNodes(innerOrbit, innerOrbitRadius, false, 34)}
+              {createSkillNodes(innerOrbit, innerOrbitRadius, false, innerIconSize)}
             </div>
             
             {/* 中层轨道（相反方向）*/}
@@ -333,7 +362,7 @@ export default function SkillOrbit({ skills }: SkillOrbitProps) {
                 zIndex: 20
               }}
             >
-              {createSkillNodes(middleOrbit, middleOrbitRadius, true, 36)}
+              {createSkillNodes(middleOrbit, middleOrbitRadius, true, middleIconSize)}
             </div>
             
             {/* 外层轨道 */}
@@ -345,7 +374,7 @@ export default function SkillOrbit({ skills }: SkillOrbitProps) {
                 zIndex: 25
               }}
             >
-              {createSkillNodes(outerOrbit, outerOrbitRadius, false, 38)}
+              {createSkillNodes(outerOrbit, outerOrbitRadius, false, outerIconSize)}
             </div>
           </div>
         </div>
