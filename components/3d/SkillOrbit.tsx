@@ -268,9 +268,9 @@ export default function SkillOrbit({ skills }: SkillOrbitProps) {
   const maxDimension = Math.min(centerX, centerY) * (isMobile ? 0.7 : 0.85); // 移动端整体缩小更多
   
   // 调整轨道间距，根据设备类型使用不同的比例
-  const innerOrbitRadius = maxDimension * (isMobile ? 0.5 : 0.7); // 移动端内圈更小
-  const middleOrbitRadius = maxDimension * (isMobile ? 0.85 : 1.0);
-  const outerOrbitRadius = maxDimension * (isMobile ? 1.15 : 1.3);
+  const innerOrbitRadius = maxDimension * (isMobile ? 0.8 : 0.7); // 移动端内圈更小
+  const middleOrbitRadius = maxDimension * (isMobile ? 1.2 : 1.0);
+  const outerOrbitRadius = maxDimension * (isMobile ? 1.6 : 1.3);
   
   // 根据设备类型确定图标大小
   const innerIconSize = isMobile ? 28 : 34;
