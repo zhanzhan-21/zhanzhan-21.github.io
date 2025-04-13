@@ -3,10 +3,12 @@
 import { motion } from "framer-motion"
 import { Database, Server, Layers, Terminal } from "lucide-react"
 import { Card, CardContent } from "@/components/ui/card"
-import { Progress } from "@/components/ui/progress"
 import SkillOrbit from "@/components/3d/SkillOrbit"
+import { useState } from "react"
 
 export default function Skills() {
+  const [activeTab, setActiveTab] = useState("backend")
+
   const backendSkills = [
     { name: "Java", level: 95, icon: "/icons/java.svg" },
     { name: "Spring Boot", level: 90, icon: "/icons/spring-boot.svg" },
@@ -43,6 +45,25 @@ export default function Skills() {
     ...otherSkills
   ]
 
+  // 根据当前选中的标签返回对应的技能数据
+  const getActiveSkills = () => {
+    switch (activeTab) {
+      case "backend": return backendSkills;
+      case "database": return databaseSkills;
+      case "architecture": return architectureSkills;
+      case "tools": return otherSkills;
+      default: return backendSkills;
+    }
+  }
+
+  // 标签配置
+  const tabs = [
+    { id: "backend", label: "后端开发", icon: <Server className="h-5 w-5" /> },
+    { id: "database", label: "数据库", icon: <Database className="h-5 w-5" /> },
+    { id: "architecture", label: "系统架构", icon: <Layers className="h-5 w-5" /> },
+    { id: "tools", label: "开发工具", icon: <Terminal className="h-5 w-5" /> },
+  ]
+
   return (
     <section id="skills" className="pt-10 pb-10 px-4 bg-gray-50 dark:bg-gray-800">
       <div className="container mx-auto">
@@ -71,115 +92,87 @@ export default function Skills() {
           <SkillOrbit skills={allSkills} />
         </motion.div>
 
-        <div className="grid md:grid-cols-2 gap-6">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.2 }}
-            viewport={{ once: true }}
-          >
-            <Card>
-              <CardContent className="p-5">
-                <div className="flex items-center mb-4">
-                  <Server className="h-6 w-6 text-primary mr-3" />
-                  <h3 className="text-xl font-semibold">后端开发</h3>
-                </div>
-                <div className="space-y-3">
-                  {backendSkills.map((skill, index) => (
-                    <div key={index} className="space-y-1.5">
-                      <div className="flex justify-between">
-                        <span className="font-medium">{skill.name}</span>
-                        <span className="text-sm text-gray-500 dark:text-gray-400">{skill.level}%</span>
+        {/* 新的紧凑型技能卡片展示区域 */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          viewport={{ once: true }}
+          className="max-w-3xl mx-auto mt-12"
+        >
+          <Card className="overflow-hidden shadow-md bg-transparent">
+            <div className="flex justify-center flex-wrap border-b border-gray-200 dark:border-gray-700 bg-gray-50/80 dark:bg-gray-800/80 backdrop-blur-sm">
+              {tabs.map((tab) => (
+                <button
+                  key={tab.id}
+                  onClick={() => setActiveTab(tab.id)}
+                  className={`flex items-center px-5 py-2.5 space-x-2 transition-all text-base font-medium ${
+                    activeTab === tab.id
+                      ? "bg-transparent text-primary border-b-2 border-primary"
+                      : "text-gray-600 dark:text-gray-300 hover:text-primary hover:bg-gray-100/50 dark:hover:bg-gray-700/50"
+                  }`}
+                >
+                  <span className={activeTab === tab.id ? 'text-primary' : 'text-gray-500 dark:text-gray-400'}>
+                    {tab.icon}
+                  </span>
+                  <span>{tab.label}</span>
+                </button>
+              ))}
+            </div>
+            
+            <CardContent className="p-0 bg-transparent">
+              <div className="p-4">
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                  {getActiveSkills().map((skill, index) => (
+                    <motion.div
+                      key={index}
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.3, delay: index * 0.05 }}
+                      className="group"
+                    >
+                      <div className="flex flex-col items-center p-2 rounded-lg bg-transparent hover:bg-gray-50/40 dark:hover:bg-gray-700/30 transition-all hover:shadow-sm">
+                        <div className="relative mb-1.5">
+                          {/* 技能图标 */}
+                          <div className="w-10 h-10 flex items-center justify-center rounded-full bg-blue-50/80 dark:bg-blue-900/30 group-hover:bg-blue-100/80 dark:group-hover:bg-blue-800/40 transition-all p-2 backdrop-blur-sm">
+                            <img 
+                              src={skill.icon} 
+                              alt={skill.name} 
+                              className="w-6 h-6 object-contain" 
+                              onError={(e) => { 
+                                (e.target as HTMLImageElement).src = "/icons/code.svg"
+                              }}
+                            />
+                          </div>
+                          
+                          {/* 环形进度条 */}
+                          <svg className="absolute top-0 left-0 w-10 h-10 -rotate-90">
+                            <circle 
+                              cx="20" 
+                              cy="20" 
+                              r="17" 
+                              stroke="currentColor" 
+                              strokeWidth="2.5" 
+                              fill="transparent"
+                              strokeDasharray={`${skill.level * 1.07} 200`}
+                              className="text-primary"
+                              strokeLinecap="round"
+                            />
+                          </svg>
+                        </div>
+                        
+                        <div className="text-center">
+                          <h4 className="text-xs font-medium mt-1">{skill.name}</h4>
+                          <span className="text-xs text-gray-500 dark:text-gray-400">{skill.level}%</span>
+                        </div>
                       </div>
-                      <Progress value={skill.level} className="h-2" />
-                    </div>
+                    </motion.div>
                   ))}
                 </div>
-              </CardContent>
-            </Card>
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.3 }}
-            viewport={{ once: true }}
-          >
-            <Card>
-              <CardContent className="p-5">
-                <div className="flex items-center mb-4">
-                  <Database className="h-6 w-6 text-primary mr-3" />
-                  <h3 className="text-xl font-semibold">数据库</h3>
-                </div>
-                <div className="space-y-3">
-                  {databaseSkills.map((skill, index) => (
-                    <div key={index} className="space-y-1.5">
-                      <div className="flex justify-between">
-                        <span className="font-medium">{skill.name}</span>
-                        <span className="text-sm text-gray-500 dark:text-gray-400">{skill.level}%</span>
-                      </div>
-                      <Progress value={skill.level} className="h-2" />
-                    </div>
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.4 }}
-            viewport={{ once: true }}
-          >
-            <Card>
-              <CardContent className="p-5">
-                <div className="flex items-center mb-4">
-                  <Layers className="h-6 w-6 text-primary mr-3" />
-                  <h3 className="text-xl font-semibold">系统架构</h3>
-                </div>
-                <div className="space-y-3">
-                  {architectureSkills.map((skill, index) => (
-                    <div key={index} className="space-y-1.5">
-                      <div className="flex justify-between">
-                        <span className="font-medium">{skill.name}</span>
-                        <span className="text-sm text-gray-500 dark:text-gray-400">{skill.level}%</span>
-                      </div>
-                      <Progress value={skill.level} className="h-2" />
-                    </div>
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.5 }}
-            viewport={{ once: true }}
-          >
-            <Card>
-              <CardContent className="p-5">
-                <div className="flex items-center mb-4">
-                  <Terminal className="h-6 w-6 text-primary mr-3" />
-                  <h3 className="text-xl font-semibold">开发工具</h3>
-                </div>
-                <div className="space-y-3">
-                  {otherSkills.map((skill, index) => (
-                    <div key={index} className="space-y-1.5">
-                      <div className="flex justify-between">
-                        <span className="font-medium">{skill.name}</span>
-                        <span className="text-sm text-gray-500 dark:text-gray-400">{skill.level}%</span>
-                      </div>
-                      <Progress value={skill.level} className="h-2" />
-                    </div>
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
-          </motion.div>
-        </div>
+              </div>
+            </CardContent>
+          </Card>
+        </motion.div>
       </div>
     </section>
   )
