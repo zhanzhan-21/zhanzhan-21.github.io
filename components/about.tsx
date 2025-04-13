@@ -22,7 +22,10 @@ export default function About() {
       major: "控制工程",
       period: "2023.09 - 2026.06",
       gpa: "3.9",
-      publication: "<strong>一作</strong>发表SCI二区文章一篇：<a href=\"https://www.sciencedirect.com/science/article/pii/S0263224125005731\" className=\"text-primary hover:text-primary/80\" target=\"_blank\" rel=\"noopener noreferrer\">文章链接</a>",
+      publication: {
+        text: "一作发表SCI二区文章一篇",
+        url: "https://www.sciencedirect.com/science/article/pii/S0263224125005731"
+      },
       tags: [
         { label: "211", color: "blue" },
         { label: "985", color: "green" },

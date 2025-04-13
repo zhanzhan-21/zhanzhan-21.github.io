@@ -38,7 +38,10 @@ export type EducationCardType = {
   period: string
   gpa?: string
   rank?: string
-  publication?: string
+  publication?: string | {
+    text: string
+    url: string
+  }
   tags: {
     label: string
     color: "blue" | "green" | "purple" | "red" | "yellow"
@@ -238,7 +241,26 @@ export function ExpandableEducationCard({ schools }: ExpandableEducationCardProp
             </motion.p>
             {school.gpa && <p className="text-gray-600 dark:text-gray-300 text-sm">平均绩点：{school.gpa}</p>}
             {school.rank && <p className="text-gray-600 dark:text-gray-300 text-sm">{school.rank}</p>}
-            {school.publication && <p className="text-gray-600 dark:text-gray-300 text-sm" dangerouslySetInnerHTML={{ __html: school.publication }}></p>}
+            {school.publication && (
+              <div className="text-gray-600 dark:text-gray-300 text-sm">
+                {typeof school.publication === 'string' ? (
+                  <p dangerouslySetInnerHTML={{ __html: school.publication }}></p>
+                ) : (
+                  <p>
+                    <strong>一作</strong>发表SCI二区文章一篇：
+                    <a 
+                      href={school.publication.url} 
+                      className="text-primary hover:text-primary/80" 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      onClick={(e) => e.stopPropagation()}
+                    >
+                      文章链接
+                    </a>
+                  </p>
+                )}
+              </div>
+            )}
           </motion.div>
         ))}
       </div>
