@@ -2,6 +2,31 @@
 
 这是一个使用 Next.js 和 Tailwind CSS 构建的现代个人博客网站，用于展示个人信息、技能和项目经历。
 
+## 项目结构
+
+```
+├── app/                # Next.js 应用目录
+│   ├── globals.css     # 全局样式
+│   ├── layout.tsx      # 布局组件
+│   └── page.tsx        # 主页面
+├── components/         # React组件
+│   ├── ui/             # 基础UI组件
+│   ├── 3d/             # 3D效果组件
+│   ├── navbar.tsx      # 导航栏
+│   ├── hero.tsx        # 首页英雄区
+│   └── ...其他组件
+├── lib/                # 工具函数
+├── public/             # 静态资源
+│   ├── images/         # 图片资源
+│   ├── icons/          # 图标资源
+│   └── fonts/          # 字体资源
+├── styles/             # 额外样式
+├── next.config.mjs     # Next.js配置
+├── tailwind.config.ts  # Tailwind配置
+├── tsconfig.json       # TypeScript配置
+└── package.json        # 项目依赖
+```
+
 ## 最近更新
 
 - **2025-4-14**: 优化项目卡片展开效果，改进居中显示方式：
@@ -47,8 +72,6 @@
 
 本项目是一个响应式的个人博客网站，包括以下主要功能和特点：
 
-
-
 ## 主要功能
 
 1. **首页(Hero)** - 展示个人简介和联系方式，带有3D粒子背景和互动特效
@@ -88,6 +111,58 @@
    - 当前活跃页面有明显的指示标记
    - 移动端提供平滑过渡的下拉菜单，带有特殊的视觉标记
 
+## 本地开发
+
+### 环境要求
+
+- Node.js 18.x 或更高版本
+- pnpm 8.x 或更高版本
+
+### 安装依赖
+
+```bash
+pnpm install
+```
+
+### 启动开发服务器
+
+```bash
+pnpm dev
+```
+
+开发服务器将在 [http://localhost:3000](http://localhost:3000) 启动。
+
+### 构建生产版本
+
+```bash
+pnpm build
+```
+
+生产构建将输出到 `out` 目录。
+
+## 部署
+
+项目已配置为可以部署到Vercel或GitHub Pages。
+
+### GitHub Pages部署
+
+1. 确保`next.config.mjs`中设置了正确的`basePath`
+2. 运行以下命令构建和导出站点:
+
+```bash
+pnpm build
+```
+
+3. 将`out`目录的内容推送到GitHub Pages分支
+
 ## 在线访问
 
 访问网站: [https://zhanzhan-21.github.io/](https://zhanzhan-21.github.io/)
+
+## 贡献
+
+欢迎提交问题和改进建议。
+
+## 许可
+
+MIT License
