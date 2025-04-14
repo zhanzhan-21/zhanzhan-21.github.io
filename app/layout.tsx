@@ -1,9 +1,8 @@
-import type React from "react"
 import "./globals.css"
 import { ThemeProvider } from "@/components/theme-provider"
 import MouseFollower from "@/components/3d/MouseFollower"
 import SmoothScrollFix from "@/components/smooth-scroll-fix"
-
+import type { ReactNode } from 'react'
 
 export const metadata = {
   title: "展春燕 - Java工程师",
@@ -14,7 +13,7 @@ export const metadata = {
 export default function RootLayout({
   children,
 }: {
-  children: React.ReactNode
+  children: ReactNode
 }) {
   return (
     <html lang="zh" suppressHydrationWarning>

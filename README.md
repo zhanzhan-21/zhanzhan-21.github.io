@@ -29,6 +29,10 @@
 
 ## 最近更新
 
+- **2025-4-14**: 修复TypeScript类型导入问题：
+  - 解决了React类型声明找不到的问题
+  - 修复了pnpm和npm混用导致的类型路径错误
+  - 优化了项目依赖管理方式
 - **2025-4-14**: 优化项目卡片展开效果，改进居中显示方式：
   - 保留卡片在页面中央优雅展示的特性
   - 调整卡片容器的定位和内边距，确保内容不被导航栏遮挡
@@ -116,17 +120,30 @@
 ### 环境要求
 
 - Node.js 18.x 或更高版本
-- pnpm 8.x 或更高版本
+- npm 或 pnpm 作为包管理器
 
 ### 安装依赖
 
+项目同时支持npm和pnpm包管理器，推荐同时使用两者以确保类型定义正确解析。
+
 ```bash
-pnpm install
+# 使用npm安装
+npm install --legacy-peer-deps
+
+# 安装TypeScript类型定义
+npm install --save-dev @types/react @types/react-dom @types/node --legacy-peer-deps
+
+# 使用pnpm安装(确保类型路径正确)
+pnpm install --no-frozen-lockfile
 ```
+
+注意：由于项目使用了React 19和一些最新依赖，需要使用`--legacy-peer-deps`选项来解决依赖兼容性问题。
 
 ### 启动开发服务器
 
 ```bash
+npm run dev
+# 或
 pnpm dev
 ```
 
@@ -135,10 +152,36 @@ pnpm dev
 ### 构建生产版本
 
 ```bash
+npm run build
+# 或
 pnpm build
 ```
 
-生产构建将输出到 `out` 目录。
+注意：由于在 next.config.mjs 中设置了 `output: 'export'`，构建命令会自动生成静态导出文件到 `out` 目录。
+
+### 解决TypeScript类型问题
+
+如果遇到React类型定义找不到的问题，请按照以下步骤解决：
+
+1. 确保在`app/layout.tsx`等文件中正确导入React类型：
+```typescript
+import type { ReactNode } from 'react'
+```
+
+2. 清除TypeScript缓存：
+```bash
+rm -f tsconfig.tsbuildinfo
+```
+
+3. 重新安装依赖：
+```bash
+# 先用npm安装核心依赖
+npm install --legacy-peer-deps
+npm install --save-dev @types/react @types/react-dom @types/node --legacy-peer-deps
+
+# 再用pnpm安装确保类型路径正确
+pnpm install --no-frozen-lockfile
+```
 
 ## 部署
 
@@ -146,14 +189,14 @@ pnpm build
 
 ### GitHub Pages部署
 
-1. 确保`next.config.mjs`中设置了正确的`basePath`
-2. 运行以下命令构建和导出站点:
+1. 确保 `next.config.mjs` 中设置了正确的 `basePath`（当前设置为 `''`）
+2. 运行构建命令生成静态文件:
 
 ```bash
-pnpm build
+npm run build
 ```
 
-3. 将`out`目录的内容推送到GitHub Pages分支
+3. 将 `out` 目录的内容推送到GitHub Pages分支
 
 ## 在线访问
 
