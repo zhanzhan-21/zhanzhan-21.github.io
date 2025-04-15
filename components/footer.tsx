@@ -18,7 +18,7 @@ export default function Footer() {
                 <span>17852327512@163.com</span>
               </div>
               <div className="flex items-center">
-                <Globe className="h-6 w-6 mr-3 text-primary" />
+                <img src="/展.svg" className="h-6 w-6 mr-3 text-primary" />
                 <a href="https://zhanzhan-21.github.io" className="hover:text-primary transition-colors">
                   zhanzhan-21.github.io
                 </a>

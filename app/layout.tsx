@@ -9,9 +9,9 @@ export const metadata = {
   description: "展春燕个人主页",
   generator: '展春燕',
   icons: {
-    icon: '/展.png',
-    shortcut: '/展.png',
-    apple: '/展.png',
+    icon: '/展.svg',
+    shortcut: '/展.svg',
+    apple: '/展.svg',
   }
 }
 

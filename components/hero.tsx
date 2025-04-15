@@ -252,7 +252,7 @@ export default function Hero() {
               <span>17852327512@163.com</span>
             </div>
             <div className="flex items-center gap-2 col-span-2">
-              <Globe className={`${isTablet ? 'h-3.5 w-3.5' : 'h-4 w-4'} text-primary`} />
+              <img src="/展.svg" className={`${isTablet ? 'h-3.5 w-3.5' : 'h-4 w-4'} text-primary`} />
               <a href="https://zhanzhan-21.github.io" className="hover:text-primary transition-colors">
                 zhanzhan-21.github.io
               </a>
