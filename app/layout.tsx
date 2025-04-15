@@ -5,9 +5,14 @@ import SmoothScrollFix from "@/components/smooth-scroll-fix"
 import type { ReactNode } from 'react'
 
 export const metadata = {
-  title: "展春燕 - Java工程师",
-  description: "Java工程师个人主页",
-  generator: 'v0.dev'
+  title: "展春燕 - 个人主页",
+  description: "展春燕个人主页",
+  generator: '展春燕',
+  icons: {
+    icon: '/展.png',
+    shortcut: '/展.png',
+    apple: '/展.png',
+  }
 }
 
 export default function RootLayout({
