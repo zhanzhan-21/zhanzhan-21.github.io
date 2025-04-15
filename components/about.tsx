@@ -96,9 +96,9 @@ export default function About() {
             whileInView={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.5, delay: 0.2 }}
             viewport={{ once: true }}
-            className="h-full"
+            className="h-full flex justify-center"
           >
-            <Card className="h-full">
+            <Card className="h-full w-full">
               <CardContent className="p-6 h-full flex flex-col">
                 <div className="flex items-center mb-4">
                   <GraduationCap className="h-6 w-6 text-primary mr-3" />
@@ -114,9 +114,9 @@ export default function About() {
             whileInView={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.5, delay: 0.2 }}
             viewport={{ once: true }}
-            className="h-full"
+            className="h-full flex justify-center"
           >
-            <Card className="h-full">
+            <Card className="h-full w-full">
               <CardContent className="p-6 h-full flex flex-col">
                 <div className="flex items-center mb-4">
                   <BookOpen className="h-6 w-6 text-primary mr-3" />

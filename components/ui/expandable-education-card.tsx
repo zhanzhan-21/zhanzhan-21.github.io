@@ -60,6 +60,24 @@ export function ExpandableEducationCard({ schools }: ExpandableEducationCardProp
   const [active, setActive] = useState<EducationCardType | null>(null)
   const ref = useRef<HTMLDivElement>(null)
   const id = useId()
+  const [isMobile, setIsMobile] = useState(false)
+
+  // 检测是否为移动设备
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    
+    // 初始检查
+    checkMobile();
+    
+    // 监听窗口大小变化
+    window.addEventListener('resize', checkMobile);
+    
+    return () => {
+      window.removeEventListener('resize', checkMobile);
+    };
+  }, []);
 
   useEffect(() => {
     function onKeyDown(event: KeyboardEvent) {
@@ -128,6 +146,9 @@ export function ExpandableEducationCard({ schools }: ExpandableEducationCardProp
         {active ? (
           <div 
             className="fixed inset-0 grid place-items-center z-[95] pt-10 md:pt-4 md:mt-12 px-2 overflow-y-auto"
+            style={{ 
+              paddingTop: isMobile ? '60px' : (window.innerWidth < 768 ? '60px' : '40px')
+            }}
           >
             <motion.div
               initial={{ opacity: 0 }}
@@ -141,6 +162,10 @@ export function ExpandableEducationCard({ schools }: ExpandableEducationCardProp
               layoutId={`card-${active.school}-${id}`}
               ref={ref}
               className="w-full max-w-[500px] max-h-[85vh] md:max-h-[85vh] flex flex-col bg-white dark:bg-neutral-900 rounded-xl md:rounded-3xl overflow-hidden will-change-transform shadow-xl relative"
+              style={{
+                maxHeight: isMobile ? '85vh' : '85vh',
+                width: isMobile ? '96%' : '100%'
+              }}
             >
               <div className="absolute top-3 right-3 z-[50]">
                 <button
