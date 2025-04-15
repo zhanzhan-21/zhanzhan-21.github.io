@@ -405,7 +405,7 @@ export default function ExpandableProjectCard({ project, index = 0 }: Expandable
                       <Code className={cn("h-4 w-4 mr-2", getTextColor())} />
                       项目描述
                     </h4>
-                    <p className="text-gray-700 dark:text-gray-300">{project.description}</p>
+                    <p className="text-gray-700 dark:text-gray-300 text-justify">{project.description}</p>
                   </div>
                   
                   <div className="bg-white dark:bg-gray-800 rounded-xl p-4 shadow-md border border-gray-200 dark:border-gray-700 hover:shadow-lg transition-shadow duration-200">
@@ -429,7 +429,7 @@ export default function ExpandableProjectCard({ project, index = 0 }: Expandable
                             >
                               <Award className="h-3.5 w-3.5 text-white" />
                             </div>
-                            <span className="ml-2 text-gray-700 dark:text-gray-300">{feature}</span>
+                            <span className="ml-2 text-gray-700 dark:text-gray-300 text-justify">{feature}</span>
                           </li>
                         );
                       })}
