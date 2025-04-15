@@ -5,8 +5,9 @@ import { Moon, Sun } from "lucide-react"
 import { useTheme } from "next-themes"
 import { Button } from "@/components/ui/button"
 import { AboutIcon, SkillsIcon, ProjectsIcon, AwardsIcon, HomeIcon } from "@/components/ui/NavIcons"
+import Link from 'next/link'
 
-// 定义统一的滚动偏移量常量，确保与SmoothScrollFix组件一致
+// 定义统一的滚动偏移量常量
 const SCROLL_OFFSET = 80;
 
 // 自定义导航链接组件
@@ -123,6 +124,13 @@ const NavLink = ({
   )
 }
 
+// 留言板图标组件
+const MessageBoardIcon = () => (
+  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-full h-full">
+    <path strokeLinecap="round" strokeLinejoin="round" d="M7.5 8.25h9m-9 3H12m-9.75 1.51c0 1.6 1.123 2.994 2.707 3.227 1.129.166 2.27.293 3.423.379.35.026.67.21.865.501L12 21l2.755-4.133a1.14 1.14 0 01.865-.501 48.172 48.172 0 003.423-.379c1.584-.233 2.707-1.626 2.707-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0012 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018z" />
+  </svg>
+);
+
 export default function Navbar() {
   const [mounted, setMounted] = useState(false)
   const { theme, setTheme } = useTheme()
@@ -138,7 +146,7 @@ export default function Navbar() {
   // 监听滚动以更新活动部分
   const checkActiveSection = () => {
     // 获取所有部分
-    const sections = ['about', 'skills', 'projects', 'awards', 'contact'];
+    const sections = ['about', 'skills', 'projects', 'awards', 'contact', 'message-board'];
     // 添加顶部检查
     if (window.scrollY < 300) {
       setActiveSection('');
@@ -299,6 +307,14 @@ export default function Navbar() {
             <NavLink href="#awards" isActive={activeSection === 'awards'} icon={<AwardsIcon />}>
               荣誉奖励
             </NavLink>
+            <Link href="/message-board" legacyBehavior>
+              <a className="relative flex items-center gap-2 transition-all duration-300 text-gray-700 hover:text-primary dark:text-gray-200 dark:hover:text-primary hover:scale-110">
+                <div className="w-6 h-6 text-gray-500 dark:text-gray-400">
+                  <MessageBoardIcon />
+                </div>
+                <span className="text-lg font-medium">留言板</span>
+              </a>
+            </Link>
           </div>
           
           {/* 移动端菜单按钮 */}
@@ -355,6 +371,16 @@ export default function Navbar() {
           <NavLink href="#awards" isActive={activeSection === 'awards'} icon={<AwardsIcon />} isMobile={true}>
             荣誉奖励
           </NavLink>
+          <Link 
+            href="/message-board" 
+            onClick={handleMobileNavClick} 
+            className="flex items-center gap-3 py-3 px-5 rounded-lg transition-all duration-300 text-gray-700 hover:bg-gray-50 dark:text-gray-200 dark:hover:bg-gray-800/50"
+          >
+            <div className="w-6 h-6 text-gray-500 dark:text-gray-400">
+              <MessageBoardIcon />
+            </div>
+            <span className="text-lg">留言板</span>
+          </Link>
         </div>
       </div>
     </nav>

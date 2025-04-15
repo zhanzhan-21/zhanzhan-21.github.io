@@ -8,7 +8,8 @@
 ├── app/                # Next.js 应用目录
 │   ├── globals.css     # 全局样式
 │   ├── layout.tsx      # 布局组件
-│   └── page.tsx        # 主页面
+│   ├── page.tsx        # 主页面
+│   └── api/            # API路由
 ├── components/         # React组件
 │   ├── ui/             # 基础UI组件
 │   ├── 3d/             # 3D效果组件
@@ -16,6 +17,9 @@
 │   ├── hero.tsx        # 首页英雄区
 │   └── ...其他组件
 ├── lib/                # 工具函数
+│   ├── dbConnect.js    # 数据库连接工具
+│   ├── models/         # MongoDB数据模型
+│   └── utils.ts        # 通用工具函数
 ├── public/             # 静态资源
 │   ├── images/         # 图片资源
 │   ├── icons/          # 图标资源
@@ -28,6 +32,8 @@
 ```
 
 ## 最近更新
+
+
 
 - **2025-4-15**: 修复手机端卡片居中显示问题：
   - 优化"关于我"页面卡片在手机端的居中显示
@@ -99,8 +105,9 @@
 3. **技能展示(Skills)** - 展示技术栈和专业技能，带有轨道式图标展示
 4. **项目展示(Projects)** - 展示个人项目经历，带有3D翻转卡片效果
 5. **获奖经历(Awards)** - 展示个人获奖情况，特殊奖项有3D悬浮效果
-6. **联系方式(Footer)** - 提供联系信息和社交媒体链接
-7. **增强型导航** - 顶部导航栏带有图标和动画效果，支持响应式布局
+6. **留言板(Message Board)** - 访客可以留言并查看他人留言，使用GitHub Issues存储
+7. **联系方式(Footer)** - 提供联系信息和社交媒体链接
+8. **增强型导航** - 顶部导航栏带有图标和动画效果，支持响应式布局
 
 ## 技术栈
 
@@ -110,6 +117,7 @@
 - **动画**: [Framer Motion](https://www.framer.com/motion/) - React 动画库
 - **3D效果**: [Three.js](https://threejs.org/) 和 [React Three Fiber](https://docs.pmnd.rs/react-three-fiber) - WebGL 3D渲染
 - **自定义动画**: 纯CSS和React实现的动画效果
+- **数据库**: [GitHub Issues](https://github.com/features/issues) - 代码托管平台
 - **TypeScript**: 提供类型安全和更好的开发体验
 
 ## 3D效果和交互特性
@@ -225,3 +233,136 @@ npm run build
 ## 许可
 
 MIT License
+
+## 留言板功能使用说明
+
+留言板功能允许访客在您的博客上留言，所有留言存储在项目的`data/messages.json`文件中。
+
+### 功能特点
+
+1. **表单验证** - 使用Zod进行客户端和服务器端的表单验证
+2. **实时反馈** - 提交成功和失败都有清晰的视觉反馈
+3. **优雅的UI设计** - 符合整站风格的卡片式布局
+4. **响应式设计** - 在各种设备上都有良好的显示效果
+5. **数据持久化** - 所有留言都保存在JSON文件中，便于备份和迁移
+6. **管理后台** - 提供管理员页面查看所有留言，包括非公开留言
+
+### 使用方法
+
+1. **访客留言：**
+   - 访问留言板页面：点击导航栏中的"留言板"链接或访问`/message-board`路径
+   - 填写留言表单：
+     - 输入您的姓名（必填）
+     - 输入您的邮箱（必填，用于管理员回复）
+     - 输入留言内容（必填）
+     - 选择是否公开显示（默认公开）
+   - 点击"提交留言"按钮提交
+   - 在留言列表中查看已发布的留言
+
+2. **管理员功能：**
+   - 访问管理页面：`/admin/message-board`路径
+   - 查看所有留言，包括非公开留言
+   - 删除不需要的留言
+
+### 技术实现
+
+留言板功能的技术实现包括：
+
+1. **数据存储** - 使用JSON文件存储留言数据
+2. **集中式处理模块** - 封装的`jsonStorage.js`模块提供数据操作统一入口
+3. **API端点** - 提供获取和提交留言的RESTful API
+4. **表单处理** - 使用react-hook-form和zod处理表单验证
+5. **错误处理** - 完善的前后端错误处理机制
+6. **UI组件** - 使用shadcn/ui组件库构建界面
+
+## 如何运行
+
+### 本地开发环境
+
+1. 克隆仓库
+
+```bash
+git clone https://github.com/zhanzhan-21/zhanzhan-21.github.io.git
+cd zhanzhan-21.github.io
+```
+
+2. 安装依赖
+
+```bash
+npm install
+# 或
+yarn install
+# 或
+pnpm install
+```
+
+3. 配置环境变量
+
+复制`.env.example`文件为`.env.local`文件，并填写必要的环境变量：
+
+```
+# GitHub API令牌，用于留言板功能
+GITHUB_TOKEN=your_github_token_here
+
+# 留言板Issue配置
+ISSUE_REPO_OWNER=zhanzhan-21
+ISSUE_REPO_NAME=zhanzhan-21.github.io
+ISSUE_NUMBER=1
+```
+
+4. 运行开发服务器
+
+```bash
+npm run dev
+# 或
+yarn dev
+# 或
+pnpm dev
+```
+
+访问 [http://localhost:3000](http://localhost:3000) 查看结果。
+
+### 构建生产版本
+
+```bash
+npm run build
+# 或
+yarn build
+# 或
+pnpm build
+```
+
+## 部署到GitHub Pages
+
+本项目可以直接部署到GitHub Pages，留言功能通过GitHub Issues API实现。
+
+### 部署步骤
+
+1. 在GitHub上创建仓库 `your-username.github.io`
+2. 配置GitHub Actions工作流 (已包含在`.github/workflows/deploy.yml`)
+3. 设置GitHub Secrets
+
+在仓库设置中添加以下Secrets:
+- `GITHUB_TOKEN`: 用于GitHub API的访问令牌 (需要repo权限)
+
+### 留言功能配置
+
+1. 在你的GitHub仓库中创建一个专门用于存储留言的Issue
+2. 记下Issue的编号
+3. 在环境变量或GitHub Secrets中设置:
+   - `ISSUE_REPO_OWNER`: 你的GitHub用户名
+   - `ISSUE_REPO_NAME`: 仓库名 (通常是 `your-username.github.io`)
+   - `ISSUE_NUMBER`: 留言Issue的编号
+
+## 自定义配置
+
+### 修改留言存储方式
+
+本项目默认使用GitHub Issues存储留言，如果你想使用其他存储方式，可以:
+
+1. 修改 `lib/githubIssueStorage.js` 文件
+2. 更新 `app/api/messages/route.js` 中的API处理逻辑
+
+## 贡献
+
+如果你想为这个项目做贡献，欢迎提交Pull Request或创建Issue。

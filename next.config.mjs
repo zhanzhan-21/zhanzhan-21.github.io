@@ -7,7 +7,8 @@ try {
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  output: 'export',
+  // 注释掉output: 'export'以支持动态API路由
+  // output: 'export',
   images: {
     unoptimized: true,
   },

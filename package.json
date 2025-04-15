@@ -5,9 +5,9 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "export": "next export || next build && next export",
     "start": "next start",
-    "lint": "next lint",
-    "export": "next build && next export"
+    "lint": "next lint"
   },
   "dependencies": {
     "@emotion/is-prop-valid": "latest",
@@ -51,10 +51,14 @@
     "framer-motion": "^12.5.0",
     "framer-motion-3d": "^12.4.13",
     "input-otp": "1.4.1",
+    "install": "^0.13.0",
     "lucide-react": "^0.454.0",
     "maath": "^0.10.8",
+    "mongodb": "^6.15.0",
+    "mongoose": "^8.13.2",
     "next": "15.1.0",
     "next-themes": "latest",
+    "npm": "^11.3.0",
     "react": "^19",
     "react-day-picker": "8.10.1",
     "react-dom": "^19",
@@ -62,7 +66,7 @@
     "react-resizable-panels": "^2.1.7",
     "recharts": "2.15.0",
     "sonner": "^1.7.1",
-    "tailwind-merge": "^2.5.5",
+    "tailwind-merge": "^2.6.0",
     "tailwindcss-animate": "^1.0.7",
     "three": "^0.175.0",
     "vaul": "^0.9.6",
