@@ -11,6 +11,8 @@ export default function Hero() {
   const [typedText, setTypedText] = useState("")
   const [isClient, setIsClient] = useState(false)
   const [isMobile, setIsMobile] = useState(false)
+  const [isTablet, setIsTablet] = useState(false)
+  const [isPortrait, setIsPortrait] = useState(false)  // 新增：检测是否为竖屏
   const fullText = "Java工程师 | 后端开发工程师"
   
   // 简单的3D卡片翻转状态
@@ -34,22 +36,32 @@ export default function Hero() {
   // 使用自定义纸屑效果
   const { isActive, triggerConfetti, config, onComplete } = useConfettiEffect();
 
-  // 检测是否为移动设备
+  // 检测是否为平板或移动设备，以及屏幕方向
   useEffect(() => {
     if (typeof window !== 'undefined') {
-      // 检测设备类型
-      const checkMobile = () => {
-        setIsMobile(window.innerWidth < 768);
+      // 检测设备类型和屏幕方向
+      const checkDeviceTypeAndOrientation = () => {
+        const width = window.innerWidth;
+        const height = window.innerHeight;
+        
+        // 添加平板设备的判断 (768px-1024px)
+        setIsMobile(width < 768);
+        setIsTablet(width >= 768 && width < 1024);
+        
+        // 检测是否为竖屏模式（高度大于宽度）
+        setIsPortrait(height > width);
       };
       
       // 初始检测
-      checkMobile();
+      checkDeviceTypeAndOrientation();
       
-      // 监听窗口大小变化
-      window.addEventListener('resize', checkMobile);
+      // 监听窗口大小变化和屏幕方向变化
+      window.addEventListener('resize', checkDeviceTypeAndOrientation);
+      window.addEventListener('orientationchange', checkDeviceTypeAndOrientation);
       
       return () => {
-        window.removeEventListener('resize', checkMobile);
+        window.removeEventListener('resize', checkDeviceTypeAndOrientation);
+        window.removeEventListener('orientationchange', checkDeviceTypeAndOrientation);
       };
     }
   }, []);
@@ -181,27 +193,32 @@ export default function Hero() {
       {/* 半透明覆盖层 - 降低不透明度使星星可见 */}
       <div className="absolute inset-0 bg-white dark:bg-gray-900 opacity-20 z-[10]"></div>
       
-      {/* 内容区域 - 最高z-index确保在最上层 */}
-      <div className="container mx-auto grid md:grid-cols-2 gap-8 items-center relative z-[20]">
+      {/* 内容区域 - 最高z-index确保在最上层，针对iPad竖屏做特殊处理 */}
+      <div className={`container mx-auto ${isTablet && isPortrait ? 'flex flex-col items-start px-8' : 'grid md:grid-cols-2'} gap-8 items-center relative z-[20]`}>
         <motion.div
           initial={{ opacity: 0, x: -50 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.8 }}
-          className="flex flex-col space-y-6"
+          className={`flex flex-col ${isTablet && isPortrait ? 'items-start text-left w-full max-w-md' : 'space-y-4 md:space-y-6'}`}
         >
-          <h1 className="text-4xl md:text-6xl font-bold text-gray-900 dark:text-white flex items-baseline">
-            <span>你好，我是</span>
-            <span 
-              ref={nameRef}
-              className={`text-primary cursor-pointer hover:scale-110 transition-transform inline-block shiny-button ${!isMobile ? 'auto-shine' : ''} ml-2`}
-              onMouseEnter={handleNameHover}
-              onMouseLeave={handleNameLeave}
-              onClick={handleNameClick}
-            >展春燕</span>
-          </h1>
+          <h1 className="flex flex-row flex-wrap items-baseline gap-2 text-4xl md:text-6xl font-bold text-gray-900 dark:text-white">
+  <span className="text-gray-900 dark:text-white">你好，我是</span>
+  <span
+    ref={nameRef}
+    className={`text-primary cursor-pointer hover:scale-110 transition-transform shiny-button ${!isMobile ? 'auto-shine' : ''}`}
+    onMouseEnter={handleNameHover}
+    onMouseLeave={handleNameLeave}
+    onClick={handleNameClick}
+  >
+    展春燕
+  </span>
+</h1>
+
+
+
           
           {/* 客户端渲染打字效果 */}
-          <div className="text-xl md:text-2xl text-gray-600 dark:text-gray-300 h-8">
+          <div className={`${isTablet && isPortrait ? 'text-lg mt-3' : `text-xl ${isTablet ? 'text-xl' : 'md:text-2xl'} mt-2`} text-gray-600 dark:text-gray-300 h-8`}>
             {isClient ? (
               <>
                 {typedText}
@@ -212,45 +229,47 @@ export default function Hero() {
             )}
           </div>
 
-          <p className="text-gray-600 dark:text-gray-300 max-w-2xl mb-8">
+          <p className={`text-gray-600 dark:text-gray-300 max-w-2xl mb-6 md:mb-8 ${isTablet && isPortrait ? 'text-left pl-0 pr-4 text-sm leading-relaxed' : isTablet ? 'text-sm leading-relaxed' : ''}`}>
             专注于构建高性能、可扩展的企业级应用，热衷于技术创新与解决复杂问题。
           </p>
-
-          <div className="flex flex-wrap gap-4 text-sm text-gray-600 dark:text-gray-300">
+          
+          {/* 联系信息 - 针对iPad竖屏模式做特殊排列，但保持左对齐 */}
+          <div className={`${isTablet && isPortrait ? 'grid grid-cols-2 gap-x-6 gap-y-4 justify-items-start' : 'flex flex-wrap gap-3 md:gap-4'} text-sm text-gray-600 dark:text-gray-300 ${isTablet ? 'text-xs' : ''}`}>
             <div className="flex items-center gap-2">
-              <MapPin className="h-4 w-4 text-primary" />
+              <MapPin className={`${isTablet ? 'h-3.5 w-3.5' : 'h-4 w-4'} text-primary`} />
               <span>山东德州</span>
             </div>
             <div className="flex items-center gap-2">
-              <Calendar className="h-4 w-4 text-primary" />
+              <Calendar className={`${isTablet ? 'h-3.5 w-3.5' : 'h-4 w-4'} text-primary`} />
               <span>2001.12.01</span>
             </div>
             <div className="flex items-center gap-2">
-              <Phone className="h-4 w-4 text-primary" />
+              <Phone className={`${isTablet ? 'h-3.5 w-3.5' : 'h-4 w-4'} text-primary`} />
               <span>17852327512</span>
             </div>
             <div className="flex items-center gap-2">
-              <Mail className="h-4 w-4 text-primary" />
+              <Mail className={`${isTablet ? 'h-3.5 w-3.5' : 'h-4 w-4'} text-primary`} />
               <span>17852327512@163.com</span>
             </div>
-            <div className="flex items-center gap-2">
-              <Globe className="h-4 w-4 text-primary" />
+            <div className="flex items-center gap-2 col-span-2">
+              <Globe className={`${isTablet ? 'h-3.5 w-3.5' : 'h-4 w-4'} text-primary`} />
               <a href="https://zhanzhan-21.github.io" className="hover:text-primary transition-colors">
                 zhanzhan-21.github.io
               </a>
             </div>
-            <div className="flex items-center gap-2">
-              <Github className="h-4 w-4 text-primary" />
+            <div className="flex items-center gap-2 col-span-2">
+              <Github className={`${isTablet ? 'h-3.5 w-3.5' : 'h-4 w-4'} text-primary`} />
               <a href="https://github.com/zhanzhan-21" className="hover:text-primary transition-colors">
                 github.com/zhanzhan-21
               </a>
             </div>
           </div>
 
-          <div className="flex gap-4 pt-4">
+          <div className={`flex gap-4 pt-3 md:pt-4 ${isTablet && isPortrait ? 'justify-start' : ''}`}>
             <Button 
               ref={contactBtnRef}
               asChild
+              className={`${isTablet && isPortrait ? 'px-6' : ''}`}
             >
               <a href="#contact" onClick={(e) => {
                 e.preventDefault();
@@ -286,6 +305,7 @@ export default function Hero() {
               ref={projectsBtnRef}
               variant="outline" 
               asChild
+              className={`${isTablet && isPortrait ? 'px-6' : ''}`}
             >
               <a href="#projects" onClick={(e) => {
                 e.preventDefault();
@@ -320,16 +340,16 @@ export default function Hero() {
           </div>
         </motion.div>
 
-        {/* 圆形3D照片展示区域 - 修改结构避免白边 */}
-        <div className="hidden md:flex justify-center items-center">
-          <div className="relative w-80 h-80 flex justify-center items-center perspective-1000">
+        {/* 圆形3D照片展示区域 - iPad竖屏模式下调整位置 */}
+        <div className={`${isTablet && isPortrait ? 'flex self-center' : 'hidden md:flex'} justify-center items-center ${isTablet && isPortrait ? 'mt-8' : ''}`}>
+          <div className={`relative ${isTablet && isPortrait ? 'w-60 h-60' : isTablet ? 'w-72 h-72' : 'w-80 h-80'} flex justify-center items-center perspective-1000`}>
             {/* 背景装饰圆 */}
             <div className="absolute w-full h-full rounded-full bg-primary/10 animate-pulse"></div>
-            <div className="absolute w-64 h-64 rounded-full bg-primary/20 animate-pulse animation-delay-1000"></div>
+            <div className={`absolute ${isTablet && isPortrait ? 'w-52 h-52' : 'w-64 h-64'} rounded-full bg-primary/20 animate-pulse animation-delay-1000`}></div>
             
             {/* 3D圆形头像 - 响应鼠标移动产生3D效果 */}
             <div 
-              className="w-72 h-72 preserve-3d transition-transform duration-300 cursor-pointer z-10 rounded-full"
+              className={`${isTablet && isPortrait ? 'w-52 h-52' : isTablet ? 'w-64 h-64' : 'w-72 h-72'} preserve-3d transition-transform duration-300 cursor-pointer z-10 rounded-full`}
               style={{ 
                 transform: isClient ? `rotateY(${rotateY}deg) rotateX(${rotateX}deg)` : 'none'
               }}
@@ -409,4 +429,4 @@ export default function Hero() {
       `}</style>
     </section>
   )
-} 
+}
