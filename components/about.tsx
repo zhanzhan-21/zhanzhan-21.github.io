@@ -4,11 +4,24 @@ import { motion } from "framer-motion"
 import { GraduationCap, BookOpen, Bike, Gamepad} from "lucide-react"
 import { Card, CardContent } from "@/components/ui/card"
 import { ScratchCard } from "@/components/ui/scratch-card"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { ExpandableEducationCard, type EducationCardType } from "@/components/ui/expandable-education-card"
 
 export default function About() {
   const [isRevealed, setIsRevealed] = useState(false)
+  const [cardWidth, setCardWidth] = useState(300)
+  
+  useEffect(() => {
+    // 客户端渲染时计算宽度
+    setCardWidth(Math.min(300, window.innerWidth - 40))
+    
+    const handleResize = () => {
+      setCardWidth(Math.min(300, window.innerWidth - 40))
+    }
+    
+    window.addEventListener('resize', handleResize)
+    return () => window.removeEventListener('resize', handleResize)
+  }, [])
   
   const handleReveal = () => {
     setIsRevealed(true)
@@ -99,12 +112,14 @@ export default function About() {
             className="h-full flex justify-center"
           >
             <Card className="h-full w-full">
-              <CardContent className="p-6 h-full flex flex-col">
-                <div className="flex items-center mb-4">
+              <CardContent className="p-6 h-full flex flex-col items-center md:items-start">
+                <div className="flex items-center mb-4 w-full">
                   <GraduationCap className="h-6 w-6 text-primary mr-3" />
                   <h3 className="text-xl font-semibold">教育背景</h3>
                 </div>
-                <ExpandableEducationCard schools={schools} />
+                <div className="w-full">
+                  <ExpandableEducationCard schools={schools} />
+                </div>
               </CardContent>
             </Card>
           </motion.div>
@@ -117,27 +132,27 @@ export default function About() {
             className="h-full flex justify-center"
           >
             <Card className="h-full w-full">
-              <CardContent className="p-6 h-full flex flex-col">
-                <div className="flex items-center mb-4">
+              <CardContent className="p-6 h-full flex flex-col items-center md:items-start">
+                <div className="flex items-center mb-4 w-full">
                   <BookOpen className="h-6 w-6 text-primary mr-3" />
                   <h3 className="text-xl font-semibold">个人简介</h3>
                 </div>
-                <div className="flex-grow">
-                  <p className="text-gray-600 dark:text-gray-300 mb-4">
+                <div className="flex-grow w-full">
+                  <p className="text-gray-600 dark:text-gray-300 mb-4 text-center md:text-left">
                     我是一名专注于Java后端开发的工程师，拥有扎实的计算机科学基础和丰富的项目经验。
                     在学习和工作中，我不断探索新技术，提升自己的技术能力和解决问题的能力。
                   </p>
-                  <p className="text-gray-600 dark:text-gray-300 mb-6">
+                  <p className="text-gray-600 dark:text-gray-300 mb-6 text-center md:text-left">
                     我热爱编程，善于团队协作，能够快速适应新环境和新技术。
                     我的目标是成为一名优秀的后端架构师，为用户提供高效、稳定的系统解决方案。
                   </p>
                   </div>
 
-                  <div>
+                  <div className="w-full flex flex-col items-center">
                   <h4 className="text-lg font-bold text-gray-800 dark:text-gray-200 mb-2">兴趣爱好</h4>
                   
                   <ScratchCard
-                    width={300}
+                    width={cardWidth}
                     height={120}
                     brushSize={50}
                     revealPercent={90}
