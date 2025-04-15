@@ -269,13 +269,13 @@ export function ExpandableEducationCard({ schools }: ExpandableEducationCardProp
           </div>
         ) : null}
       </AnimatePresence>
-      <div className="space-y-6 flex-grow w-full flex flex-col items-center md:items-start">
+      <div className="space-y-6 flex-grow w-full flex flex-col items-center md:items-start h-full">
         {schools.map((school) => (
           <motion.div
             layoutId={`card-${school.school}-${id}`}
             key={`card-${school.school}-${id}`}
             onClick={() => setActive(school)}
-            className="border-l-2 border-primary pl-4 py-1 cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-800 rounded-r-lg transition-colors group relative w-full max-w-[500px]"
+            className="border-l-2 border-primary pl-4 py-1 cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-800 rounded-r-lg transition-colors group relative w-full"
           >
             <div className="flex justify-between items-center">
               <div className="flex items-center">

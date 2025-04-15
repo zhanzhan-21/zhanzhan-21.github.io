@@ -103,21 +103,21 @@ export default function About() {
           </p>
         </motion.div>
 
-        <div className="flex flex-col md:grid md:grid-cols-2 gap-8 px-0 md:px-3 mx-auto max-w-5xl items-center">
+        <div className="flex flex-col md:grid md:grid-cols-2 gap-8 items-center justify-center md:items-stretch md:max-w-5xl md:mx-auto">
           <motion.div
             initial={{ opacity: 0, x: -30 }}
             whileInView={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.5, delay: 0.2 }}
             viewport={{ once: true }}
-            className="h-full w-full flex justify-center"
+            className="w-full max-w-md md:max-w-full mx-auto h-full"
           >
-            <Card className="h-full w-full max-w-[500px]">
-              <CardContent className="p-6 h-full flex flex-col items-center md:items-start">
+            <Card className="h-full w-full flex flex-col">
+              <CardContent className="p-6 flex-grow flex flex-col items-center md:items-start">
                 <div className="flex items-center mb-4 w-full">
                   <GraduationCap className="h-6 w-6 text-primary mr-3" />
                   <h3 className="text-xl font-semibold">教育背景</h3>
                 </div>
-                <div className="w-full">
+                <div className="w-full flex-grow">
                   <ExpandableEducationCard schools={schools} />
                 </div>
               </CardContent>
@@ -129,10 +129,10 @@ export default function About() {
             whileInView={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.5, delay: 0.2 }}
             viewport={{ once: true }}
-            className="h-full w-full flex justify-center"
+            className="w-full max-w-md md:max-w-full mx-auto h-full"
           >
-            <Card className="h-full w-full max-w-[500px]">
-              <CardContent className="p-6 h-full flex flex-col items-center md:items-start">
+            <Card className="h-full w-full flex flex-col">
+              <CardContent className="p-6 flex-grow flex flex-col items-center md:items-start">
                 <div className="flex items-center mb-4 w-full">
                   <BookOpen className="h-6 w-6 text-primary mr-3" />
                   <h3 className="text-xl font-semibold">个人简介</h3>
@@ -148,7 +148,7 @@ export default function About() {
                   </p>
                   </div>
 
-                  <div className="w-full flex flex-col items-center">
+                  <div className="w-full flex flex-col items-center md:items-start">
                   <h4 className="text-lg font-bold text-gray-800 dark:text-gray-200 mb-2">兴趣爱好</h4>
                   
                   <ScratchCard
