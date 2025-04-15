@@ -265,69 +265,21 @@ export default function Hero() {
             </div>
           </div>
 
-          <div className={`flex gap-4 pt-3 md:pt-4 ${isTablet && isPortrait ? 'justify-start' : ''}`}>
-            <Button 
-              ref={contactBtnRef}
-              asChild
-              className={`${isTablet && isPortrait ? 'px-6' : ''}`}
-            >
-              <a href="#contact" onClick={(e) => {
-                e.preventDefault();
-                
-                // 提取目标ID
-                const targetId = 'contact';
-                const targetElement = document.getElementById(targetId);
-                
-                if (targetElement) {
-                  // 获取当前滚动位置
-                  const currentScrollPosition = window.scrollY;
-                  
-                  // 计算目标元素的绝对位置
-                  const targetPosition = targetElement.getBoundingClientRect().top + currentScrollPosition;
-                  
-                  // 使用一致的偏移量
-                  const offset = 80;
-                  
-                  // 先更新URL，然后再滚动
-                  window.history.pushState(null, '', '#contact');
-                  
-                  // 使用setTimeout确保DOM更新后再滚动
-                  setTimeout(() => {
-                    window.scrollTo({
-                      top: targetPosition - offset,
-                      behavior: 'smooth'
-                    });
-                  }, 10);
-                }
-              }}>联系我</a>
-            </Button>
+          <div className={`flex flex-wrap gap-3 pt-6 md:pt-8 ${isTablet && isPortrait ? 'justify-start' : ''}`}>
             <Button 
               ref={projectsBtnRef}
               variant="outline" 
-              asChild
-              className={`${isTablet && isPortrait ? 'px-6' : ''}`}
+              className={`${isTablet && isPortrait ? 'px-8' : 'px-8'} rounded-xl border-2 border-indigo-500 text-indigo-500 hover:bg-indigo-500 hover:text-white font-medium transition-all duration-300`}
             >
               <a href="#projects" onClick={(e) => {
                 e.preventDefault();
-                
-                // 提取目标ID
                 const targetId = 'projects';
                 const targetElement = document.getElementById(targetId);
-                
                 if (targetElement) {
-                  // 获取当前滚动位置
                   const currentScrollPosition = window.scrollY;
-                  
-                  // 计算目标元素的绝对位置
                   const targetPosition = targetElement.getBoundingClientRect().top + currentScrollPosition;
-                  
-                  // 使用一致的偏移量
                   const offset = 80;
-                  
-                  // 先更新URL，然后再滚动
                   window.history.pushState(null, '', '#projects');
-                  
-                  // 使用setTimeout确保DOM更新后再滚动
                   setTimeout(() => {
                     window.scrollTo({
                       top: targetPosition - offset,
@@ -335,7 +287,54 @@ export default function Hero() {
                     });
                   }, 10);
                 }
-              }}>查看项目</a>
+              }}>
+                <span className="flex items-center gap-2">
+                  查看项目
+                </span>
+              </a>
+            </Button>
+            <Button 
+              variant="outline"
+              className={`${isTablet && isPortrait ? 'px-8' : 'px-8'} rounded-xl border-2 border-violet-500 text-violet-500 hover:bg-violet-500 hover:text-white font-medium transition-all duration-300`}
+              onClick={() => {
+                const link = document.createElement('a');
+                link.href = '/resume.pdf';
+                link.download = '展春燕的简历.pdf';
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+              }}
+            >
+              <span className="flex items-center gap-2">
+                下载简历
+              </span>
+            </Button>
+            <Button 
+              ref={contactBtnRef}
+              variant="outline"
+              className={`${isTablet && isPortrait ? 'px-8' : 'px-8'} rounded-xl border-2 border-primary text-primary hover:bg-primary hover:text-white font-medium transition-all duration-300`}
+            >
+              <a href="#contact" onClick={(e) => {
+                e.preventDefault();
+                const targetId = 'contact';
+                const targetElement = document.getElementById(targetId);
+                if (targetElement) {
+                  const currentScrollPosition = window.scrollY;
+                  const targetPosition = targetElement.getBoundingClientRect().top + currentScrollPosition;
+                  const offset = 80;
+                  window.history.pushState(null, '', '#contact');
+                  setTimeout(() => {
+                    window.scrollTo({
+                      top: targetPosition - offset,
+                      behavior: 'smooth'
+                    });
+                  }, 10);
+                }
+              }}>
+                <span className="flex items-center gap-2">
+                  联系我
+                </span>
+              </a>
             </Button>
           </div>
         </motion.div>

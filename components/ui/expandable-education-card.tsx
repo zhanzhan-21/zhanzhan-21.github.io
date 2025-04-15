@@ -68,14 +68,46 @@ export function ExpandableEducationCard({ schools }: ExpandableEducationCardProp
       }
     }
 
+    // 定义禁止滚动的函数
+    const preventScrollOnCard = (e: WheelEvent) => {
+      if (ref.current && ref.current.contains(e.target as Node)) {
+        // 找到滚动容器
+        const scrollableContent = ref.current.querySelector('.overflow-y-auto');
+        // 如果点击在滚动容器内，且容器可以滚动，则不阻止事件
+        if (scrollableContent && scrollableContent.contains(e.target as Node)) {
+          // 检查是否到达滚动边界
+          const { scrollTop, scrollHeight, clientHeight } = scrollableContent as HTMLElement;
+          const isAtTop = scrollTop <= 0;
+          const isAtBottom = scrollTop + clientHeight >= scrollHeight;
+          
+          // 只有在到达边界并继续滚动时才阻止事件
+          if ((isAtTop && e.deltaY < 0) || (isAtBottom && e.deltaY > 0)) {
+            e.preventDefault();
+          }
+          // 否则允许滚动
+          return;
+        }
+        // 其他情况下阻止滚动
+        e.preventDefault();
+      }
+    };
+
     if (active) {
+      // 添加事件监听器，使用捕获阶段
+      window.addEventListener('wheel', preventScrollOnCard, { passive: false, capture: true });
       document.body.style.overflow = "hidden"
     } else {
       document.body.style.overflow = "auto"
     }
 
     window.addEventListener("keydown", onKeyDown)
-    return () => window.removeEventListener("keydown", onKeyDown)
+    return () => {
+      window.removeEventListener("keydown", onKeyDown)
+      // 移除事件监听器
+      if (active) {
+        window.removeEventListener('wheel', preventScrollOnCard, { capture: true });
+      }
+    }
   }, [active])
 
   useOutsideClick(ref, () => setActive(null))
@@ -89,23 +121,26 @@ export function ExpandableEducationCard({ schools }: ExpandableEducationCardProp
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             className="fixed inset-0 bg-black/20 h-full w-full z-[90]"
-            onWheel={(e) => e.stopPropagation()}
           />
         )}
       </AnimatePresence>
       <AnimatePresence>
         {active ? (
           <div 
-            className="fixed inset-0 grid place-items-center z-[95] pt-10 md:pt-4 md:mt-12 px-2"
-            onWheel={(e) => e.stopPropagation()}
+            className="fixed inset-0 grid place-items-center z-[95] pt-10 md:pt-4 md:mt-12 px-2 overflow-y-auto"
           >
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.2 }}
+              className="absolute inset-0 bg-white/30 backdrop-blur-md"
+              onClick={() => setActive(null)}
+            />
             <motion.div
               layoutId={`card-${active.school}-${id}`}
               ref={ref}
               className="w-full max-w-[500px] max-h-[85vh] md:max-h-[85vh] flex flex-col bg-white dark:bg-neutral-900 rounded-xl md:rounded-3xl overflow-hidden will-change-transform shadow-xl relative"
-              onWheel={(e) => {
-                e.stopPropagation();
-              }}
             >
               <div className="absolute top-3 right-3 z-[50]">
                 <button

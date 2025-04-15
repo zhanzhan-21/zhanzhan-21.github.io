@@ -27,8 +27,8 @@ export default function About() {
         url: "https://www.sciencedirect.com/science/article/pii/S0263224125005731"
       },
       tags: [
-        { label: "211", color: "blue" },
         { label: "985", color: "green" },
+        { label: "211", color: "blue" },
       ],
       content: (
         <div>

@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Github, ExternalLink, Calendar, Users, ChevronDown, Code, Award, Star } from 'lucide-react'
 import { Badge } from '@/components/ui/badge'
@@ -27,6 +27,7 @@ export default function ExpandableProjectCard({ project, index = 0 }: Expandable
   const [isHovered, setIsHovered] = useState(false)
   const [mounted, setMounted] = useState(false)
   const [isMobile, setIsMobile] = useState(false)
+  const ref = useRef<HTMLDivElement>(null)
   
   useEffect(() => {
     setMounted(true)
@@ -35,11 +36,30 @@ export default function ExpandableProjectCard({ project, index = 0 }: Expandable
   // 处理卡片展开/收起的副作用
   useEffect(() => {
     if (isExpanded) {
-      // 锁定背景滚动
-      document.body.style.overflow = 'hidden';
+      // 使用事件监听器禁止在卡片区域内滚动背景
+      const preventScrollOnCard = (e: WheelEvent) => {
+        if (ref.current && ref.current.contains(e.target as Node)) {
+          // 找到滚动容器
+          const scrollableContent = ref.current;
+          // 检查是否到达滚动边界
+          const { scrollTop, scrollHeight, clientHeight } = scrollableContent;
+          const isAtTop = scrollTop <= 0;
+          const isAtBottom = scrollTop + clientHeight >= scrollHeight;
+          
+          // 只有在到达边界并继续滚动时才阻止事件
+          if ((isAtTop && e.deltaY < 0) || (isAtBottom && e.deltaY > 0)) {
+            e.preventDefault();
+          }
+          // 否则允许滚动
+        }
+      };
       
+      // 添加事件监听器，使用捕获阶段
+      window.addEventListener('wheel', preventScrollOnCard, { passive: false, capture: true });
+      
+      // 移除事件监听器
       return () => {
-        // 恢复滚动
+        window.removeEventListener('wheel', preventScrollOnCard, { capture: true });
         document.body.style.overflow = '';
       };
     }
@@ -284,18 +304,21 @@ export default function ExpandableProjectCard({ project, index = 0 }: Expandable
     if (!mounted) return null;
     
     return createPortal(
-      <div className="fixed inset-0 flex items-start justify-center" style={{ 
-        zIndex: 95,
-        // 移动端时从顶部留出更多空间，避免遮挡导航栏
-        paddingTop: isMobile ? '100px' : '40px' 
-      }}>
+      <div 
+        className="fixed inset-0 flex items-start justify-center" 
+        style={{ 
+          zIndex: 95,
+          paddingTop: isMobile ? '100px' : '40px',
+          overflowY: 'auto'
+        }}
+      >
         {/* 背景遮罩 */}
         <div 
-          className="fixed bg-black/20 backdrop-blur-sm"
+          className="fixed bg-white/30 backdrop-blur-md"
           onClick={() => setIsExpanded(false)}
           style={{ 
             zIndex: 90,
-            top: 0, // 修改为0，使遮罩从顶部开始，但z-index小于导航栏
+            top: 0,
             left: 0,
             right: 0,
             bottom: 0
@@ -304,10 +327,11 @@ export default function ExpandableProjectCard({ project, index = 0 }: Expandable
         
         {/* 卡片容器 */}
         <motion.div
+          ref={ref}
           initial={{ opacity: 0, scale: 0.98, y: 5 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
           variants={cardVariants}
-          transition={instantAnimationConfig}  // 使用优雅动画配置
+          transition={instantAnimationConfig}
           className={cn(
             "overflow-auto relative w-full scrollbar-hide",
             `bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 shadow-2xl ${getGlowColor()} max-w-3xl rounded-2xl`
@@ -316,14 +340,12 @@ export default function ExpandableProjectCard({ project, index = 0 }: Expandable
             boxShadow: '0 35px 60px -15px rgba(0, 0, 0, 0.8)',
             willChange: 'transform, width, border-radius',
             backfaceVisibility: 'hidden',
-            // 移动端时减小最大高度，确保内容不会超出屏幕
             maxHeight: isMobile ? '75vh' : '85vh',
             zIndex: 96,
             position: 'relative',
-            scrollbarWidth: 'none', // Firefox
-            msOverflowStyle: 'none', // IE/Edge
+            scrollbarWidth: 'none',
+            msOverflowStyle: 'none',
             overflowY: 'scroll',
-            // 移动端时调整宽度和边距
             width: isMobile ? '95%' : '92%',
             margin: isMobile ? '0 auto' : 'auto'
           }}
