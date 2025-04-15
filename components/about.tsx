@@ -158,7 +158,7 @@ export default function About() {
                     revealPercent={90}
                     onReveal={handleReveal}
                   >
-                    <div className="flex flex-wrap gap-6 justify-center items-center p-3 bg-transparent w-full h-full">
+                    <div className="flex flex-wrap gap-2 md:gap-6 justify-evenly items-center p-3 bg-transparent w-full h-full">
                       <div className="flex flex-col items-center transform hover:scale-110 transition-transform duration-200">
                         <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mb-1 shadow-md">
                           <svg className="text-primary" viewBox="0 0 1024 1024" width="24" height="24">
