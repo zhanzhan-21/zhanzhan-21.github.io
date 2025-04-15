@@ -103,15 +103,15 @@ export default function About() {
           </p>
         </motion.div>
 
-        <div className="grid md:grid-cols-2 gap-8 px-1 sm:px-3 mx-auto max-w-5xl">
+        <div className="flex flex-col md:grid md:grid-cols-2 gap-8 px-0 md:px-3 mx-auto max-w-5xl items-center">
           <motion.div
             initial={{ opacity: 0, x: -30 }}
             whileInView={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.5, delay: 0.2 }}
             viewport={{ once: true }}
-            className="h-full flex justify-center"
+            className="h-full w-full flex justify-center"
           >
-            <Card className="h-full w-full">
+            <Card className="h-full w-full max-w-[500px]">
               <CardContent className="p-6 h-full flex flex-col items-center md:items-start">
                 <div className="flex items-center mb-4 w-full">
                   <GraduationCap className="h-6 w-6 text-primary mr-3" />
@@ -129,9 +129,9 @@ export default function About() {
             whileInView={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.5, delay: 0.2 }}
             viewport={{ once: true }}
-            className="h-full flex justify-center"
+            className="h-full w-full flex justify-center"
           >
-            <Card className="h-full w-full">
+            <Card className="h-full w-full max-w-[500px]">
               <CardContent className="p-6 h-full flex flex-col items-center md:items-start">
                 <div className="flex items-center mb-4 w-full">
                   <BookOpen className="h-6 w-6 text-primary mr-3" />
