@@ -38,8 +38,8 @@ jobs:
 
       - name: 构建项目
         run: |
-          # 临时移除API路由以便静态导出
-          rm -rf app/api/messages
+          # 临时移除所有API路由以便静态导出
+          rm -rf app/api
           npm run build
         env:
           # 设置GitHub Token用于留言板功能
