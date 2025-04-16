@@ -354,8 +354,8 @@ export default function Navbar() {
       
       {/* 移动端下拉菜单 */}
       <div 
-        className={`md:hidden bg-white/95 dark:bg-gray-900/95 backdrop-blur-md shadow-lg border-t border-gray-200 dark:border-gray-800 transition-all duration-300 overflow-hidden ${
-          mobileMenuOpen ? 'max-h-64 opacity-100 py-3' : 'max-h-0 opacity-0 py-0'
+        className={`md:hidden bg-white/95 dark:bg-gray-900/95 backdrop-blur-md shadow-lg border-t border-gray-200 dark:border-gray-800 transition-all duration-300 ${
+          mobileMenuOpen ? 'max-h-[80vh] opacity-100 py-3 overflow-y-auto' : 'max-h-0 opacity-0 py-0 overflow-hidden'
         }`}
       >
         <div className="container mx-auto px-4 flex flex-col space-y-1">

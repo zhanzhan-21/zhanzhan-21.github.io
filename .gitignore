@@ -29,6 +29,12 @@ yarn-error.log*
 # local env files
 .env*.local
 .env
+*.env.backup
+*.env.*.backup
+
+# 敏感数据备份
+data/*.backup
+data/*.bak
 
 # vercel
 .vercel
@@ -42,11 +48,21 @@ next-env.d.ts
 .vscode/
 *.swp
 *.swo
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
 
 # 临时文件
 *~
 *.bak
 *.tmp
+*.temp
+*.swp
+*.swo
+.DS_Store
+ehthumbs.db
+Thumbs.db
 
 # 操作系统生成的文件
 desktop.ini

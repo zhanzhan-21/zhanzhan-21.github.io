@@ -80,6 +80,14 @@ const config = {
           from: { transform: "rotate(0deg)" },
           to: { transform: "rotate(360deg)" },
         },
+        marquee: {
+          '0%': { transform: 'translateX(0%)' },
+          '100%': { transform: 'translateX(-100%)' },
+        },
+        'marquee-vertical': {
+          '0%': { transform: 'translateY(0%)' },
+          '100%': { transform: 'translateY(-100%)' },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
@@ -87,6 +95,8 @@ const config = {
         "spin-slow": "spin-slow 40s linear infinite",
         "spin-slow-reverse": "spin-slow-reverse 60s linear infinite",
         "spin-slower": "spin-slower 80s linear infinite",
+        marquee: 'marquee var(--duration) linear infinite',
+        'marquee-vertical': 'marquee-vertical var(--duration) linear infinite',
       },
     },
   },
