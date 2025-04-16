@@ -11,7 +11,7 @@ on:
 
 # Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
 permissions:
-  contents: read
+  contents: write
   pages: write
   id-token: write
 
@@ -54,8 +54,14 @@ jobs:
             echo "${{ secrets.CUSTOM_DOMAIN }}" > out/CNAME
           fi
       
-      - name: 部署到GitHub Pages
-        uses: JamesIves/github-pages-deploy-action@v4
+      - name: 设置 Pages
+        uses: actions/configure-pages@v3
+
+      - name: 上传构建文件
+        uses: actions/upload-pages-artifact@v2
         with:
-          folder: out  # 要部署的目录
-          branch: gh-pages  # 部署到的分支
+          path: ./out
+
+      - name: 部署到 GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v2
