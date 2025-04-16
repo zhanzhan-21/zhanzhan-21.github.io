@@ -7,10 +7,14 @@ try {
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // 注释掉output: 'export'以支持动态API路由
-  // output: 'export',
+  // 启用static export用于GitHub Pages部署
+  output: 'export',
+  reactStrictMode: true,
   images: {
     unoptimized: true,
+  },
+  env: {
+    MONGODB_URI: process.env.MONGODB_URI,
   },
   basePath: '',
   assetPrefix: '',
