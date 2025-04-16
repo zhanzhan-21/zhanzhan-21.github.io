@@ -1,7 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
-  swcMinify: true,
   // 添加输出配置
   output: 'export',
   // 禁用图片优化以允许静态导出

@@ -48,9 +48,6 @@ jobs:
           ISSUE_REPO_NAME: ${{ github.repository }}
           ISSUE_NUMBER: 1  # 确保已创建此Issue编号
 
-      - name: 导出静态文件
-        run: npm run export
-        
       - name: 配置自定义域名 (如果有)
         run: |
           if [ "${{ secrets.CUSTOM_DOMAIN }}" != "" ]; then
