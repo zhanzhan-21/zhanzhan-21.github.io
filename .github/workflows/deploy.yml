@@ -52,6 +52,10 @@ jobs:
           ISSUE_REPO_NAME: ${{ github.repository }}
           ISSUE_NUMBER: 1  # 确保已创建此Issue编号
 
+      # 在构建后立即添加.nojekyll文件
+      - name: 添加 .nojekyll 文件
+        run: touch out/.nojekyll
+
       - name: 配置自定义域名 (如果有)
         run: |
           if [ "${{ secrets.CUSTOM_DOMAIN }}" != "" ]; then
@@ -59,16 +63,13 @@ jobs:
           fi
       
       - name: 设置 Pages
-        uses: actions/configure-pages@v3
+        uses: actions/configure-pages@v4  # 更新到v4
 
-      - name: 上传构建文件
-        uses: actions/upload-pages-artifact@v2
+      - name: 上传 Pages 构建文件
+        uses: actions/upload-pages-artifact@v3  # 更新到v3
         with:
-          path: ./out
-
-      - name: 添加 .nojekyll 文件
-        run: touch out/.nojekyll
+          path: out
 
       - name: 部署到 GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v2
+        uses: actions/deploy-pages@v4  # 更新到v4
