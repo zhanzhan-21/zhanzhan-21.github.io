@@ -37,7 +37,10 @@ jobs:
         run: npm ci --legacy-peer-deps
 
       - name: 构建项目
-        run: npm run build
+        run: |
+          # 临时移除API路由以便静态导出
+          rm -rf app/api/messages
+          npm run build
         env:
           # 设置GitHub Token用于留言板功能
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
