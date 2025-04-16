@@ -418,25 +418,25 @@ export default function MessageBoard() {
                     <div 
                       key={message._id} 
                       id={`message-${message._id}`}
-                      className="p-5 bg-white border border-gray-100 rounded-2xl shadow-sm hover:shadow-md transition-all duration-300"
+                      className="p-5 bg-white border border-gray-100 rounded-2xl shadow-sm hover:shadow-md transition-all duration-300 overflow-hidden"
                     >
-                      <div className="flex items-start gap-4">
+                      <div className="flex items-start gap-4 flex-wrap sm:flex-nowrap w-full">
                         <div className={`flex-shrink-0 w-12 h-12 rounded-full flex items-center justify-center text-white font-bold shadow-md ring-2 ring-white ${getAvatarColor(message.name)}`}>
                           {getAvatarContent(message.name)}
                         </div>
-                        <div className="flex-grow">
-                          <div className="flex justify-between items-center">
-                            <div className="flex items-center gap-2">
-                              <h4 className="font-semibold text-gray-900 tracking-tight">{message.name}</h4>
+                        <div className="flex-grow min-w-0 w-full max-w-full">
+                          <div className="flex justify-between items-center flex-wrap gap-1 w-full">
+                            <div className="flex items-center gap-2 mr-2 max-w-[80%]">
+                              <h4 className="font-semibold text-gray-900 tracking-tight truncate max-w-[200px]">{message.name}</h4>
                               {message.email === '' && (
-                                <span className="text-xs bg-yellow-100 text-yellow-800 py-0.5 px-2 rounded-full">
+                                <span className="text-xs bg-yellow-100 text-yellow-800 py-0.5 px-2 rounded-full flex-shrink-0">
                                   GitHub评论
                                 </span>
                               )}
                             </div>
-                            <span className="text-xs text-gray-500">{formatDate(message.createdAt)}</span>
+                            <span className="text-xs text-gray-500 flex-shrink-0">{formatDate(message.createdAt)}</span>
                           </div>
-                          <p className="mt-3 text-gray-700 whitespace-pre-wrap break-words leading-relaxed">{message.content}</p>
+                          <p className="mt-3 text-gray-700 whitespace-pre-line break-all leading-relaxed w-full overflow-hidden text-justify">{message.content}</p>
                         </div>
                       </div>
                     </div>
