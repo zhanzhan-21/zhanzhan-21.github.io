@@ -184,20 +184,26 @@ export default function MessageBoard() {
     // 找到对应元素并滚动到视图
     const element = document.getElementById(`message-${messageId}`);
     if (element) {
-      // 计算滚动位置，考虑页面顶部的导航栏高度
-      const navbarHeight = 80; // 导航栏高度
-      
       // 平滑滚动到元素位置
       element.scrollIntoView({ 
         behavior: 'smooth', 
         block: 'center'
       });
       
-      // 添加简单的高亮效果，然后淡出
-      element.classList.add('bg-blue-100');
+      // 添加高亮效果然后淡出 - 使用内联样式而非类，以提高兼容性
+      // 保存原始背景色
+      const originalBackground = element.style.backgroundColor;
+      const originalTransition = element.style.transition;
+      
+      // 设置高亮和过渡
+      element.style.backgroundColor = 'rgba(219, 234, 254, 1)'; // bg-blue-100 equivalent
+      element.style.transition = 'background-color 2s ease';
+      
+      // 2秒后恢复原状
       setTimeout(() => {
-        element.classList.remove('bg-blue-100');
-      }, 2000); // 2秒后移除高亮
+        element.style.backgroundColor = originalBackground;
+        element.style.transition = originalTransition;
+      }, 2000);
     }
   };
 
