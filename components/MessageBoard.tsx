@@ -79,17 +79,17 @@ export default function MessageBoard() {
             return {
               _id: comment.id.toString(),
               name: messageData.name,
-              email: messageData.email,
+              email: messageData.email || "",
               content: messageData.content,
               createdAt: comment.created_at,
-              isPublic: messageData.isPublic
+              isPublic: true // 直接使用true作为固定值
             } as Message;
           } catch (e) {
-            console.log('评论不是JSON格式，作为普通文本处理:', comment.body);
+            console.log('评论不是JSON格式或字段缺失，作为普通文本处理:', comment.body);
             // 如果不是JSON格式，则直接把评论作为普通文本处理
             return {
               _id: comment.id.toString(),
-              name: comment.user.login || '匿名用户',
+              name: comment.user?.login || '匿名用户',
               email: '',
               content: comment.body,
               createdAt: comment.created_at,
@@ -97,7 +97,10 @@ export default function MessageBoard() {
             } as Message;
           }
         })
-        .filter((message: Message | null): message is Message => message !== null) 
+        .filter((message: Message | null): message is Message => {
+          if (message === null || !message.content) return false;
+          return typeof message.content === 'string' && message.content.length > 0;
+        })  
         .sort((a: Message, b: Message) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()); // 按时间倒序
         
       setMessages(parsedMessages);
@@ -124,9 +127,12 @@ export default function MessageBoard() {
   // 获取随机头像颜色
   const getAvatarColor = (name: string) => {
     const colors = [
-      "bg-blue-500", "bg-green-500", "bg-yellow-500", 
-      "bg-red-500", "bg-purple-500", "bg-pink-500", 
-      "bg-indigo-500", "bg-teal-500"
+      "bg-gradient-to-br from-blue-400 to-indigo-600",
+      "bg-gradient-to-br from-emerald-400 to-teal-600",
+      "bg-gradient-to-br from-amber-300 to-orange-500",
+      "bg-gradient-to-br from-rose-400 to-red-600",
+      "bg-gradient-to-br from-violet-400 to-purple-600",
+      "bg-gradient-to-br from-pink-400 to-fuchsia-600"
     ];
     // 使用名字的首字母作为颜色选择的依据
     const index = name.charCodeAt(0) % colors.length;
@@ -165,10 +171,34 @@ export default function MessageBoard() {
     }
   }, [messages]);
 
-  // 随机获取颜色变体
-  const getRandomColorVariant = () => {
-    const variants = ['blue', 'green', 'yellow', 'red', 'purple', 'pink'];
-    return variants[Math.floor(Math.random() * variants.length)] as 'blue' | 'green' | 'yellow' | 'red' | 'purple' | 'pink';
+  // 根据用户名确定颜色变体，确保同一用户一致的颜色
+  const getRandomColorVariant = (name: string) => {
+    const variants = ['blue', 'green', 'yellow', 'red', 'purple', 'pink'] as const;
+    // 使用名字的首字母作为颜色选择的依据
+    const index = name.charCodeAt(0) % variants.length;
+    return variants[index];
+  };
+
+  // 处理留言卡片点击
+  const handleMessageCardClick = (messageId: string) => {
+    // 找到对应元素并滚动到视图
+    const element = document.getElementById(`message-${messageId}`);
+    if (element) {
+      // 计算滚动位置，考虑页面顶部的导航栏高度
+      const navbarHeight = 80; // 导航栏高度
+      
+      // 平滑滚动到元素位置
+      element.scrollIntoView({ 
+        behavior: 'smooth', 
+        block: 'center'
+      });
+      
+      // 添加简单的高亮效果，然后淡出
+      element.classList.add('bg-blue-100');
+      setTimeout(() => {
+        element.classList.remove('bg-blue-100');
+      }, 2000); // 2秒后移除高亮
+    }
   };
 
   return (
@@ -344,7 +374,8 @@ export default function MessageBoard() {
                         name={message.name}
                         content={message.content}
                         email={message.email}
-                        colorVariant={getRandomColorVariant()}
+                        colorVariant={getRandomColorVariant(message.name)}
+                        onClick={() => handleMessageCardClick(message._id)}
                       />
                     ))}
                   </Marquee>
@@ -359,7 +390,8 @@ export default function MessageBoard() {
                         name={message.name}
                         content={message.content}
                         email={message.email}
-                        colorVariant={getRandomColorVariant()}
+                        colorVariant={getRandomColorVariant(message.name)}
+                        onClick={() => handleMessageCardClick(message._id)}
                       />
                     ))}
                   </Marquee>
@@ -379,16 +411,17 @@ export default function MessageBoard() {
                   {messages.map((message) => (
                     <div 
                       key={message._id} 
-                      className="p-4 bg-white border border-gray-100 rounded-lg shadow-sm hover:shadow-md transition-shadow"
+                      id={`message-${message._id}`}
+                      className="p-5 bg-white border border-gray-100 rounded-2xl shadow-sm hover:shadow-md transition-all duration-300"
                     >
-                      <div className="flex items-start gap-3">
-                        <div className={`flex-shrink-0 w-10 h-10 rounded-full flex items-center justify-center text-white ${getAvatarColor(message.name)}`}>
+                      <div className="flex items-start gap-4">
+                        <div className={`flex-shrink-0 w-12 h-12 rounded-full flex items-center justify-center text-white font-bold shadow-md ring-2 ring-white ${getAvatarColor(message.name)}`}>
                           {getAvatarContent(message.name)}
                         </div>
                         <div className="flex-grow">
                           <div className="flex justify-between items-center">
                             <div className="flex items-center gap-2">
-                              <h4 className="font-medium text-gray-900">{message.name}</h4>
+                              <h4 className="font-semibold text-gray-900 tracking-tight">{message.name}</h4>
                               {message.email === '' && (
                                 <span className="text-xs bg-yellow-100 text-yellow-800 py-0.5 px-2 rounded-full">
                                   GitHub评论
@@ -397,7 +430,7 @@ export default function MessageBoard() {
                             </div>
                             <span className="text-xs text-gray-500">{formatDate(message.createdAt)}</span>
                           </div>
-                          <p className="mt-2 text-gray-700 whitespace-pre-wrap break-words">{message.content}</p>
+                          <p className="mt-3 text-gray-700 whitespace-pre-wrap break-words leading-relaxed">{message.content}</p>
                         </div>
                       </div>
                     </div>
