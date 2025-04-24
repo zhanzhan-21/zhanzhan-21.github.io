@@ -2,6 +2,7 @@ import "./globals.css"
 import { ThemeProvider } from "@/components/theme-provider"
 import MouseFollower from "@/components/3d/MouseFollower"
 import SmoothScrollFix from "@/components/smooth-scroll-fix"
+import GrowingPlant from "@/components/GrowingPlant"
 import type { ReactNode } from 'react'
 
 export const metadata = {
@@ -34,6 +35,7 @@ export default function RootLayout({
         <ThemeProvider attribute="class" defaultTheme="light" enableSystem disableTransitionOnChange>
           <SmoothScrollFix />
           <MouseFollower />
+          <GrowingPlant />
           {children}
         </ThemeProvider>
       </body>
