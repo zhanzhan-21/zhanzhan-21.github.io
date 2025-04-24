@@ -6,6 +6,7 @@ import { MapPin, Mail, Phone, Globe, Github, Calendar } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import HeroBackground from "@/components/3d/HeroBackground"
 import { ConfettiEffect, useConfettiEffect } from "@/components/ui/confetti-effects"
+import { GooeyTextEffect } from "@/components/GooeyTextEffect"
 
 export default function Hero() {
   const [typedText, setTypedText] = useState("")
@@ -201,22 +202,35 @@ export default function Hero() {
           transition={{ duration: 0.8 }}
           className={`flex flex-col ${isTablet && isPortrait ? 'items-start text-left w-full max-w-md' : 'space-y-4 md:space-y-6'}`}
         >
-          <h1 className="flex flex-row flex-wrap items-baseline gap-2 text-4xl md:text-6xl font-bold text-gray-900 dark:text-white">
-  <span className="text-gray-900 dark:text-white">你好，我是</span>
-  <span
-    ref={nameRef}
-    className={`text-primary cursor-pointer hover:scale-110 transition-transform shiny-button ${!isMobile ? 'auto-shine' : ''}`}
-    onMouseEnter={handleNameHover}
-    onMouseLeave={handleNameLeave}
-    onClick={handleNameClick}
-  >
-    展春燕
-  </span>
-</h1>
+          <div className="flex flex-row flex-wrap items-baseline gap-2 text-4xl md:text-6xl font-bold">
+            <div className="flex items-end">
+              <div style={{ border: 'none', outline: 'none', boxShadow: 'none', transform: 'translateX(-20px)' }}>
+                <GooeyTextEffect 
+                  text="你好，我是" 
+                  width={isMobile ? 210 : isTablet ? 290 : 340}
+                  height={isMobile ? 95 : isTablet ? 110 : 120} 
+                  textColor="#9333EA" 
+                  backgroundColor="transparent" 
+                  particleColor="#0DF2cc"
+                  showCursor={false}
+                  cursorColor="#0DF2cc"
+                  className="mr-0"
+                  fontSize={isMobile ? 42 : isTablet ? 52 : 65}
+                />
+              </div>
+              <span
+                ref={nameRef}
+                className={`text-primary cursor-pointer hover:scale-110 transition-transform shiny-button ${!isMobile ? 'auto-shine' : ''} text-5xl md:text-6xl lg:text-[4rem]`}
+                onMouseEnter={handleNameHover}
+                onMouseLeave={handleNameLeave}
+                onClick={handleNameClick}
+                style={{ marginLeft: isMobile ? '-20px' : isTablet ? '-24px' : '-28px', fontWeight: 'bold' }}
+              >
+                展春燕
+              </span>
+            </div>
+          </div>
 
-
-
-          
           {/* 客户端渲染打字效果 */}
           <div className={`${isTablet && isPortrait ? 'text-lg mt-3' : `text-xl ${isTablet ? 'text-xl' : 'md:text-2xl'} mt-2`} text-gray-600 dark:text-gray-300 h-8`}>
             {isClient ? (

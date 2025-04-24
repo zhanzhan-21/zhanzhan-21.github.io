@@ -2,6 +2,14 @@
 @tailwind components;
 @tailwind utilities;
 
+/* 添加特殊规则去除GooeyTextEffect组件的边框 - 只对特定类名的SVG应用 */
+.gooey-text-svg {
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+  stroke: none !important;
+}
+
 @layer base {
   :root {
     --background: 0 0% 100%;

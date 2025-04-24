@@ -30,6 +30,10 @@ export default function RootLayout({
             scroll-padding-top: 80px; /* 与SCROLL_OFFSET常量相同的值 */
           }
         `}</style>
+        <link
+          href="https://fonts.googleapis.com/css2?family=Bowlby+One&display=swap"
+          rel="stylesheet"
+        />
       </head>
       <body>
         <ThemeProvider attribute="class" defaultTheme="light" enableSystem disableTransitionOnChange>
