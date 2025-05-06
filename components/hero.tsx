@@ -203,19 +203,19 @@ export default function Hero() {
           className={`flex flex-col ${isTablet && isPortrait ? 'items-start text-left w-full max-w-md' : 'space-y-4 md:space-y-6'}`}
         >
           <div className="flex flex-row flex-wrap items-baseline gap-2 text-4xl md:text-6xl font-bold">
-            <div className="flex items-end">
-              <div style={{ border: 'none', outline: 'none', boxShadow: 'none', transform: 'translateX(-20px)' }}>
+            <div className={`flex ${isMobile ? 'flex-col' : 'items-end'}`}>
+              <div style={{ border: 'none', outline: 'none', boxShadow: 'none', transform: isMobile ? 'translateX(0)' : 'translateX(-20px)' }}>
                 <GooeyTextEffect 
                   text="你好，我是" 
-                  width={isMobile ? 210 : isTablet ? 290 : 340}
-                  height={isMobile ? 95 : isTablet ? 110 : 120} 
+                  width={isMobile ? 230 : isTablet ? 300 : 340}
+                  height={isMobile ? 105 : isTablet ? 120 : 130} 
                   textColor="#9333EA" 
                   backgroundColor="transparent" 
                   particleColor="#0DF2cc"
                   showCursor={false}
                   cursorColor="#0DF2cc"
                   className="mr-0"
-                  fontSize={isMobile ? 42 : isTablet ? 52 : 65}
+                  fontSize={isMobile ? 48 : isTablet ? 56 : 65}
                 />
               </div>
               <span
@@ -224,7 +224,12 @@ export default function Hero() {
                 onMouseEnter={handleNameHover}
                 onMouseLeave={handleNameLeave}
                 onClick={handleNameClick}
-                style={{ marginLeft: isMobile ? '-20px' : isTablet ? '-24px' : '-28px', fontWeight: 'bold' }}
+                style={{ 
+                  marginLeft: isMobile ? '0' : isTablet ? '-24px' : '-28px', 
+                  fontWeight: 'bold', 
+                  marginTop: isMobile ? '8px' : '0',
+                  fontSize: isMobile ? '48px' : isTablet ? '56px' : '65px'
+                }}
               >
                 展春燕
               </span>
