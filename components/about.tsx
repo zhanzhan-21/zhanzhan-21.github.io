@@ -1,11 +1,12 @@
 "use client"
 
 import { motion } from "framer-motion"
-import { GraduationCap, BookOpen, Bike, Gamepad} from "lucide-react"
+import { GraduationCap, BookOpen, Bike, Gamepad, PenTool} from "lucide-react"
 import { Card, CardContent } from "@/components/ui/card"
 import { ScratchCard } from "@/components/ui/scratch-card"
 import { useState, useEffect } from "react"
 import { ExpandableEducationCard, type EducationCardType } from "@/components/ui/expandable-education-card"
+import Link from "next/link"
 
 export default function About() {
   const [isRevealed, setIsRevealed] = useState(false)
@@ -86,6 +87,25 @@ export default function About() {
     },
   ];
 
+  const featuredBlogs = [
+    {
+      title: "从零开始撸一个Spring Boot项目：我是如何被配置文件折磨的",
+      summary: "第一次用Spring Boot的时候，我以为这玩意儿真的是开箱即用。结果发现配置比想象中复杂多了...",
+      date: "2024-12-15",
+      readTime: "8分钟",
+      tags: ["Spring Boot", "配置管理", "Java", "后端开发"],
+      slug: "springboot-configuration-hell"
+    },
+    {
+      title: "MySQL索引优化：从慢查询到毫秒响应的血泪史",
+      summary: "在做课程设计的时候，遇到了一个查询特别慢的问题。从几十秒优化到毫秒级响应，我学会了MySQL索引的精髓...",
+      date: "2024-12-12",
+      readTime: "12分钟",
+      tags: ["MySQL", "索引优化", "性能调优", "数据库"],
+      slug: "mysql-index-optimization-story"
+    }
+  ];
+
   return (
     <section id="about" className="pt-10 pb-20 px-4 bg-white dark:bg-gray-900">
       <div className="container mx-auto">
@@ -103,52 +123,33 @@ export default function About() {
           </p>
         </motion.div>
 
-        <div className="flex flex-col md:grid md:grid-cols-2 gap-8 items-center justify-center md:items-stretch md:max-w-5xl md:mx-auto">
+        <div className="flex flex-col lg:grid lg:grid-cols-3 gap-8 items-center justify-center lg:items-stretch lg:max-w-6xl lg:mx-auto">
+          {/* 个人简介卡片 - 左边 */}
           <motion.div
             initial={{ opacity: 0, x: -30 }}
             whileInView={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.5, delay: 0.2 }}
             viewport={{ once: true }}
-            className="w-full max-w-md md:max-w-full mx-auto h-full"
+            className="w-full max-w-md lg:max-w-full mx-auto h-full"
           >
             <Card className="h-full w-full flex flex-col">
-              <CardContent className="p-6 flex-grow flex flex-col items-center md:items-start">
-                <div className="flex items-center mb-4 w-full">
-                  <GraduationCap className="h-6 w-6 text-primary mr-3" />
-                  <h3 className="text-xl font-semibold">教育背景</h3>
-                </div>
-                <div className="w-full flex-grow">
-                  <ExpandableEducationCard schools={schools} />
-                </div>
-              </CardContent>
-            </Card>
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0, x: 30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.5, delay: 0.2 }}
-            viewport={{ once: true }}
-            className="w-full max-w-md md:max-w-full mx-auto h-full"
-          >
-            <Card className="h-full w-full flex flex-col">
-              <CardContent className="p-6 flex-grow flex flex-col items-center md:items-start">
+              <CardContent className="p-6 flex-grow flex flex-col items-center lg:items-start">
                 <div className="flex items-center mb-4 w-full">
                   <BookOpen className="h-6 w-6 text-primary mr-3" />
                   <h3 className="text-xl font-semibold">个人简介</h3>
                 </div>
                 <div className="flex-grow w-full">
-                  <p className="text-gray-600 dark:text-gray-300 mb-4 text-center md:text-left text-justify">
+                  <p className="text-gray-600 dark:text-gray-300 mb-4 text-center lg:text-left text-justify">
                     我是一名专注于Java后端开发的工程师，拥有扎实的计算机科学基础和丰富的项目经验。
                     在学习和工作中，我不断探索新技术，提升自己的技术能力和解决问题的能力。
                   </p>
-                  <p className="text-gray-600 dark:text-gray-300 mb-6 text-center md:text-left text-justify">
+                  <p className="text-gray-600 dark:text-gray-300 mb-6 text-center lg:text-left text-justify">
                     我热爱编程，善于团队协作，能够快速适应新环境和新技术。
                     我的目标是成为一名优秀的后端架构师，为用户提供高效、稳定的系统解决方案。
                   </p>
                 </div>
 
-                <div className="w-full flex flex-col items-center md:items-start">
+                <div className="w-full flex flex-col items-center lg:items-start">
                   <h4 className="text-lg font-bold text-gray-800 dark:text-gray-200 mb-2">兴趣爱好</h4>
                   
                   <ScratchCard
@@ -223,6 +224,82 @@ export default function About() {
                       </div>
                     </div>
                   </ScratchCard>
+                </div>
+              </CardContent>
+            </Card>
+          </motion.div>
+
+          {/* 教育背景卡片 - 中间 */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.3 }}
+            viewport={{ once: true }}
+            className="w-full max-w-md lg:max-w-full mx-auto h-full"
+          >
+            <Card className="h-full w-full flex flex-col">
+              <CardContent className="p-6 flex-grow flex flex-col items-center lg:items-start">
+                <div className="flex items-center mb-4 w-full">
+                  <GraduationCap className="h-6 w-6 text-primary mr-3" />
+                  <h3 className="text-xl font-semibold">教育背景</h3>
+                </div>
+                <div className="w-full flex-grow">
+                  <ExpandableEducationCard schools={schools} />
+                </div>
+              </CardContent>
+            </Card>
+          </motion.div>
+
+          {/* 精选博客卡片 - 右边 */}
+          <motion.div
+            initial={{ opacity: 0, x: 30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.5, delay: 0.4 }}
+            viewport={{ once: true }}
+            className="w-full max-w-md lg:max-w-full mx-auto h-full"
+          >
+            <Card className="h-full w-full flex flex-col">
+              <CardContent className="p-6 flex-grow flex flex-col items-center lg:items-start">
+                <div className="flex items-center mb-4 w-full">
+                  <PenTool className="h-6 w-6 text-primary mr-3" />
+                  <h3 className="text-xl font-semibold">精选博客</h3>
+                </div>
+                <div className="flex-grow w-full space-y-4">
+                  {featuredBlogs.map((blog, index) => (
+                    <Link href={`/blog/${blog.slug}`} key={index}>
+                      <div
+                        className="border border-gray-200 dark:border-gray-700 rounded-lg p-4 hover:shadow-md transition-shadow duration-200 cursor-pointer group"
+                      >
+                        <h4 className="font-semibold text-gray-800 dark:text-gray-200 mb-2 group-hover:text-primary transition-colors duration-200">
+                          {blog.title}
+                        </h4>
+                        <p className="text-sm text-gray-600 dark:text-gray-400 mb-3 line-clamp-2">
+                          {blog.summary}
+                        </p>
+                        <div className="flex items-center justify-between text-xs text-gray-500 dark:text-gray-500 mb-2">
+                          <span>{blog.date}</span>
+                          <span>{blog.readTime}</span>
+                        </div>
+                        <div className="flex flex-wrap gap-1">
+                          {blog.tags.map((tag, tagIndex) => (
+                            <span
+                              key={tagIndex}
+                              className="inline-block bg-primary/10 text-primary text-xs px-2 py-1 rounded-full"
+                            >
+                              {tag}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+                    </Link>
+                  ))}
+                  <div className="text-center pt-2">
+                    <Link href="/blog">
+                      <button className="text-primary hover:text-primary/80 text-sm font-medium transition-colors duration-200">
+                        查看更多博客 →
+                      </button>
+                    </Link>
+                  </div>
                 </div>
               </CardContent>
             </Card>
