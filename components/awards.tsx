@@ -241,13 +241,49 @@ export default function Awards() {
           <AwardsCarousel awards={awards} />
         </motion.div>
 
-        {/* 使用新的悬停效果卡片网格展示 */}
+        {/* 移动端奖项统计展示 */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
           viewport={{ once: true }}
-          className="text-center mb-8"
+          className="text-center mb-8 md:hidden"
+        >
+          <div className="bg-white dark:bg-zinc-900 rounded-xl p-6 shadow-md border border-gray-200 dark:border-gray-800">
+            <h3 className="text-lg font-semibold mb-4 text-gray-900 dark:text-white">奖项统计</h3>
+            <div className="grid grid-cols-3 gap-4">
+              <div className="text-center">
+                <div className="text-2xl font-bold text-red-600 dark:text-red-400">
+                  {awards.filter(award => award.level === '国家级').length}
+                </div>
+                <div className="text-sm text-gray-600 dark:text-gray-400">国家级</div>
+              </div>
+              <div className="text-center">
+                <div className="text-2xl font-bold text-blue-600 dark:text-blue-400">
+                  {awards.filter(award => award.level === '省级').length}
+                </div>
+                <div className="text-sm text-gray-600 dark:text-gray-400">省级</div>
+              </div>
+              <div className="text-center">
+                <div className="text-2xl font-bold text-green-600 dark:text-green-400">
+                  {awards.filter(award => award.level === '校级').length}
+                </div>
+                <div className="text-sm text-gray-600 dark:text-gray-400">校级</div>
+              </div>
+            </div>
+            <div className="mt-4 text-sm text-gray-500 dark:text-gray-400">
+              共获得 {awards.length} 项荣誉奖项
+            </div>
+          </div>
+        </motion.div>
+
+        {/* 使用新的悬停效果卡片网格展示 - 仅在桌面端显示 */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          viewport={{ once: true }}
+          className="text-center mb-8 hidden md:block"
         >
           <h3 className="text-xl font-semibold inline-block border-b-2 border-primary pb-1">所有奖项列表</h3>
         </motion.div>
@@ -257,6 +293,7 @@ export default function Awards() {
           whileInView={{ opacity: 1 }}
           transition={{ duration: 0.5 }}
           viewport={{ once: true }}
+          className="hidden md:block"
         >
           <HoverCardEffect 
             items={hoverCardItems} 

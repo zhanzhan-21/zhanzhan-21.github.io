@@ -7,6 +7,16 @@ try {
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  // 忽略Grammarly扩展添加的属性
+  experimental: {
+    // 忽略特定的data属性，这些是Grammarly扩展添加的
+    ignoreBrowserExtensionAttributes: true,
+  },
+  // 或者使用更具体的配置
+  compiler: {
+    // 忽略特定的属性
+    ignoreBrowserExtensionAttributes: true,
+  },
   // 启用static export用于GitHub Pages部署
   output: 'export',
   reactStrictMode: true,
