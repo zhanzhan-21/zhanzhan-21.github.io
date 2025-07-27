@@ -603,22 +603,22 @@ const DraggableContact: React.FC = () => {
             style={{ 
               transform: 'scale(var(--title-scale, 0.9))', 
               transformOrigin: 'center center',
-              WebkitTextStroke: '2px currentColor',
-              WebkitTextStrokeWidth: 'calc(3px + 0.3vw)',
-              textShadow: '0 0 2px currentColor',
+              WebkitTextStroke: '1px currentColor',
+              WebkitTextStrokeWidth: 'calc(1px + 0.2vw)',
+              textShadow: '0 0 1px currentColor',
             }}
           >
             CONTACT ME
           </h2>
           
                       {/* 邮件图标 */}
-            <div className="absolute left-[70%] sm:left-[65%] md:left-[60%] -top-4 sm:-top-2 animate-float-fast scale-40 xs:scale-50 sm:scale-90 md:scale-100">
+            <div className="absolute left-[85%] sm:left-[70%] md:left-[60%] -top-6 sm:-top-2 animate-float-fast scale-30 xs:scale-40 sm:scale-90 md:scale-100">
               {contactMethods[0].icon && (
                 <a 
                   href={contactMethods[0].href}
                   className="cursor-pointer hover:scale-110 transition-transform duration-300 block"
                 >
-                  <div className="text-2xl xs:text-3xl sm:text-5xl md:text-6xl lg:text-7xl" style={{ color: contactMethods[0].color }}>
+                  <div className="text-xl xs:text-2xl sm:text-5xl md:text-6xl lg:text-7xl" style={{ color: contactMethods[0].color }}>
                     {contactMethods[0].icon}
                   </div>
                 </a>
@@ -628,7 +628,7 @@ const DraggableContact: React.FC = () => {
           {/* 可拖拽电话图标 */}
           <div 
             ref={phoneRef}
-            className={`absolute bottom-[-40px] xs:bottom-[-50px] sm:bottom-[-70px] md:bottom-[-60px] left-[40%] sm:left-[40%] md:left-[45%] transform -translate-x-1/2 z-30 cursor-grab ${isDragging ? 'cursor-grabbing' : ''} scale-40 xs:scale-50 sm:scale-90 md:scale-100`}
+            className={`absolute bottom-[-40px] xs:bottom-[-50px] sm:bottom-[-70px] md:bottom-[-60px] left-[40%] sm:left-[40%] md:left-[45%] transform -translate-x-1/2 z-30 cursor-grab ${isDragging ? 'cursor-grabbing' : ''} scale-30 xs:scale-40 sm:scale-90 md:scale-100`}
             onMouseDown={startDrag}
             onTouchStart={startDrag}
             onClick={handlePhoneClick}
@@ -638,7 +638,7 @@ const DraggableContact: React.FC = () => {
               <div className="absolute inset-0 bg-cyan-500/30 rounded-full animate-phone-glow"></div>
               
               {/* 电话图标 */}
-              <div className="relative text-2xl xs:text-3xl sm:text-5xl md:text-6xl lg:text-7xl animate-phone-shake" style={{ color: '#0DD3CA' }}>
+              <div className="relative text-xl xs:text-2xl sm:text-5xl md:text-6xl lg:text-7xl animate-phone-shake" style={{ color: '#0DD3CA' }}>
                 {contactMethods[1].icon}
               </div>
               
@@ -650,7 +650,7 @@ const DraggableContact: React.FC = () => {
           </div>
           
                       {/* GitHub图标 */}
-            <div className="absolute left-[-5%] sm:left-[5%] md:left-[10%] top-1/2 animate-float-medium scale-40 xs:scale-50 sm:scale-90 md:scale-100">
+            <div className="absolute left-[-15%] sm:left-[5%] md:left-[10%] top-1/2 animate-float-medium scale-30 xs:scale-40 sm:scale-90 md:scale-100">
               {contactMethods[2].icon && (
                 <a 
                   href={contactMethods[2].href}
@@ -658,7 +658,7 @@ const DraggableContact: React.FC = () => {
                   rel="noopener noreferrer"
                   className="cursor-pointer hover:scale-110 transition-transform duration-300 block"
                 >
-                  <div className="text-2xl xs:text-3xl sm:text-5xl md:text-6xl lg:text-7xl" style={{ color: contactMethods[2].color }}>
+                  <div className="text-xl xs:text-2xl sm:text-5xl md:text-6xl lg:text-7xl" style={{ color: contactMethods[2].color }}>
                     {contactMethods[2].icon}
                   </div>
                 </a>
@@ -666,9 +666,9 @@ const DraggableContact: React.FC = () => {
             </div>
           
                       {/* 定位图标 */}
-            <div className="absolute right-[-5%] sm:right-[5%] md:right-[9%] bottom-4 animate-float-slow scale-40 xs:scale-50 sm:scale-90 md:scale-100">
+            <div className="absolute right-[-15%] sm:right-[5%] md:right-[9%] bottom-4 animate-float-slow scale-30 xs:scale-40 sm:scale-90 md:scale-100">
               {contactMethods[3].icon && (
-                <div className="text-2xl xs:text-3xl sm:text-5xl md:text-6xl lg:text-7xl" style={{ color: contactMethods[3].color }}>
+                <div className="text-xl xs:text-2xl sm:text-5xl md:text-6xl lg:text-7xl" style={{ color: contactMethods[3].color }}>
                   {contactMethods[3].icon}
                 </div>
               )}
