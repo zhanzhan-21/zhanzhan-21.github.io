@@ -2,11 +2,10 @@
 
 import { useState, useEffect, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Github, ExternalLink, Calendar, Users, ChevronDown, Code, Award, Star } from 'lucide-react'
+import { Github, ExternalLink, Calendar, Users, ChevronDown, Code, Award, Star, ChevronRight } from 'lucide-react'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
-import { createPortal } from 'react-dom'
 
 interface Project {
   title: string;
@@ -20,10 +19,11 @@ interface Project {
 interface ExpandableProjectCardProps {
   project: Project;
   index?: number;
+  isExpanded?: boolean;
+  onToggleExpanded?: () => void;
 }
 
-export default function ExpandableProjectCard({ project, index = 0 }: ExpandableProjectCardProps) {
-  const [isExpanded, setIsExpanded] = useState(false)
+export default function ExpandableProjectCard({ project, index = 0, isExpanded = false, onToggleExpanded }: ExpandableProjectCardProps) {
   const [isHovered, setIsHovered] = useState(false)
   const [mounted, setMounted] = useState(false)
   const [isMobile, setIsMobile] = useState(false)
@@ -32,38 +32,6 @@ export default function ExpandableProjectCard({ project, index = 0 }: Expandable
   useEffect(() => {
     setMounted(true)
   }, [])
-  
-  // 处理卡片展开/收起的副作用
-  useEffect(() => {
-    if (isExpanded) {
-      // 使用事件监听器禁止在卡片区域内滚动背景
-      const preventScrollOnCard = (e: WheelEvent) => {
-        if (ref.current && ref.current.contains(e.target as Node)) {
-          // 找到滚动容器
-          const scrollableContent = ref.current;
-          // 检查是否到达滚动边界
-          const { scrollTop, scrollHeight, clientHeight } = scrollableContent;
-          const isAtTop = scrollTop <= 0;
-          const isAtBottom = scrollTop + clientHeight >= scrollHeight;
-          
-          // 只有在到达边界并继续滚动时才阻止事件
-          if ((isAtTop && e.deltaY < 0) || (isAtBottom && e.deltaY > 0)) {
-            e.preventDefault();
-          }
-          // 否则允许滚动
-        }
-      };
-      
-      // 添加事件监听器，使用捕获阶段
-      window.addEventListener('wheel', preventScrollOnCard, { passive: false, capture: true });
-      
-      // 移除事件监听器
-      return () => {
-        window.removeEventListener('wheel', preventScrollOnCard, { capture: true });
-        document.body.style.overflow = '';
-      };
-    }
-  }, [isExpanded]);
   
   // 检测是否为移动设备
   useEffect(() => {
@@ -81,16 +49,6 @@ export default function ExpandableProjectCard({ project, index = 0 }: Expandable
       window.removeEventListener('resize', checkMobile);
     };
   }, []);
-  
-  // 从描述中提取一些假数据用于详情显示
-  const duration = "6个月"
-  const teamSize = "5人团队"
-  const keyFeatures = [
-    "高并发处理",
-    "分布式架构",
-    "安全认证",
-    "性能优化"
-  ]
 
   // 根据索引获取渐变颜色对象
   const getGradientColors = () => {
@@ -103,28 +61,6 @@ export default function ExpandableProjectCard({ project, index = 0 }: Expandable
     return colors[index % colors.length];
   };
 
-  // 根据索引获取不同的渐变背景色
-  const getGradientBg = () => {
-    const gradients = [
-      'bg-gradient-to-r from-blue-500 to-indigo-600', 
-      'bg-gradient-to-r from-purple-500 to-pink-600', 
-      'bg-gradient-to-r from-emerald-500 to-teal-600', 
-      'bg-gradient-to-r from-amber-500 to-orange-600'
-    ];
-    return gradients[index % gradients.length];
-  }
-
-  // 获取暗色渐变背景
-  const getDarkGradientBg = () => {
-    const gradients = [
-      'bg-gradient-to-r from-blue-900 to-indigo-900', 
-      'bg-gradient-to-r from-purple-900 to-pink-900', 
-      'bg-gradient-to-r from-emerald-900 to-teal-900', 
-      'bg-gradient-to-r from-amber-900 to-orange-900'
-    ];
-    return gradients[index % gradients.length];
-  }
-  
   // 获取卡片边框发光效果颜色
   const getGlowColor = () => {
     const glows = [
@@ -146,375 +82,253 @@ export default function ExpandableProjectCard({ project, index = 0 }: Expandable
     ];
     return colors[index % colors.length];
   }
-  
-  // 获取背景色（非渐变）
-  const getBgColor = () => {
-    const colors = [
-      'bg-blue-500',
-      'bg-purple-500',
-      'bg-emerald-500',
-      'bg-amber-500'
-    ];
-    return colors[index % colors.length];
-  }
 
-  // 全屏覆盖层变体
-  const overlayVariants = {
-    open: {
-      opacity: 1,
-      display: "block"
-    },
-    closed: {
-      opacity: 0,
-      transitionEnd: {
-        display: "none"
-      }
-    }
-  };
-
-  // 卡片动画变体 - 使用更简单的动画策略
+  // 卡片动画变体
   const cardVariants = {
     collapsed: { 
-      width: "100%",
-      maxWidth: "380px",
-      height: "64px",
-      borderRadius: "16px",
+      height: "auto",
       scale: 1,
       y: 0
     },
     expanded: { 
-      width: "92%", // 略微减小宽度，确保在小屏幕上也有边距
-      maxWidth: "800px",
-      height: "auto", 
-      borderRadius: "12px",
+      height: "auto",
       scale: 1,
       y: 0
     }
   };
 
-  // 内容动画变体 - 优化内容展开动画
+  // 内容动画变体
   const contentVariants = {
     collapsed: { 
-      opacity: 0
+      opacity: 0,
+      height: 0,
+      overflow: "hidden"
     },
     expanded: { 
-      opacity: 1
+      opacity: 1,
+      height: "auto",
+      overflow: "visible"
     }
   };
   
-  // 动画配置修改为优雅的淡入动画
-  const instantAnimationConfig = {
+  // 动画配置
+  const animationConfig = {
     type: "tween",
-    duration: 0.35,  // 适中的持续时间
-    ease: [0.33, 1, 0.68, 1]  // 平滑的缓动函数
-  };
-  
-  // 为内容展示定义不同的动画配置
-  const contentAnimationConfig = {
-    type: "tween",
-    duration: 0.25,
-    ease: [0.35, 1, 0.68, 1],
-    delay: 0.1  // 轻微延迟，让卡片先展开再显示内容
+    duration: 0.3,
+    ease: [0.33, 1, 0.68, 1]
   };
 
-  // 添加自定义样式，隐藏滚动条但保留滚动功能
-  const hideScrollbarStyle = {
-    scrollbarWidth: 'none', // Firefox
-    msOverflowStyle: 'none', // IE/Edge
-    '&::-webkit-scrollbar': {
-      display: 'none' // Chrome/Safari/Opera
-    }
-  };
-  
-  // 非展开状态下的渲染
-  const renderCollapsedCard = () => (
+  return (
     <motion.div
-      id={`project-card-${index}`}
+      ref={ref}
       initial="collapsed"
       animate="collapsed"
       variants={cardVariants}
-      transition={instantAnimationConfig}
+      transition={animationConfig}
       className={cn(
-        "overflow-hidden relative w-full",
-        `text-white shadow-lg ${getGlowColor()} h-16 max-w-[380px]`
+        "overflow-hidden relative w-full max-w-2xl",
+        `bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 shadow-lg ${getGlowColor()} rounded-xl`
       )}
-      style={{
-        background: `linear-gradient(to right, ${getGradientColors().from}, ${getGradientColors().to})`,
-        willChange: 'transform, width, border-radius',
-        transform: 'translateZ(0)',
-        backfaceVisibility: 'hidden',
-        height: '64px'
-      }}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
       whileHover={{
         scale: 1.02,
-        transition: { duration: 0.1, ease: "linear" }
+        transition: { duration: 0.2, ease: "linear" }
       }}
     >
       {/* 卡片背景装饰 */}
-      <div className="absolute inset-0 overflow-hidden opacity-50">
-        <div className="absolute top-0 right-0 -mt-4 -mr-4 w-24 h-24 rounded-full bg-white/10 blur-xl"></div>
-        <div className="absolute bottom-0 left-0 -mb-4 -ml-4 w-16 h-16 rounded-full bg-white/10 blur-xl"></div>
+      <div className="absolute inset-0 overflow-hidden opacity-30">
+        <div className="absolute top-0 right-0 -mt-4 -mr-4 w-24 h-24 rounded-full bg-gradient-to-r from-blue-500 to-indigo-600 blur-xl"></div>
+        <div className="absolute bottom-0 left-0 -mb-4 -ml-4 w-16 h-16 rounded-full bg-gradient-to-r from-purple-500 to-pink-600 blur-xl"></div>
       </div>
       
-      {/* 头部/按钮部分 */}
-      <div 
-        className="flex items-center cursor-pointer justify-between p-2.5 pl-4 pr-4 h-full"
-        onClick={() => setIsExpanded(true)}
-      >
-        {/* 项目标题 */}
-        <div className="flex items-center gap-3 min-w-0 flex-1">
-          <motion.div 
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0.8 }}
-            transition={{ duration: 0.2 }}
-            className="w-8 h-8 rounded-lg overflow-hidden shadow-sm flex-shrink-0 bg-white/20 flex items-center justify-center backdrop-blur-sm"
-          >
-            <img 
-              src={project.image || "/placeholder.svg"} 
-              alt={project.title}
-              className="w-full h-full object-cover"
-            />
-          </motion.div>
-          
-          <h3 className="font-bold truncate text-base text-white">
-            {project.title}
-          </h3>
-        </div>
-        
-        {/* 操作按钮 */}
-        <motion.div
-          className="rounded-full px-3 py-1 text-xs font-medium flex items-center gap-1.5 ml-2 flex-shrink-0 bg-white/20 text-white backdrop-blur-sm hover:bg-white/30"
-          whileHover={{ scale: 1.08 }}
-          whileTap={{ scale: 0.92 }}
-        >
-          展开
-          <motion.div>
-            <ChevronDown className="h-3 w-3" /> 
-          </motion.div>
-        </motion.div>
-      </div>
-    </motion.div>
-  );
-  
-  // 展开状态的渲染 - 使用Portal挂载到body
-  const renderExpandedCard = () => {
-    if (!mounted) return null;
-    
-    return createPortal(
-      <div 
-        className="fixed inset-0 flex items-start justify-center" 
-        style={{ 
-          zIndex: 95,
-          paddingTop: isMobile ? '100px' : '40px',
-          overflowY: 'auto'
-        }}
-      >
-        {/* 背景遮罩 */}
-        <div 
-          className="fixed bg-white/30 backdrop-blur-md"
-          onClick={() => setIsExpanded(false)}
-          style={{ 
-            zIndex: 90,
-            top: 0,
-            left: 0,
-            right: 0,
-            bottom: 0
-          }}
-        />
-        
-        {/* 卡片容器 */}
-        <motion.div
-          ref={ref}
-          initial={{ opacity: 0, scale: 0.98, y: 5 }}
-          animate={{ opacity: 1, scale: 1, y: 0 }}
-          variants={cardVariants}
-          transition={instantAnimationConfig}
-          className={cn(
-            "overflow-auto relative w-full scrollbar-hide",
-            `bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 shadow-2xl ${getGlowColor()} max-w-3xl rounded-2xl`
-          )}
-          style={{
-            boxShadow: '0 35px 60px -15px rgba(0, 0, 0, 0.8)',
-            willChange: 'transform, width, border-radius',
-            backfaceVisibility: 'hidden',
-            maxHeight: isMobile ? '75vh' : '85vh',
-            zIndex: 96,
-            position: 'relative',
-            scrollbarWidth: 'none',
-            msOverflowStyle: 'none',
-            overflowY: 'scroll',
-            width: isMobile ? '95%' : '92%',
-            margin: isMobile ? '0 auto' : 'auto'
-          }}
-        >
-          {/* 自定义样式，隐藏滚动条 */}
-          <style jsx global>{`
-            .scrollbar-hide::-webkit-scrollbar {
-              display: none;
-            }
-          `}</style>
-          
-          {/* 头部/按钮部分 */}
-          <div 
-            className="flex items-center cursor-pointer justify-between border-b border-gray-200 dark:border-gray-800 p-4"
-            onClick={() => setIsExpanded(false)}
-          >
-            {/* 项目标题 */}
-            <div className="flex items-center gap-3 min-w-0 flex-1">
-              <h3 className="font-bold truncate text-xl text-gray-900 dark:text-white">
-                {project.title}
-              </h3>
-            </div>
-            
-            {/* 操作按钮 */}
-            <motion.div
-              className="rounded-full px-3 py-1 text-xs font-medium flex items-center gap-1.5 ml-2 flex-shrink-0 bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700"
-              whileHover={{ scale: 1.08 }}
-              whileTap={{ scale: 0.92 }}
-            >
-              收起
-              <motion.div
-                animate={{ rotate: 180 }}
-                transition={{ 
-                  type: "tween", 
-                  duration: 0.25,
-                  ease: [0.33, 1, 0.68, 1]
-                }}
+      {/* 主要内容区域 */}
+      <div className="relative z-10">
+        {/* 项目标题和基本信息 - 始终显示 */}
+        <div className="p-6 border-b border-gray-200 dark:border-gray-700">
+          <div className="flex items-start justify-between mb-4">
+            {/* 项目标题和图标 */}
+            <div className="flex items-center gap-4 min-w-0 flex-1">
+              <motion.div 
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.2 }}
+                className="w-12 h-12 rounded-lg overflow-hidden shadow-sm flex-shrink-0 bg-gradient-to-r from-blue-500 to-indigo-600 flex items-center justify-center"
               >
-                <ChevronDown className="h-3 w-3" /> 
+                <img 
+                  src={project.image || "/placeholder.svg"} 
+                  alt={project.title}
+                  className="w-full h-full object-cover"
+                />
               </motion.div>
-            </motion.div>
-          </div>
-          
-          {/* 展开内容部分 - 使用优雅的动画 */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={contentAnimationConfig}
-            className="overflow-visible relative"
-          >
-            <div className="p-5">
-              <div className="grid grid-cols-1 gap-5">
-                {/* 项目描述和关键特性 */}
-                <div className="space-y-5">
-                  <div className="bg-white dark:bg-gray-800 rounded-xl p-4 shadow-md border border-gray-200 dark:border-gray-700 hover:shadow-lg transition-shadow duration-200">
-                    <h4 className="text-sm font-medium text-gray-500 dark:text-gray-400 mb-3 flex items-center">
-                      <Code className={cn("h-4 w-4 mr-2", getTextColor())} />
-                      项目描述
-                    </h4>
-                    <p className="text-gray-700 dark:text-gray-300 text-justify">{project.description}</p>
-                  </div>
-                  
-                  <div className="bg-white dark:bg-gray-800 rounded-xl p-4 shadow-md border border-gray-200 dark:border-gray-700 hover:shadow-lg transition-shadow duration-200">
-                    <h4 className="text-sm font-medium text-gray-500 dark:text-gray-400 mb-3 flex items-center">
-                      <Star className={cn("h-4 w-4 mr-2", getTextColor())} />
-                      关键特性
-                    </h4>
-                    <ul className="grid grid-cols-2 gap-3">
-                      {keyFeatures.map((feature, i) => {
-                        const { from, to } = getGradientColors();
-                        return (
-                          <li 
-                            key={i} 
-                            className="flex items-start"
-                          >
-                            <div 
-                              className="h-5 w-5 flex-shrink-0 mt-0.5 rounded-full flex items-center justify-center"
-                              style={{
-                                background: `linear-gradient(to right, ${from}, ${to})`
-                              }}
-                            >
-                              <Award className="h-3.5 w-3.5 text-white" />
-                            </div>
-                            <span className="ml-2 text-gray-700 dark:text-gray-300 text-justify">{feature}</span>
-                          </li>
-                        );
-                      })}
-                    </ul>
-                  </div>
-                  
-                  <div className="flex flex-wrap gap-2 pt-1">
-                    {project.technologies.map((tech, i) => {
-                      const { from, to } = getGradientColors();
-                      return (
-                        <Badge 
-                          key={i}
-                          variant="secondary" 
-                          className="text-white border-0"
-                          style={{
-                            background: `linear-gradient(to right, ${from}, ${to})`
-                          }}
-                        >
-                          {tech}
-                        </Badge>
-                      );
-                    })}
-                  </div>
-                  
-                  {/* 项目信息和链接 */}
-                  <div className="bg-white dark:bg-gray-800 rounded-xl p-4 shadow-md border border-gray-200 dark:border-gray-700 hover:shadow-lg transition-shadow duration-200">
-                    <div className="grid grid-cols-2 gap-3 mb-4">
-                      <div className="flex items-center text-sm text-gray-600 dark:text-gray-400">
-                        <Calendar className={cn("h-4 w-4 mr-2", getTextColor())} />
-                        <span>持续时间: {duration}</span>
-                      </div>
-                      <div className="flex items-center text-sm text-gray-600 dark:text-gray-400">
-                        <Users className={cn("h-4 w-4 mr-2", getTextColor())} />
-                        <span>团队规模: {teamSize}</span>
-                      </div>
-                    </div>
-                    
-                    <div className="flex gap-3">
-                      <Button 
-                        variant="outline" 
-                        className="flex-1 justify-center group transition-all hover:bg-primary/5 dark:hover:bg-primary/10 border-gray-200 dark:border-gray-700 text-sm h-9" 
-                        asChild
-                      >
-                        <a 
-                          href={project.github} 
-                          target="_blank" 
-                          rel="noopener noreferrer"
-                        >
-                          <Github className={cn("h-4 w-4 mr-2", getTextColor())} />
-                          查看代码
-                        </a>
-                      </Button>
-                      <Button 
-                        className="flex-1 justify-center text-sm h-9 text-white border-0"
-                        style={{
-                          background: `linear-gradient(to right, ${getGradientColors().from}, ${getGradientColors().to})`
-                        }}
-                        asChild
-                      >
-                        <a 
-                          href={project.demo} 
-                          target="_blank" 
-                          rel="noopener noreferrer"
-                        >
-                          <ExternalLink className="h-4 w-4 mr-2" />
-                          在线演示
-                        </a>
-                      </Button>
-                    </div>
-                  </div>
-                </div>
+              
+              <div className="min-w-0 flex-1">
+                <h3 className="font-bold text-xl text-gray-900 dark:text-white mb-1">
+                  {project.title}
+                </h3>
+                                 <p className="text-sm text-gray-600 dark:text-gray-400">
+                   {index === 0 ? "技术派社区项目 • 2024.10 - 2025.06" : "企业级微服务项目 • 2024.06 - 2024.12"}
+                 </p>
               </div>
             </div>
-          </motion.div>
-        </motion.div>
-      </div>,
-      document.body
-    );
-  };
-  
-  // 根据展开状态渲染不同的卡片
-  return (
-    <>
-      {!isExpanded ? renderCollapsedCard() : null}
-      {isExpanded ? renderExpandedCard() : null}
-    </>
+            
+                         {/* 展开/收起按钮 */}
+             <motion.button
+               onClick={() => onToggleExpanded?.()}
+               className="rounded-full p-2 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 transition-all"
+               whileHover={{ scale: 1.1 }}
+               whileTap={{ scale: 0.9 }}
+             >
+              <motion.div
+                animate={{ rotate: isExpanded ? 90 : 0 }}
+                transition={{ duration: 0.2 }}
+              >
+                <ChevronRight className="h-5 w-5" />
+              </motion.div>
+            </motion.button>
+          </div>
+          
+          {/* 核心技术栈 - 始终显示 */}
+          <div className="space-y-3">
+            <h4 className="text-sm font-medium text-gray-700 dark:text-gray-300 flex items-center">
+              <Code className="h-4 w-4 mr-2 text-blue-500" />
+              核心技术栈
+            </h4>
+            <div className="flex flex-wrap gap-2">
+              {project.technologies.slice(0, 6).map((tech, i) => {
+                const { from, to } = getGradientColors();
+                return (
+                  <Badge 
+                    key={i}
+                    variant="secondary" 
+                    className="text-white border-0 text-xs px-2 py-1"
+                    style={{
+                      background: `linear-gradient(to right, ${from}, ${to})`
+                    }}
+                  >
+                    {tech}
+                  </Badge>
+                );
+              })}
+              {project.technologies.length > 6 && (
+                <Badge variant="outline" className="text-xs px-2 py-1">
+                  +{project.technologies.length - 6} 更多
+                </Badge>
+              )}
+            </div>
+          </div>
+        </div>
+        
+        {/* 详细内容 - 可折叠 */}
+        <AnimatePresence>
+          {isExpanded && (
+            <motion.div
+              initial="collapsed"
+              animate="expanded"
+              exit="collapsed"
+              variants={contentVariants}
+              transition={animationConfig}
+              className="border-t border-gray-200 dark:border-gray-700"
+            >
+              <div className="p-6 space-y-6">
+                {/* 项目描述 */}
+                <div className="space-y-3">
+                  <h4 className="text-sm font-medium text-gray-700 dark:text-gray-300 flex items-center">
+                    <Star className="h-4 w-4 mr-2 text-blue-500" />
+                    项目描述
+                  </h4>
+                  <p className="text-gray-600 dark:text-gray-400 text-sm leading-relaxed">
+                    {project.description}
+                  </p>
+                </div>
+                
+                                 {/* 主要职责 */}
+                 <div className="space-y-3">
+                   <h4 className="text-sm font-medium text-gray-700 dark:text-gray-300 flex items-center">
+                     <Award className="h-4 w-4 mr-2 text-blue-500" />
+                     主要职责
+                   </h4>
+                   <ul className="space-y-2">
+                     {index === 0 ? (
+                       <>
+                         <li className="flex items-start text-sm text-gray-600 dark:text-gray-400">
+                           <div className="w-1.5 h-1.5 rounded-full bg-blue-500 mt-2 mr-3 flex-shrink-0"></div>
+                           <span>维护半长连接映射关系，实现扫码登录功能</span>
+                         </li>
+                         <li className="flex items-start text-sm text-gray-600 dark:text-gray-400">
+                           <div className="w-1.5 h-1.5 rounded-full bg-blue-500 mt-2 mr-3 flex-shrink-0"></div>
+                           <span>使用RabbitMQ实现消息异步解耦</span>
+                         </li>
+                         <li className="flex items-start text-sm text-gray-600 dark:text-gray-400">
+                           <div className="w-1.5 h-1.5 rounded-full bg-blue-500 mt-2 mr-3 flex-shrink-0"></div>
+                           <span>基于Redis zset实现用户活跃度排名</span>
+                         </li>
+                         <li className="flex items-start text-sm text-gray-600 dark:text-gray-400">
+                           <div className="w-1.5 h-1.5 rounded-full bg-blue-500 mt-2 mr-3 flex-shrink-0"></div>
+                           <span>使用ThreadLocal封装线程隔离的全局上下文</span>
+                         </li>
+                       </>
+                     ) : (
+                       <>
+                         <li className="flex items-start text-sm text-gray-600 dark:text-gray-400">
+                           <div className="w-1.5 h-1.5 rounded-full bg-blue-500 mt-2 mr-3 flex-shrink-0"></div>
+                           <span>设计并实现微服务架构，包含用户、商品、订单、支付等核心服务</span>
+                         </li>
+                         <li className="flex items-start text-sm text-gray-600 dark:text-gray-400">
+                           <div className="w-1.5 h-1.5 rounded-full bg-blue-500 mt-2 mr-3 flex-shrink-0"></div>
+                           <span>集成Spring Cloud组件，实现服务注册发现、配置中心、熔断降级</span>
+                         </li>
+                         <li className="flex items-start text-sm text-gray-600 dark:text-gray-400">
+                           <div className="w-1.5 h-1.5 rounded-full bg-blue-500 mt-2 mr-3 flex-shrink-0"></div>
+                           <span>实现分布式事务、分库分表、读写分离等高性能数据方案</span>
+                         </li>
+                         <li className="flex items-start text-sm text-gray-600 dark:text-gray-400">
+                           <div className="w-1.5 h-1.5 rounded-full bg-blue-500 mt-2 mr-3 flex-shrink-0"></div>
+                           <span>使用Docker和Kubernetes实现容器化部署和自动化运维</span>
+                         </li>
+                       </>
+                     )}
+                   </ul>
+                 </div>
+                
+                {/* 项目链接 */}
+                <div className="flex gap-3 pt-2">
+                  <Button 
+                    variant="outline" 
+                    className="flex-1 justify-center group transition-all hover:bg-blue-50 dark:hover:bg-blue-900/20 border-gray-200 dark:border-gray-700 text-sm h-9" 
+                    asChild
+                  >
+                    <a 
+                      href={project.github} 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                    >
+                      <Github className="h-4 w-4 mr-2" />
+                      查看代码
+                    </a>
+                  </Button>
+                  <Button 
+                    className="flex-1 justify-center text-sm h-9 text-white border-0"
+                    style={{
+                      background: `linear-gradient(to right, ${getGradientColors().from}, ${getGradientColors().to})`
+                    }}
+                    asChild
+                  >
+                    <a 
+                      href={project.demo} 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                    >
+                      <ExternalLink className="h-4 w-4 mr-2" />
+                      在线演示
+                    </a>
+                  </Button>
+                </div>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </div>
+    </motion.div>
   );
 }

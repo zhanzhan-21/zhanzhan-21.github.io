@@ -77,7 +77,7 @@ export default function Skills() {
           <h2 className="text-3xl font-bold mb-2.5">专业技能</h2>
           <div className="w-20 h-1 bg-primary mx-auto mb-3.5"></div>
           <p className="max-w-2xl mx-auto text-gray-600 dark:text-gray-300">
-            我专注于Java后端开发，熟悉JVM调优、多线程编程、网络协议，以及MySQL、Redis等数据库技术，具备扎实的计算机基础知识和系统设计能力
+            以下是我掌握的核心技术栈，涵盖后端开发、数据库、系统架构和开发工具等领域，每个技能都结合实际项目强化
           </p>
         </motion.div>
 

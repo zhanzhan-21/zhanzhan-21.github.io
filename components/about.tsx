@@ -119,7 +119,7 @@ export default function About() {
           <h2 className="text-3xl font-bold mb-4">关于我</h2>
           <div className="w-20 h-1 bg-primary mx-auto mb-6"></div>
           <p className="max-w-2xl mx-auto text-gray-600 dark:text-gray-300">
-            专注于构建高性能、可扩展的企业级应用，热衷于技术创新与工程实践。致力于打造优质的用户体验和可靠的系统架构。
+            专注于Java后端开发，熟悉JVM调优、多线程编程、网络协议，以及MySQL、Redis等数据库技术，具备扎实的计算机基础知识和系统设计能力。
           </p>
         </motion.div>
 
@@ -140,12 +140,12 @@ export default function About() {
                 </div>
                 <div className="flex-grow w-full">
                   <p className="text-gray-600 dark:text-gray-300 mb-4 text-center lg:text-left text-justify">
-                    我是一名专注于Java后端开发的工程师，拥有扎实的计算机科学基础和丰富的项目经验。
-                    在学习和工作中，我不断探索新技术，提升自己的技术能力和解决问题的能力。
+                    我是一名专注于Java后端开发的工程师，拥有扎实的计算机科学基础和2年的项目开发经验。
+                    在技术派社区项目中，我负责后端系统开发，包括用户认证、内容管理、消息推送等核心功能。
                   </p>
                   <p className="text-gray-600 dark:text-gray-300 mb-6 text-center lg:text-left text-justify">
-                    我热爱编程，善于团队协作，能够快速适应新环境和新技术。
-                    我的目标是成为一名优秀的后端架构师，为用户提供高效、稳定的系统解决方案。
+                    我熟悉JVM调优、多线程编程、网络协议，以及MySQL、Redis等数据库技术。
+                    通过实际项目经验，我不断提升技术能力和解决复杂问题的能力。
                   </p>
                 </div>
 

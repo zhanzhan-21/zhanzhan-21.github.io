@@ -1,9 +1,12 @@
 "use client"
 
 import { motion } from "framer-motion"
+import { useState } from "react"
 import ExpandableProjectCard from "@/components/3d/ExpandableProjectCard"
 
 export default function Projects() {
+  const [expandedProjectIndex, setExpandedProjectIndex] = useState<number | null>(null)
+  
   const projects = [
     {
       title: "技术派社区项目",
@@ -46,11 +49,11 @@ export default function Projects() {
           </p>
         </motion.div>
 
-        {/* 项目卡片区域 - 使用flex和自适应布局 */}
+        {/* 项目卡片区域 - 单列布局 */}
         <div className="flex justify-center items-center px-1 sm:px-2">
           <div className="w-full max-w-4xl">
-            {/* 项目卡片网格 - 使用响应式布局，在移动端为单列，桌面端为双列 */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-x-2 md:gap-x-1 gap-y-4 md:gap-y-6 place-items-center">
+            {/* 项目卡片单列布局 */}
+            <div className="flex flex-col gap-6 place-items-center">
               {projects.map((project, index) => (
                 <motion.div
                   key={index}
@@ -58,9 +61,20 @@ export default function Projects() {
                   whileInView={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.5, delay: index * 0.1 }}
                   viewport={{ once: true, margin: "-100px" }}
-                  className="flex justify-center w-full px-1 mb-2"
+                  className="flex justify-center w-full px-1"
                 >
-                  <ExpandableProjectCard project={project} index={index} />
+                  <ExpandableProjectCard 
+                    project={project} 
+                    index={index}
+                    isExpanded={expandedProjectIndex === index}
+                    onToggleExpanded={() => {
+                      if (expandedProjectIndex === index) {
+                        setExpandedProjectIndex(null)
+                      } else {
+                        setExpandedProjectIndex(index)
+                      }
+                    }}
+                  />
                 </motion.div>
               ))}
             </div>

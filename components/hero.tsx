@@ -414,7 +414,8 @@ export default function Hero() {
                 <h3 className="text-xl font-bold text-center mb-4 text-white">关于我</h3>
                 <p className="text-white text-center text-sm">
                   毕业于山东大学，拥有2年Java开发经验，
-                  专注于后端系统架构设计和微服务开发。
+                  熟悉JVM调优、多线程编程、网络协议，
+                  以及MySQL、Redis等数据库技术。
                 </p>
                 <div className="mt-6 text-center">
                   <span className="text-xs text-white/80 italic">点击返回查看照片</span>
