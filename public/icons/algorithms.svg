@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
+  <!-- 背景 -->
+  <circle cx="64" cy="64" r="60" fill="#F59E0B" opacity="0.1"/>
+  
+  <!-- 二叉树结构 -->
+  <!-- 根节点 -->
+  <circle cx="64" cy="30" r="12" fill="#F59E0B"/>
+  
+  <!-- 第二层 -->
+  <circle cx="40" cy="60" r="10" fill="#F59E0B"/>
+  <circle cx="88" cy="60" r="10" fill="#F59E0B"/>
+  
+  <!-- 第三层 -->
+  <circle cx="25" cy="90" r="8" fill="#F59E0B"/>
+  <circle cx="55" cy="90" r="8" fill="#F59E0B"/>
+  <circle cx="73" cy="90" r="8" fill="#F59E0B"/>
+  <circle cx="103" cy="90" r="8" fill="#F59E0B"/>
+  
+  <!-- 连接线 -->
+  <path d="M52 42L40 50" stroke="#F59E0B" stroke-width="3" stroke-linecap="round"/>
+  <path d="M76 42L88 50" stroke="#F59E0B" stroke-width="3" stroke-linecap="round"/>
+  <path d="M30 70L25 82" stroke="#F59E0B" stroke-width="2" stroke-linecap="round"/>
+  <path d="M50 70L55 82" stroke="#F59E0B" stroke-width="2" stroke-linecap="round"/>
+  <path d="M78 70L73 82" stroke="#F59E0B" stroke-width="2" stroke-linecap="round"/>
+  <path d="M98 70L103 82" stroke="#F59E0B" stroke-width="2" stroke-linecap="round"/>
+  
+  <!-- 数据点 -->
+  <circle cx="64" cy="30" r="4" fill="#FFFFFF"/>
+  <circle cx="40" cy="60" r="3" fill="#FFFFFF"/>
+  <circle cx="88" cy="60" r="3" fill="#FFFFFF"/>
+</svg> 

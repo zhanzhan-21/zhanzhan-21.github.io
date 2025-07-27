@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
+  <!-- 背景 -->
+  <circle cx="64" cy="64" r="60" fill="#8B5CF6" opacity="0.1"/>
+  
+  <!-- 显示器外壳 -->
+  <rect x="20" y="25" width="88" height="60" rx="8" fill="#8B5CF6"/>
+  
+  <!-- 屏幕 -->
+  <rect x="28" y="33" width="72" height="44" rx="4" fill="#1F2937"/>
+  
+  <!-- 窗口栏 -->
+  <rect x="28" y="33" width="72" height="8" fill="#374151"/>
+  
+  <!-- 窗口按钮 -->
+  <circle cx="36" cy="37" r="2" fill="#EF4444"/>
+  <circle cx="44" cy="37" r="2" fill="#F59E0B"/>
+  <circle cx="52" cy="37" r="2" fill="#10B981"/>
+  
+  <!-- 文件图标 -->
+  <rect x="35" y="50" width="12" height="16" rx="2" fill="#8B5CF6"/>
+  <path d="M35 50L47 50L47 66" stroke="#8B5CF6" stroke-width="1"/>
+  
+  <rect x="55" y="50" width="12" height="16" rx="2" fill="#8B5CF6"/>
+  <path d="M55 50L67 50L67 66" stroke="#8B5CF6" stroke-width="1"/>
+  
+  <rect x="75" y="50" width="12" height="16" rx="2" fill="#8B5CF6"/>
+  <path d="M75 50L87 50L87 66" stroke="#8B5CF6" stroke-width="1"/>
+  
+  <!-- 进程图标 -->
+  <circle cx="40" cy="58" r="2" fill="#FFFFFF"/>
+  <circle cx="60" cy="58" r="2" fill="#FFFFFF"/>
+  <circle cx="80" cy="58" r="2" fill="#FFFFFF"/>
+</svg> 

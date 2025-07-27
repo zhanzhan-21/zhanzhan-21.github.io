@@ -11,30 +11,30 @@ export default function Skills() {
 
   const backendSkills = [
     { name: "Java", level: 95, icon: "/icons/java.svg" },
-    { name: "Spring Boot", level: 90, icon: "/icons/spring-boot.svg" },
-    { name: "Spring Cloud", level: 85, icon: "/icons/spring-cloud.svg" },
-    { name: "Microservices", level: 80, icon: "/icons/microservices.svg" },
+    { name: "JVM", level: 85, icon: "/icons/jvm.svg" },
+    { name: "多线程", level: 80, icon: "/icons/multithreading.svg" },
+    { name: "网络编程", level: 75, icon: "/icons/network.svg" },
   ]
 
   const databaseSkills = [
     { name: "MySQL", level: 90, icon: "/icons/mysql.svg" },
     { name: "Redis", level: 85, icon: "/icons/redis.svg" },
-    { name: "MongoDB", level: 75, icon: "/icons/mongodb.svg" },
+    { name: "数据库设计", level: 80, icon: "/icons/database.svg" },
     { name: "Elasticsearch", level: 70, icon: "/icons/elasticsearch.svg" },
   ]
 
   const architectureSkills = [
-    { name: "System Design", level: 85, icon: "/icons/system-design.svg" },
-    { name: "Design Patterns", level: 80, icon: "/icons/design-patterns.svg" },
-    { name: "API Design", level: 85, icon: "/icons/api.svg" },
-    { name: "Performance Optimization", level: 75, icon: "/icons/performance.svg" },
+    { name: "系统设计", level: 85, icon: "/icons/system-design.svg" },
+    { name: "设计模式", level: 80, icon: "/icons/design-patterns.svg" },
+    { name: "数据结构算法", level: 75, icon: "/icons/algorithms.svg" },
+    { name: "操作系统", level: 70, icon: "/icons/operating-system.svg" },
   ]
 
   const otherSkills = [
     { name: "Git", level: 90, icon: "/icons/git.svg" },
-    { name: "Docker", level: 80, icon: "/icons/docker.svg" },
-    { name: "Kubernetes", level: 70, icon: "/icons/kubernetes.svg" },
-    { name: "CI/CD", level: 75, icon: "/icons/cicd.svg" },
+    { name: "Linux", level: 85, icon: "/icons/linux.svg" },
+    { name: "Qt", level: 80, icon: "/icons/qt.svg" },
+    { name: "Python/C++", level: 70, icon: "/icons/python.svg" },
   ]
 
   // 所有技能合并在一起
@@ -77,7 +77,7 @@ export default function Skills() {
           <h2 className="text-3xl font-bold mb-2.5">专业技能</h2>
           <div className="w-20 h-1 bg-primary mx-auto mb-3.5"></div>
           <p className="max-w-2xl mx-auto text-gray-600 dark:text-gray-300">
-            我精通Java后端开发技术栈，包括数据库、后端框架和系统架构设计
+            我专注于Java后端开发，熟悉JVM调优、多线程编程、网络协议，以及MySQL、Redis等数据库技术，具备扎实的计算机基础知识和系统设计能力
           </p>
         </motion.div>
 

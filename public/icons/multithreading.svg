@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
+  <!-- 背景圆 -->
+  <circle cx="64" cy="64" r="60" fill="#4F46E5" opacity="0.1"/>
+  
+  <!-- 四个线程节点 -->
+  <circle cx="32" cy="32" r="12" fill="#4F46E5"/>
+  <circle cx="96" cy="32" r="12" fill="#4F46E5"/>
+  <circle cx="32" cy="96" r="12" fill="#4F46E5"/>
+  <circle cx="96" cy="96" r="12" fill="#4F46E5"/>
+  
+  <!-- 连接线 -->
+  <path d="M44 32H84" stroke="#4F46E5" stroke-width="3" stroke-linecap="round"/>
+  <path d="M44 96H84" stroke="#4F46E5" stroke-width="3" stroke-linecap="round"/>
+  <path d="M32 44V84" stroke="#4F46E5" stroke-width="3" stroke-linecap="round"/>
+  <path d="M96 44V84" stroke="#4F46E5" stroke-width="3" stroke-linecap="round"/>
+  
+  <!-- 中心点 -->
+  <circle cx="64" cy="64" r="8" fill="#4F46E5"/>
+  
+  <!-- 动画效果点 -->
+  <circle cx="44" cy="32" r="3" fill="#FFFFFF"/>
+  <circle cx="84" cy="32" r="3" fill="#FFFFFF"/>
+  <circle cx="44" cy="96" r="3" fill="#FFFFFF"/>
+  <circle cx="84" cy="96" r="3" fill="#FFFFFF"/>
+</svg> 

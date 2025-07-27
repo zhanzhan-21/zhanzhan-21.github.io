@@ -249,7 +249,7 @@ export default function Hero() {
           </div>
 
           <p className={`text-gray-600 dark:text-gray-300 max-w-2xl mb-6 md:mb-8 ${isTablet && isPortrait ? 'text-left pl-0 pr-4 text-sm leading-relaxed' : isTablet ? 'text-sm leading-relaxed' : ''}`}>
-            专注于构建高性能、可扩展的企业级应用，热衷于技术创新与解决复杂问题。
+            专注于Java后端开发，熟悉JVM调优、多线程编程、网络协议，以及MySQL、Redis等数据库技术，具备扎实的计算机基础知识和系统设计能力。
           </p>
           
           {/* 联系信息 - 针对iPad竖屏模式做特殊排列，但保持左对齐 */}

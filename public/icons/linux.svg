@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
+  <!-- 背景 -->
+  <circle cx="64" cy="64" r="60" fill="#F97316" opacity="0.1"/>
+  
+  <!-- Linux企鹅 -->
+  <!-- 身体 -->
+  <ellipse cx="64" cy="80" rx="25" ry="35" fill="#F97316"/>
+  
+  <!-- 头部 -->
+  <circle cx="64" cy="45" r="20" fill="#F97316"/>
+  
+  <!-- 眼睛 -->
+  <circle cx="58" cy="40" r="4" fill="#FFFFFF"/>
+  <circle cx="70" cy="40" r="4" fill="#FFFFFF"/>
+  <circle cx="58" cy="40" r="2" fill="#000000"/>
+  <circle cx="70" cy="40" r="2" fill="#000000"/>
+  
+  <!-- 嘴巴 -->
+  <ellipse cx="64" cy="50" rx="3" ry="2" fill="#000000"/>
+  
+  <!-- 脚 -->
+  <ellipse cx="55" cy="110" rx="6" ry="3" fill="#F97316"/>
+  <ellipse cx="73" cy="110" rx="6" ry="3" fill="#F97316"/>
+  
+  <!-- 翅膀 -->
+  <ellipse cx="45" cy="70" rx="8" ry="15" fill="#F97316"/>
+  <ellipse cx="83" cy="70" rx="8" ry="15" fill="#F97316"/>
+  
+  <!-- 肚子 -->
+  <ellipse cx="64" cy="85" rx="15" ry="20" fill="#FFFFFF"/>
+</svg> 

@@ -6,37 +6,19 @@ import ExpandableProjectCard from "@/components/3d/ExpandableProjectCard"
 export default function Projects() {
   const projects = [
     {
+      title: "技术派社区项目",
+      description:
+        "技术派是一个前后端分离的社区项目，包括前端PC和管理后台，是一个用于帮助开发者成长的、面向互联网开发者的技术内容分享与交流的平台。项目采用微服务架构，实现了用户认证、内容管理、消息推送、数据统计等核心功能。通过Redis缓存优化、RabbitMQ消息队列、ThreadLocal线程隔离等技术，保证了系统的高并发性能和用户体验。",
+      technologies: ["Java", "Spring Boot", "MySQL", "Redis", "RabbitMQ", "ThreadLocal", "WebSocket", "Git", "Linux"],
+      image: "/placeholder.svg?height=200&width=400",
+      github: "#",
+      demo: "#",
+    },
+    {
       title: "企业级微服务电商平台",
       description:
         "基于Spring Cloud构建的微服务电商系统，包含用户服务、商品服务、订单服务、支付服务等模块，实现了高并发、高可用的分布式架构。项目采用了服务注册与发现、配置中心、熔断降级、链路追踪等微服务治理技术，保证了系统的稳定性和可扩展性。同时引入了分布式事务、分库分表、读写分离等技术解决高并发场景下的数据一致性问题。",
       technologies: ["Java", "Spring Boot", "Spring Cloud", "MySQL", "Redis", "RabbitMQ", "Docker", "Kubernetes", "Nginx"],
-      image: "/placeholder.svg?height=200&width=400",
-      github: "#",
-      demo: "#",
-    },
-    {
-      title: "智能问答系统",
-      description:
-        "基于NLP技术的智能问答系统，集成了知识图谱和机器学习算法，能够自动回答用户提问，并支持持续学习和优化。系统采用了BERT预训练语言模型实现语义理解，结合知识图谱进行答案检索与生成，实现了高准确率的自动问答功能。系统具备上下文理解、多轮对话、知识推理等能力，并通过用户反馈不断优化模型，提升问答质量。",
-      technologies: ["Java", "Spring Boot", "Elasticsearch", "MongoDB", "Python", "TensorFlow", "PyTorch", "Neo4j"],
-      image: "/placeholder.svg?height=200&width=400",
-      github: "#",
-      demo: "#",
-    },
-    {
-      title: "大数据分析平台",
-      description:
-        "企业级大数据处理与分析平台，整合多源异构数据，提供数据采集、清洗、存储、分析和可视化的全流程解决方案。平台采用Lambda架构，支持批处理和流处理双模式，实现了实时数据分析与离线数据挖掘的统一。系统具备弹性扩展、容错恢复、资源动态调度等特性，满足PB级数据处理需求。",
-      technologies: ["Java", "Spark", "Hadoop", "Flink", "Kafka", "HBase", "Hive", "ELK", "Zookeeper"],
-      image: "/placeholder.svg?height=200&width=400",
-      github: "#",
-      demo: "#",
-    },
-    {
-      title: "DevOps自动化部署平台",
-      description:
-        "面向企业的DevOps自动化部署平台，覆盖代码提交、编译构建、测试、部署、监控的全流程自动化。系统支持多种语言和框架的CI/CD流程，提供容器化部署、蓝绿发布、金丝雀发布等多种发布策略。引入了自动化测试、代码质量分析、安全扫描等环节，保证了交付质量和发布效率。",
-      technologies: ["Java", "Spring Boot", "Docker", "Kubernetes", "Jenkins", "Ansible", "Prometheus", "Grafana", "Git"],
       image: "/placeholder.svg?height=200&width=400",
       github: "#",
       demo: "#",
