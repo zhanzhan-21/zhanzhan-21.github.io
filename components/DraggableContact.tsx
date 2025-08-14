@@ -32,8 +32,8 @@ const DraggableContact: React.FC = () => {
     {
       icon: <Mail className="h-10 w-10" />,
       label: '电子邮箱',
-      value: '17852327512@163.com',
-      href: 'mailto:17852327512@163.com',
+      value: 'zhanzhan_21@163.com',
+      href: 'mailto:zhanzhan_21@163.com',
       type: 'email',
       color: '#3B82F6'
     },

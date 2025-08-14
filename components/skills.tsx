@@ -25,9 +25,9 @@ export default function Skills() {
 
   const architectureSkills = [
     { name: "系统设计", level: 85, icon: "/icons/system-design.svg" },
-    { name: "设计模式", level: 80, icon: "/icons/design-patterns.svg" },
     { name: "数据结构算法", level: 75, icon: "/icons/algorithms.svg" },
     { name: "操作系统", level: 70, icon: "/icons/operating-system.svg" },
+    { name: "计算机网络", level: 75, icon: "/icons/network.svg" },
   ]
 
   const otherSkills = [

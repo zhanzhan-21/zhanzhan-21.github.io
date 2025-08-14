@@ -338,7 +338,7 @@ export function ExpandableEducationCard({ schools }: ExpandableEducationCardProp
                 className="text-gray-600 dark:text-gray-300 text-sm"
                 style={{ WebkitFontSmoothing: "antialiased", MozOsxFontSmoothing: "grayscale" }}
               >
-                平均绩点：{school.gpa}
+                排名：{school.gpa}
               </p>
             )}
             {school.rank && (

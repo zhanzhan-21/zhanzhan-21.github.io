@@ -34,8 +34,8 @@ export default function About() {
       logo: "/images/山东.svg",
       degree: "硕士",
       major: "控制工程",
-      period: "2023.09 - 2026.06",
-      gpa: "3.9",
+      period: "2023.09 - 2026.07",
+      gpa: "23/133（top18%）",
       publication: {
         text: "一作发表SCI二区文章一篇",
         url: "https://www.sciencedirect.com/science/article/pii/S0263224125005731"
@@ -64,8 +64,8 @@ export default function About() {
       logo: "/images/青岛.svg",
       degree: "本科",
       major: "自动化",
-      period: "2019.09 - 2023.06",
-      rank: "排名：2/100 保研",
+      period: "2019.09 - 2023.07",
+      rank: "排名：3/255（top 2%）",
       tags: [
         { label: "一本", color: "purple" },
       ],
@@ -89,20 +89,20 @@ export default function About() {
 
   const featuredBlogs = [
     {
-      title: "从零开始撸一个Spring Boot项目：我是如何被配置文件折磨的",
-      summary: "第一次用Spring Boot的时候，我以为这玩意儿真的是开箱即用。结果发现配置比想象中复杂多了...",
-      date: "2024-12-15",
-      readTime: "8分钟",
-      tags: ["Spring Boot", "配置管理", "Java", "后端开发"],
-      slug: "springboot-configuration-hell"
+      title: "技术派社区项目中的消息队列实践",
+      summary: "在技术派社区项目中，我负责实现了基于RabbitMQ的消息队列系统，用于处理用户评论、点赞、收藏等异步操作。本文分享在实际项目中应用消息队列的经验和遇到的问题。",
+      date: "2025-01-15",
+      readTime: "12分钟",
+      tags: ["RabbitMQ", "消息队列", "Java", "Spring Boot", "异步处理"],
+      slug: "rabbitmq-practice-in-paicoding"
     },
     {
-      title: "MySQL索引优化：从慢查询到毫秒响应的血泪史",
-      summary: "在做课程设计的时候，遇到了一个查询特别慢的问题。从几十秒优化到毫秒级响应，我学会了MySQL索引的精髓...",
-      date: "2024-12-12",
-      readTime: "12分钟",
-      tags: ["MySQL", "索引优化", "性能调优", "数据库"],
-      slug: "mysql-index-optimization-story"
+      title: "线上便利店项目中的缓存架构优化",
+      summary: "在线上便利店项目中，我负责设计了多级缓存架构，解决了热门商品数据的高并发访问问题。本文分享缓存设计思路和实现细节。",
+      date: "2025-01-10",
+      readTime: "15分钟",
+      tags: ["Redis", "Caffeine", "缓存架构", "高并发", "Java"],
+      slug: "cache-architecture-optimization"
     }
   ];
 
@@ -119,7 +119,7 @@ export default function About() {
           <h2 className="text-3xl font-bold mb-4">关于我</h2>
           <div className="w-20 h-1 bg-primary mx-auto mb-6"></div>
           <p className="max-w-2xl mx-auto text-gray-600 dark:text-gray-300">
-            专注于Java后端开发，熟悉JVM调优、多线程编程、网络协议，以及MySQL、Redis等数据库技术，具备扎实的计算机基础知识和系统设计能力。
+            山东大学控制工程硕士研究生，专注于Java后端开发，熟悉JVM调优、多线程编程、网络协议，以及MySQL、Redis等数据库技术，具备扎实的计算机基础知识和系统设计能力。
           </p>
         </motion.div>
 
@@ -139,13 +139,13 @@ export default function About() {
                   <h3 className="text-xl font-semibold">个人简介</h3>
                 </div>
                 <div className="flex-grow w-full">
-                  <p className="text-gray-600 dark:text-gray-300 mb-4 text-center lg:text-left text-justify">
-                    我是一名专注于Java后端开发的工程师，拥有扎实的计算机科学基础和2年的项目开发经验。
+                  <p className="text-gray-600 dark:text-gray-300 mb-4 text-justify">
+                    我是一名山东大学控制工程硕士研究生，专注于Java后端开发，拥有扎实的计算机科学基础和丰富的项目开发经验。
                     在技术派社区项目中，我负责后端系统开发，包括用户认证、内容管理、消息推送等核心功能。
                   </p>
-                  <p className="text-gray-600 dark:text-gray-300 mb-6 text-center lg:text-left text-justify">
+                  <p className="text-gray-600 dark:text-gray-300 mb-6 text-justify">
                     我熟悉JVM调优、多线程编程、网络协议，以及MySQL、Redis等数据库技术。
-                    通过实际项目经验，我不断提升技术能力和解决复杂问题的能力。
+                    通过实际项目经验，我不断提升技术能力和解决复杂问题的能力，并在SCI二区期刊发表学术论文。
                   </p>
                 </div>
 

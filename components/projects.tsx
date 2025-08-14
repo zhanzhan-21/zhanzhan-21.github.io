@@ -18,11 +18,11 @@ export default function Projects() {
       demo: "https://paicoding.com",
     },
     {
-      title: "企业级微服务电商平台",
+      title: "线上便利店项目",
       description:
-        "基于Spring Cloud构建的微服务电商系统，包含用户服务、商品服务、订单服务、支付服务等模块，实现了高并发、高可用的分布式架构。项目采用了服务注册与发现、配置中心、熔断降级、链路追踪等微服务治理技术，保证了系统的稳定性和可扩展性。同时引入了分布式事务、分库分表、读写分离等技术解决高并发场景下的数据一致性问题。",
-      technologies: ["Java", "Spring Boot", "Spring Cloud", "MySQL", "Redis", "RabbitMQ", "Docker", "Kubernetes", "Nginx"],
-      image: "/placeholder.svg?height=200&width=400",
+        "本项目为校园师生提供购物平台，包括后端管理系统与移动端双系统。后端管理系统提供给商家使用，用于管理便利店中的商品、分类、订单和员工信息，并具有导出运营数据功能。移动端主要提供给消费者使用，具有微信登录、添加商品至购物车、提醒商家以及下单支付等功能。",
+      technologies: ["Java", "Spring Boot", "MySQL", "Redis", "Caffeine", "EasyExcel", "阿里云OSS", "Spring Mail", "雪花算法"],
+      image: "/images/线上便利店.png",
       github: "#",
       demo: "#",
     }

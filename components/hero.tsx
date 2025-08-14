@@ -268,7 +268,7 @@ export default function Hero() {
             </div>
             <div className="flex items-center gap-2">
               <Mail className={`${isTablet ? 'h-3.5 w-3.5' : 'h-4 w-4'} text-primary`} />
-              <span>17852327512@163.com</span>
+              <span>zhanzhan_21@163.com</span>
             </div>
             <div className="flex items-center gap-2 col-span-2">
               <div className={`${isTablet ? 'h-3.5 w-3.5' : 'h-4 w-4'} text-primary`} dangerouslySetInnerHTML={{
@@ -413,7 +413,7 @@ export default function Hero() {
               >
                 <h3 className="text-xl font-bold text-center mb-4 text-white">关于我</h3>
                 <p className="text-white text-center text-sm">
-                  毕业于山东大学，拥有2年Java开发经验，
+                  山东大学控制工程硕士研究生，拥有扎实的Java后端开发经验，
                   熟悉JVM调优、多线程编程、网络协议，
                   以及MySQL、Redis等数据库技术。
                 </p>

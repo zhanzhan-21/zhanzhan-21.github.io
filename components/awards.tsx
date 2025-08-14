@@ -60,11 +60,11 @@ export default function Awards() {
       image: "/images/第十五届山东大学学生五四青年科学奖（集体）.jpg", // 更新为实际证书图片
     },
     {
-      title: '"华为杯"中国研究生数学建模竞赛 二等奖',
-      date: "2023",
-      level: "国家级",
+      title: "优秀共青团员",
+      date: "2025",
+      level: "校级",
       hasLink: false,
-      image: "/images/award-placeholder2.svg", 
+      image: "/images/优秀共青团员.jpg", 
     },
     {
       title: '"华为杯"中国研究生数学建模竞赛 三等奖',
