@@ -91,7 +91,7 @@ export default function About() {
     {
       title: "技术派社区项目中的消息队列实践",
       summary: "在技术派社区项目中，我负责实现了基于RabbitMQ的消息队列系统，用于处理用户评论、点赞、收藏等异步操作。本文分享在实际项目中应用消息队列的经验和遇到的问题。",
-      date: "2025-01-15",
+      date: "2025-03-15",
       readTime: "12分钟",
       tags: ["RabbitMQ", "消息队列", "Java", "Spring Boot", "异步处理"],
       slug: "rabbitmq-practice-in-paicoding"
@@ -99,7 +99,7 @@ export default function About() {
     {
       title: "线上便利店项目中的缓存架构优化",
       summary: "在线上便利店项目中，我负责设计了多级缓存架构，解决了热门商品数据的高并发访问问题。本文分享缓存设计思路和实现细节。",
-      date: "2025-01-10",
+      date: "2025-07-10",
       readTime: "15分钟",
       tags: ["Redis", "Caffeine", "缓存架构", "高并发", "Java"],
       slug: "cache-architecture-optimization"

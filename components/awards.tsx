@@ -81,25 +81,25 @@ export default function Awards() {
       image: "/images/山东大学2024年度学生创新创业活动先进个人.jpg", // 更新为实际证书图片
     },
     {
-      title: "山东大学2023年度优秀研究生",
-      date: "2023",
-      level: "校级",
+      title: "全国大学生数学竞赛一等奖",
+      date: "2021",
+      level: "国家级",
       hasLink: false,
-      image: "/images/award-placeholder5.svg",
+      image: "/images/全国大学生数学竞赛一等奖.png",
     },
     {
-      title: "山东大学2022年度硕士新生二等学业奖学金",
-      date: "2022",
-      level: "校级",
+      title: "山东省大学生数学竞赛一等奖",
+      date: "2021",
+      level: "省级",
       hasLink: false,
-      image: "/images/award-placeholder6.svg",
+      image: "/images/山东省大学生数学竞赛一等奖.png",
     },
     {
-      title: "优秀毕业生",
-      date: "2023",
-      level: "校级",
+      title: "山东省大学生物理竞赛一等奖",
+      date: "2021",
+      level: "省级",
       hasLink: false,
-      image: "/images/award-placeholder7.svg",
+      image: "/images/山东省大学生物理竞赛一等奖.png",
     },
     {
       title: "青岛大学百名优秀学生", // 将"全国大学生数学建模竞赛西北赛区二等奖"替换为"青岛大学百名优秀学生"
