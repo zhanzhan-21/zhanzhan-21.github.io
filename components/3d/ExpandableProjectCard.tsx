@@ -167,7 +167,7 @@ export default function ExpandableProjectCard({ project, index = 0, isExpanded =
                   {project.title}
                 </h3>
                                  <p className="text-sm text-gray-600 dark:text-gray-400">
-                   {index === 0 ? "技术派社区项目 • 2024.10 - 2025.06" : "企业级微服务项目 • 2024.06 - 2024.12"}
+                   {index === 0 ? "技术派社区项目 • 2024.12 - 2025.06" : "线上便利店项目 • 2025.04 - 2025.08"}
                  </p>
               </div>
             </div>
