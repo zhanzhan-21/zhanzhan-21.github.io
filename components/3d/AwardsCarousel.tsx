@@ -34,7 +34,7 @@ export default function AwardsCarousel({ awards }: AwardsCarouselProps) {
   const AwardCard = ({ award }: { award: AwardItem }) => {
     return (
       <motion.div 
-        className={`w-full h-[350px] overflow-hidden bg-white dark:bg-gray-800/30 dark:hover:bg-gray-800/50 rounded-xl ${isMobile ? 'shadow-lg' : ''}`}
+        className={`w-full h-[320px] overflow-hidden bg-white dark:bg-gray-800/30 dark:hover:bg-gray-800/50 rounded-xl ${isMobile ? 'shadow-lg' : ''}`}
         whileHover={{
           scale: 1.05,
           boxShadow: "0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1)"
@@ -45,15 +45,15 @@ export default function AwardsCarousel({ awards }: AwardsCarouselProps) {
           damping: 25
         }}
       >
-        {/* 奖项图片占位区域 */}
-        <div className={`relative overflow-hidden ${isMobile ? 'h-56' : 'h-48'}`}>
-          <div className="absolute inset-0 flex items-center justify-center">
+        {/* 奖项图片占位区域 - 进一步增加高度 */}
+        <div className={`relative overflow-hidden ${isMobile ? 'h-72' : 'h-64'}`}>
+          <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-900">
             {award.image ? (
               <motion.img 
                 src={award.image} 
                 alt={award.title}
-                className="w-full h-full object-cover"
-                whileHover={{ scale: 1.05 }}
+                className="w-full h-full object-contain p-2"
+                whileHover={{ scale: 1.02 }}
                 transition={{
                   type: "spring",
                   stiffness: 150,
@@ -64,18 +64,16 @@ export default function AwardsCarousel({ awards }: AwardsCarouselProps) {
               <Award className="h-16 w-16 text-primary opacity-20" />
             )}
           </div>
-          <div className="absolute bottom-0 left-0 right-0 p-3">
-            <Badge variant="outline" className="bg-white/50 dark:bg-gray-800/50 text-primary dark:text-primary-foreground font-medium border-0 backdrop-blur-sm">{award.level}</Badge>
+          <div className="absolute bottom-0 left-0 right-0 p-2">
+            <Badge variant="outline" className="bg-white/80 dark:bg-gray-800/80 text-primary dark:text-primary-foreground font-medium border-0 backdrop-blur-sm text-xs shadow-sm">{award.level}</Badge>
           </div>
         </div>
         
-        {/* 奖项信息 - 左对齐 */}
-        <div className="p-4">
-          <div className="flex justify-between items-start">
-            <h3 className={`font-bold ${isMobile ? 'text-lg' : 'text-base'} text-gray-900 dark:text-white line-clamp-2`}>{award.title}</h3>
-          </div>
-          <div className="flex items-center mt-2 text-gray-500 dark:text-gray-400 text-sm">
-            <Calendar className="h-4 w-4 mr-1" />
+        {/* 奖项信息 - 更紧凑布局 */}
+        <div className="p-2">
+          <h3 className={`font-bold ${isMobile ? 'text-sm' : 'text-xs'} text-gray-900 dark:text-white line-clamp-1 mb-1`}>{award.title}</h3>
+          <div className="flex items-center text-gray-500 dark:text-gray-400 text-xs">
+            <Calendar className="h-3 w-3 mr-1" />
             <span>{award.date}</span>
           </div>
         </div>
@@ -411,7 +409,7 @@ export default function AwardsCarousel({ awards }: AwardsCarouselProps) {
 
   return (
     <div 
-      className="relative w-full overflow-hidden h-[450px] p-4 bg-transparent dark:bg-transparent backdrop-blur-sm rounded-2xl"
+      className="relative w-full overflow-hidden h-[420px] p-4 bg-transparent dark:bg-transparent backdrop-blur-sm rounded-2xl"
       ref={containerRef}
     >
       {/* 箭头导航按钮 */}

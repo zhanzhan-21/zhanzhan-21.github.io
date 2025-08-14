@@ -57,7 +57,7 @@ export default function Awards() {
       date: "2024",
       level: "校级",
       hasLink: true,
-      image: "/images/award-placeholder1.svg", // 奖项图片（示例路径）
+      image: "/images/第十五届山东大学学生五四青年科学奖（集体）.jpg", // 更新为实际证书图片
     },
     {
       title: '"华为杯"中国研究生数学建模竞赛 二等奖',
@@ -68,17 +68,17 @@ export default function Awards() {
     },
     {
       title: '"华为杯"中国研究生数学建模竞赛 三等奖',
-      date: "2022",
+      date: "2024", // 更新时间从2022改为2024
       level: "国家级",
       hasLink: false,
-      image: "/images/award-placeholder3.svg",
+      image: "/images/数学建模三等奖.png",
     },
     {
       title: "山东大学创新创业活动先进个人",
-      date: "2023",
+      date: "2024", // 更新时间从2023改为2024
       level: "校级",
       hasLink: false,
-      image: "/images/award-placeholder4.svg",
+      image: "/images/山东大学2024年度学生创新创业活动先进个人.jpg", // 更新为实际证书图片
     },
     {
       title: "山东大学2023年度优秀研究生",
@@ -102,11 +102,11 @@ export default function Awards() {
       image: "/images/award-placeholder7.svg",
     },
     {
-      title: "全国大学生数学建模竞赛西北赛区二等奖",
-      date: "2021",
-      level: "省级",
+      title: "青岛大学百名优秀学生", // 将"全国大学生数学建模竞赛西北赛区二等奖"替换为"青岛大学百名优秀学生"
+      date: "2020", // 更新日期
+      level: "校级", // 更新级别
       hasLink: false,
-      image: "/images/award-placeholder8.svg",
+      image: "/images/青岛大学百名优秀学生.jpg", // 更新为实际证书图片
     },
   ]
 
