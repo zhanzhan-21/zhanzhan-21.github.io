@@ -248,9 +248,7 @@ export default function Hero() {
             )}
           </div>
 
-          <p className={`text-gray-600 dark:text-gray-300 max-w-2xl mb-6 md:mb-8 ${isTablet && isPortrait ? 'text-left pl-0 pr-4 text-sm leading-relaxed' : isTablet ? 'text-sm leading-relaxed' : ''}`}>
-            专注于Java后端开发，熟悉JVM调优、多线程编程、网络协议，以及MySQL、Redis等数据库技术，具备扎实的计算机基础知识和系统设计能力。
-          </p>
+          <p className={`text-gray-600 dark:text-gray-300 max-w-2xl mb-6 md:mb-8 ${isTablet && isPortrait ? 'text-left pl-0 pr-4 text-sm leading-relaxed' : isTablet ? 'text-sm leading-relaxed' : ''}`}></p>
           
           {/* 联系信息 - 针对iPad竖屏模式做特殊排列，但保持左对齐 */}
           <div className={`${isTablet && isPortrait ? 'grid grid-cols-2 gap-x-6 gap-y-4 justify-items-start' : 'flex flex-wrap gap-3 md:gap-4'} text-sm text-gray-600 dark:text-gray-300 ${isTablet ? 'text-xs' : ''}`}>
@@ -413,9 +411,9 @@ export default function Hero() {
               >
                 <h3 className="text-xl font-bold text-center mb-4 text-white">关于我</h3>
                 <p className="text-white text-center text-sm">
-                  山东大学控制工程硕士研究生，拥有扎实的Java后端开发经验，
-                  熟悉JVM调优、多线程编程、网络协议，
-                  以及MySQL、Redis等数据库技术。
+                  山东大学控制工程硕士研究生。在匠码社区与线上便利店项目中，
+                  负责扫码登录、消息异步解耦、活跃度排行、缓存一致性、多级缓存与异步导出等后端模块，
+                  熟悉 JVM、并发编程、网络协议、MySQL/Redis 等技术。
                 </p>
                 <div className="mt-6 text-center">
                   <span className="text-xs text-white/80 italic">点击返回查看照片</span>

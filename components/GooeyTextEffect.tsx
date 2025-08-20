@@ -93,9 +93,9 @@ export function GooeyTextEffect({
         cursorRef.current.style.setProperty('--y', `${mouseRef.current.smoothY}px`);
       }
       
-      // 移动头部位置
+      // 移动头部位置：整体下移并保持较大纵向覆盖范围
       headRef.current.x = viewportRef.current.width * 0.5 + viewportRef.current.width * 0.375 * Math.cos(time * 0.0006);
-      headRef.current.y = viewportRef.current.height * 0.5 + viewportRef.current.width * 0.05 * Math.cos(time * 0.0011);
+      headRef.current.y = viewportRef.current.height * 0.70 + viewportRef.current.height * 0.18 * Math.cos(time * 0.0011);
       
       // 请求下一帧动画
       requestAnimationFrame(render);
@@ -136,7 +136,8 @@ export function GooeyTextEffect({
     // 设置初始属性
     particle.setAttribute('cx', x.toString());
     particle.setAttribute('cy', y.toString());
-    particle.setAttribute('r', '20');
+    // 加粗气泡：统一粗细，整个生命周期保持恒定半径
+    particle.setAttribute('r', '40');
     
     // 生成随机颜色
     const hue = Math.floor(Math.random() * 11) + 165;
@@ -154,12 +155,14 @@ export function GooeyTextEffect({
       el: particle,
       x,
       y,
-      r: 20,
-      size: Math.sqrt(size) * 4 * (0.5 + Math.random() * 0.5) * (viewportRef.current.width / 1920),
+      r: 40,
+      // 固定显示半径：保持头尾一致的厚度
+      size: 40,
       vy: 0,
       seed: Math.random() * 1000,
-      freq: (0.5 + Math.random() * 1) * 0.01,
-      amplitude: (1 - Math.random() * 2) * 0.5
+      freq: (0.5 + Math.random() * 1) * 0.008,
+      // 略微降低摆动幅度，保证轨迹稳定
+      amplitude: (1 - Math.random() * 2) * 0.9
     };
     
     particlesRef.current.push(particleObj);
@@ -169,21 +172,20 @@ export function GooeyTextEffect({
     
     const animateParticle = () => {
       const elapsed = performance.now() - startTime;
-      const progress = Math.min(1, elapsed / 1250); // 1250ms 总动画时间
+      const progress = Math.min(1, elapsed / 1600);
+      // 固定半径，头尾一致粗细
+      const radius = particleObj.size;
       
-      // 前250ms是生长阶段，后1000ms是收缩阶段
-      let radius;
-      if (progress < 0.2) { // 0-0.2是生长阶段 (250ms)
-        radius = 20 + (particleObj.size - 20) * (progress / 0.2);
-      } else { // 0.2-1是收缩阶段 (1000ms)
-        const shrinkProgress = (progress - 0.2) / 0.8;
-        radius = particleObj.size * (1 - shrinkProgress);
-      }
-      
-      // 更新粒子位置
-      particleObj.x += Math.cos((elapsed + particleObj.seed) * particleObj.freq) * particleObj.amplitude;
-      particleObj.y += Math.sin((elapsed + particleObj.seed) * particleObj.freq) * particleObj.amplitude + particleObj.vy;
-      particleObj.vy += 0.2;
+      // 更新粒子位置（尾部衰减摆动幅度与频率，降低尾部晃动）
+      const life = progress;
+      // 振幅仅轻微衰减，保持整体轨迹更低且稳定
+      const amp = particleObj.amplitude * (0.85 + 0.15 * (1 - life));
+      // 频率轻微下降
+      const freq = particleObj.freq * (0.9 + 0.1 * (1 - life));
+      const t = (elapsed + particleObj.seed) * freq;
+      particleObj.x += Math.cos(t) * amp;
+      particleObj.y += Math.sin(t) * amp + particleObj.vy;
+      particleObj.vy += 0.08;
       
       // 更新元素属性
       particleObj.el.setAttribute('cx', particleObj.x.toString());
@@ -248,10 +250,11 @@ export function GooeyTextEffect({
           </mask>
 
           <filter id={`gooey-filter-${text}`}>
-            <feGaussianBlur in="SourceGraphic" stdDeviation="20" />
+            {/* 降低模糊和阈值，避免强阈值导致的闪烁 */}
+            <feGaussianBlur in="SourceGraphic" stdDeviation="12" />
             <feColorMatrix 
               type="matrix" 
-              values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 50 -10" 
+              values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 30 -5" 
               result="goo" 
             />
           </filter>

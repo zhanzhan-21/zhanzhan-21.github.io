@@ -89,8 +89,8 @@ export default function About() {
 
   const featuredBlogs = [
     {
-      title: "技术派社区项目中的消息队列实践",
-      summary: "在技术派社区项目中，我负责实现了基于RabbitMQ的消息队列系统，用于处理用户评论、点赞、收藏等异步操作。本文分享在实际项目中应用消息队列的经验和遇到的问题。",
+      title: "匠码社区项目中的消息队列实践",
+      summary: "在匠码社区项目中，我负责实现了基于RabbitMQ的消息队列系统，用于处理用户评论、点赞、收藏等异步操作。本文分享在实际项目中应用消息队列的经验和遇到的问题。",
       date: "2025-03-15",
       readTime: "12分钟",
       tags: ["RabbitMQ", "消息队列", "Java", "Spring Boot", "异步处理"],
@@ -141,7 +141,7 @@ export default function About() {
                 <div className="flex-grow w-full">
                   <p className="text-gray-600 dark:text-gray-300 mb-4 text-justify">
                     我是一名山东大学控制工程硕士研究生，专注于Java后端开发，拥有扎实的计算机科学基础和丰富的项目开发经验。
-                    在技术派社区项目中，我负责后端系统开发，包括用户认证、内容管理、消息推送等核心功能。
+                    在匠码社区项目与线上便利店项目中，负责后端核心模块的设计与实现，覆盖登录认证、消息异步处理、缓存一致性与数据导出等场景。
                   </p>
                   <p className="text-gray-600 dark:text-gray-300 mb-6 text-justify">
                     我熟悉JVM调优、多线程编程、网络协议，以及MySQL、Redis等数据库技术。

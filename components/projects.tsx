@@ -9,9 +9,9 @@ export default function Projects() {
   
   const projects = [
     {
-      title: "技术派社区项目",
+      title: "匠码社区项目",
       description:
-        "技术派是一个前后端分离的社区项目，包括前端PC和管理后台，是一个用于帮助开发者成长的、面向互联网开发者的技术内容分享与交流的平台。项目采用微服务架构，实现了用户认证、内容管理、消息推送、数据统计等核心功能。通过Redis缓存优化、RabbitMQ消息队列、ThreadLocal线程隔离等技术，保证了系统的高并发性能和用户体验。",
+        "匠码是一个前后端分离的社区项目，包括前端 PC 和管理后台，是一个用于帮助开发者成长、面向互联网开发者的技术内容分享与交流的平台。项目在后端侧重点优化登录体验、消息异步处理与活跃度统计，保障系统在高并发下的稳定性与可维护性。",
       technologies: ["Java", "Spring Boot", "MySQL", "Redis", "RabbitMQ", "ThreadLocal", "WebSocket", "Git", "Linux"],
       image: "/paicodingLogo.png",
       github: "https://github.com/zhanzhan-21/paicoding",

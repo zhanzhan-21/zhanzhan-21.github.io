@@ -12,8 +12,8 @@ export default function Skills() {
   const backendSkills = [
     { name: "Java", level: 95, icon: "/icons/java.svg" },
     { name: "JVM", level: 85, icon: "/icons/jvm.svg" },
-    { name: "多线程", level: 80, icon: "/icons/multithreading.svg" },
-    { name: "网络编程", level: 75, icon: "/icons/network.svg" },
+    { name: "并发编程", level: 80, icon: "/icons/multithreading.svg" },
+    { name: "Spring Boot", level: 82, icon: "/icons/spring-boot.svg" },
   ]
 
   const databaseSkills = [
@@ -33,8 +33,8 @@ export default function Skills() {
   const otherSkills = [
     { name: "Git", level: 90, icon: "/icons/git.svg" },
     { name: "Linux", level: 85, icon: "/icons/linux.svg" },
-    { name: "Qt", level: 80, icon: "/icons/qt.svg" },
-    { name: "Python/C++", level: 70, icon: "/icons/python.svg" },
+    { name: "RabbitMQ", level: 78, icon: "/icons/rabbitmq.svg" },
+    { name: "C++", level: 70, icon: "/icons/cpp.svg" },
   ]
 
   // 所有技能合并在一起

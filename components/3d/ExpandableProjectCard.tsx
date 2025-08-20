@@ -166,9 +166,9 @@ export default function ExpandableProjectCard({ project, index = 0, isExpanded =
                 <h3 className="font-bold text-xl text-gray-900 dark:text-white mb-1">
                   {project.title}
                 </h3>
-                                 <p className="text-sm text-gray-600 dark:text-gray-400">
-                   {index === 0 ? "技术派社区项目 • 2024.12 - 2025.06" : "线上便利店项目 • 2025.04 - 2025.08"}
-                 </p>
+                                <p className="text-sm text-gray-600 dark:text-gray-400">
+                  {index === 0 ? "匠码社区项目 • 2025.02 - 2025.06" : "线上便利店项目 • 2024.12 - 2025.02"}
+                </p>
               </div>
             </div>
             
@@ -251,41 +251,18 @@ export default function ExpandableProjectCard({ project, index = 0, isExpanded =
                    <ul className="space-y-2">
                      {index === 0 ? (
                        <>
-                         <li className="flex items-start text-sm text-gray-600 dark:text-gray-400">
-                           <div className="w-1.5 h-1.5 rounded-full bg-blue-500 mt-2 mr-3 flex-shrink-0"></div>
-                           <span>维护半长连接映射关系，实现扫码登录功能</span>
-                         </li>
-                         <li className="flex items-start text-sm text-gray-600 dark:text-gray-400">
-                           <div className="w-1.5 h-1.5 rounded-full bg-blue-500 mt-2 mr-3 flex-shrink-0"></div>
-                           <span>使用RabbitMQ实现消息异步解耦</span>
-                         </li>
-                         <li className="flex items-start text-sm text-gray-600 dark:text-gray-400">
-                           <div className="w-1.5 h-1.5 rounded-full bg-blue-500 mt-2 mr-3 flex-shrink-0"></div>
-                           <span>基于Redis zset实现用户活跃度排名</span>
-                         </li>
-                         <li className="flex items-start text-sm text-gray-600 dark:text-gray-400">
-                           <div className="w-1.5 h-1.5 rounded-full bg-blue-500 mt-2 mr-3 flex-shrink-0"></div>
-                           <span>使用ThreadLocal封装线程隔离的全局上下文</span>
-                         </li>
+                         <li className="flex items-start text-sm text-gray-600 dark:text-gray-400"><div className="w-1.5 h-1.5 rounded-full bg-blue-500 mt-2 mr-3 flex-shrink-0"></div><span>公众号扫码登录：设计验证码-半长连接映射机制，用户扫码关注公众号并输入验证码后触发回调，识别用户信息并找到对应半长连接，实现用户无感登录</span></li>
+                         <li className="flex items-start text-sm text-gray-600 dark:text-gray-400"><div className="w-1.5 h-1.5 rounded-full bg-blue-500 mt-2 mr-3 flex-shrink-0"></div><span>消息异步解耦：使用 RabbitMQ 实现用户评论、点赞等互动消息的异步解耦</span></li>
+                         <li className="flex items-start text-sm text-gray-600 dark:text-gray-400"><div className="w-1.5 h-1.5 rounded-full bg-blue-500 mt-2 mr-3 flex-shrink-0"></div><span>用户活跃度排行榜：通过 Redis zset 实现排行，并通过先写 MySQL 再删除 Redis 的方案保证高并发下的缓存一致性</span></li>
+                         <li className="flex items-start text-sm text-gray-600 dark:text-gray-400"><div className="w-1.5 h-1.5 rounded-full bg-blue-500 mt-2 mr-3 flex-shrink-0"></div><span>用户信息获取优化：基于 ThreadLocal 在登录校验拦截器中封装线程隔离的全局上下文，减少数据库查询次数</span></li>
+                         <li className="flex items-start text-sm text-gray-600 dark:text-gray-400"><div className="w-1.5 h-1.5 rounded-full bg-blue-500 mt-2 mr-3 flex-shrink-0"></div><span>缓存击穿防护：针对热 key 失效问题，设计自旋锁策略优化缓存架构，防止缓存击穿</span></li>
                        </>
                      ) : (
                        <>
-                         <li className="flex items-start text-sm text-gray-600 dark:text-gray-400">
-                           <div className="w-1.5 h-1.5 rounded-full bg-blue-500 mt-2 mr-3 flex-shrink-0"></div>
-                           <span>设计并实现微服务架构，包含用户、商品、订单、支付等核心服务</span>
-                         </li>
-                         <li className="flex items-start text-sm text-gray-600 dark:text-gray-400">
-                           <div className="w-1.5 h-1.5 rounded-full bg-blue-500 mt-2 mr-3 flex-shrink-0"></div>
-                           <span>集成Spring Cloud组件，实现服务注册发现、配置中心、熔断降级</span>
-                         </li>
-                         <li className="flex items-start text-sm text-gray-600 dark:text-gray-400">
-                           <div className="w-1.5 h-1.5 rounded-full bg-blue-500 mt-2 mr-3 flex-shrink-0"></div>
-                           <span>实现分布式事务、分库分表、读写分离等高性能数据方案</span>
-                         </li>
-                         <li className="flex items-start text-sm text-gray-600 dark:text-gray-400">
-                           <div className="w-1.5 h-1.5 rounded-full bg-blue-500 mt-2 mr-3 flex-shrink-0"></div>
-                           <span>使用Docker和Kubernetes实现容器化部署和自动化运维</span>
-                         </li>
+                         <li className="flex items-start text-sm text-gray-600 dark:text-gray-400"><div className="w-1.5 h-1.5 rounded-full bg-blue-500 mt-2 mr-3 flex-shrink-0"></div><span>接口访问追踪：通过 AOP 记录接口访问日志，实现任务的追踪和监控，提升代码健壮性与可维护性</span></li>
+                         <li className="flex items-start text-sm text-gray-600 dark:text-gray-400"><div className="w-1.5 h-1.5 rounded-full bg-blue-500 mt-2 mr-3 flex-shrink-0"></div><span>ID 生成方案：基于雪花算法实现 ID 生成，保障全局唯一与可追溯</span></li>
+                         <li className="flex items-start text-sm text-gray-600 dark:text-gray-400"><div className="w-1.5 h-1.5 rounded-full bg-blue-500 mt-2 mr-3 flex-shrink-0"></div><span>多级缓存：引入 Caffeine + Redis 多级缓冲，缓解热门数据吞吐瓶颈，提升访问效率</span></li>
+                         <li className="flex items-start text-sm text-gray-600 dark:text-gray-400"><div className="w-1.5 h-1.5 rounded-full bg-blue-500 mt-2 mr-3 flex-shrink-0"></div><span>优化数据表导出：采用 EasyExcel + 线程池异步导出并上传阿里云 OSS，使用 Spring Mail 通知用户下载，解决 POI 大文件导出内存与等待问题</span></li>
                        </>
                      )}
                    </ul>
