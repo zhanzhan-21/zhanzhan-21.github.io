@@ -118,7 +118,7 @@ export default function About() {
         >
           <h2 className="text-3xl font-bold mb-4">关于我</h2>
           <div className="w-20 h-1 bg-primary mx-auto mb-6"></div>
-          <p className="max-w-2xl mx-auto text-gray-600 dark:text-gray-300">
+          <p className="max-w-2xl mx-auto text-gray-600 dark:text-gray-300 hidden md:block">
             山东大学控制工程硕士研究生，专注于Java后端开发，熟悉JVM调优、多线程编程、网络协议，以及MySQL、Redis等数据库技术，具备扎实的计算机基础知识和系统设计能力。
           </p>
         </motion.div>
@@ -143,7 +143,7 @@ export default function About() {
                     我是一名山东大学控制工程硕士研究生，专注于Java后端开发，拥有扎实的计算机科学基础和丰富的项目开发经验。
                     在匠码社区项目与线上便利店项目中，负责后端核心模块的设计与实现，覆盖登录认证、消息异步处理、缓存一致性与数据导出等场景。
                   </p>
-                  <p className="text-gray-600 dark:text-gray-300 mb-6 text-justify">
+                  <p className="text-gray-600 dark:text-gray-300 mb-6 text-justify hidden md:block">
                     我熟悉JVM调优、多线程编程、网络协议，以及MySQL、Redis等数据库技术。
                     通过实际项目经验，我不断提升技术能力和解决复杂问题的能力，并在SCI二区期刊发表学术论文。
                   </p>
@@ -266,7 +266,11 @@ export default function About() {
                 </div>
                 <div className="flex-grow w-full space-y-4">
                   {featuredBlogs.map((blog, index) => (
-                    <Link href={`/blog/${blog.slug}`} key={index}>
+                    <Link 
+                      href={`/blog/${blog.slug}`} 
+                      key={index}
+                      className={index === 0 ? '' : 'hidden md:block'}
+                    >
                       <div
                         className="border border-gray-200 dark:border-gray-700 rounded-lg p-4 hover:shadow-md transition-shadow duration-200 cursor-pointer group"
                       >

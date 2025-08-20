@@ -76,7 +76,7 @@ export default function Skills() {
         >
           <h2 className="text-3xl font-bold mb-2.5">专业技能</h2>
           <div className="w-20 h-1 bg-primary mx-auto mb-3.5"></div>
-          <p className="max-w-2xl mx-auto text-gray-600 dark:text-gray-300">
+          <p className="max-w-2xl mx-auto text-gray-600 dark:text-gray-300 hidden md:block">
             以下是我掌握的核心技术栈，涵盖后端开发、数据库、系统架构和开发工具等领域，每个技能都结合实际项目强化
           </p>
         </motion.div>
@@ -98,7 +98,7 @@ export default function Skills() {
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
           viewport={{ once: true }}
-          className="max-w-3xl mx-auto mt-12"
+          className="max-w-3xl mx-auto mt-12 hidden md:block"
         >
           <Card className="overflow-hidden shadow-md bg-transparent">
             <div className="flex justify-center flex-wrap border-b border-gray-200 dark:border-gray-700 bg-gray-50/80 dark:bg-gray-800/80 backdrop-blur-sm">

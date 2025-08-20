@@ -44,7 +44,7 @@ export default function Projects() {
         >
           <h2 className="text-3xl font-bold mb-4">项目经历</h2>
           <div className="w-20 h-1 bg-gradient-to-r from-blue-500 to-indigo-600 mx-auto mb-6"></div>
-          <p className="max-w-2xl mx-auto text-gray-600 dark:text-gray-300">
+          <p className="max-w-2xl mx-auto text-gray-600 dark:text-gray-300 hidden md:block">
             以下是我参与开发的一些项目，展示了我的技术能力和解决问题的思路
           </p>
         </motion.div>
